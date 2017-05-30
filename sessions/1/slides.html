@@ -5,7 +5,7 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
   <meta name="viewport" content="width=1024, user-scalable=no">
 
-  <title>TDD in C++ with GoogleTest</title>
+  <title>TDD en C++ avec GoogleTest</title>
 
   <!-- Required stylesheet -->
   <link rel="stylesheet" media="screen" href="../deck.js/core/deck.core.css">
@@ -37,103 +37,154 @@
 
   <div class="home">
 
-  <article class="deck-container">
+    <article class="deck-container">
 
-<!--
-#########################################################################################################
-# Content
-#########################################################################################################
--->
+  <!--
+  #########################################################################################################
+  # Content
+  #########################################################################################################
+  -->
 
-    <section class="slide" id="title">
-      <h1>
-        TDD in C++<br>with GoogleTest<br>
-        <small>Session 1</small>
-      </h1>
-    </section>
+      <section class="slide" id="title">
+        <h1>
+          TDD en C++<br>avec GoogleTest<br>
+          <small>Session n°1</small>
+        </h1>
+      </section>
 
-    <section class="slide" id="agenda">
-      <h2>Agenda</h2>
-      <ol>
-        <li class="slide">
-          <h3>Unit tests and TDD</h3>
-          <p>Where we will introduce unit testing theory and Test Driven Development principles</p>
-        </li>
-        <li class="slide">
-          <h3>GoogleTest Framework</h3>
-          <p>Where we will get into the small C++ test framework/library provided by Google</p>
-        </li>
-        <li class="slide">
-          <h3>Practical case study</h3>
-          <p>Where we will study a small practical case and try to implement a few unit tests</p>
-        </li>
-      </ol>
-    </section>
+      <section class="slide" id="agenda">
+        <h2>Agenda</h2>
+        <ol>
+          <li class="slide">
+            <h3>Tests unitaires et TDD</h3>
+            <p>Où nous introduirons la théorie du test unitaire et les principes du développement piloté par les tests</p>
+          </li>
+          <li class="slide">
+            <h3>GoogleTest Framework</h3>
+            <p>Où nous nous lancerons dans le framework C++ léger de test implémenté par Google</p>
+          </li>
+          <li class="slide">
+            <h3>Etude de cas pratique</h3>
+            <p>Où nous étudierons un petit cas pratique et tenterons d'implémenter quelques tests unitaires</p>
+          </li>
+        </ol>
+      </section>
 
-<!--
+      <section class="slide">
+        <h1>Tests unitaires et TDD</h1>
+      </section>
 
-# Unit tests and TDD
+      <section class="slide">
+        <h2>Tests unitaires</h2>
+        <h3 class="slide">C'est quoi ?</h3>
+        <p class="slide">Un processus qui <strong>vérifie qu'une unité individuelle de code fait ce qu'elle est sensée faire</strong></p>
+      </section>
 
-## Unit tests
+      <section class="slide">
+        <h2>Tests unitaires (2)</h2>
+        <h3 class="slide">Ses caractéristiques</h3>
+        <ul>
+          <li class="slide">
+            est <strong>entièrement automatisé</strong><br>
+            <small>On ne s'intéresse pas aux tests manuels ici</small>
+          </li>
+          <li class="slide">
+            est <strong>déterministe</strong><br>
+            <small>Pas d'aléatoire ou de magie, <strong>2 lancements = 2 fois le même résultat</strong></small>
+          </li>
+          <li class="slide">
+            est <strong>isolé</strong><br>
+            <small>il s'exécute en mémoire et <strong>n'utilise pas d'i/o</strong> (fichiers, réseau, BDD, IPC, ...)</small>
+          </li>
+          <li class="slide">
+            <strong>contrôle</strong> ce qu'il teste<br>
+            <small>il <strong>isole</strong> le code testé par des <em>mocks/stubs</em> (bouchons)</small>
+          </li>
+          <li class="slide">
+            est digne de <strong>confiance</strong><br>
+            <small><strong>pas de faux positif</strong></small>
+          </li>
+          <li class="slide">
+            est <strong>rapide</strong><br>
+            <small>un test lent est une <em>contrainte</em> et <strong>perd son intérêt</strong></small>
+          </li>
+        </ul>
+      </section>
 
-- It is a small process that 
-  * verifies that an individual unit of code works as expected
-- and which
-  * is fully automated
-  * is deterministic: no random/magic, run twice = twice same result
-  * is isolated: runs in memory, ie no input/output, no database, etc
-  * controls what it tests: mocks/stubs to isolate
-  * is trustworthy: no false positive
-  * is fast: slow tests become meaningless and a burden
+      <section class="slide">
+        <h2>Tests unitaires (3)</h2>
+        <h3 class="slide">En bonus</h3>
+        <ul>
+          <li class="slide">
+            <em>less is more</em><br>
+            <small>Petit et léger vaut mieux que gros et lourd</small></li>
+          <li class="slide">
+            il est préférable qu'il soit lisible et maintenable<br>
+            <small>Mais c'est vrai pour tout le code, non ?</small>
+          </li>
+          <li class="slide">
+            il peut servir de documentation ou d'exemple<br>
+            <small>Puisqu'il est une application directe du code</small>
+          </li>
+          <li class="slide">
+            il file +2 intel et +4 esprit à son utilisateur
+          </li>
+        </ul>
+      </section>
 
-- In bonuses
-    * less is more : small and light is better than big and heavy
-    * better if readable and maintainable (but what isn't ?)
-    * can serve as documentation
+  <!--
 
-- What's a unit ?
-  * a function, a class, a module, a functionality ...
-  * anything that can be tested while respecting above constraints
+  # Unit tests and TDD
 
-# References
-  * http://artofunittesting.com/definition-of-a-unit-test/
-  * http://softwaretestingfundamentals.com/unit-testing/
-  * https://stackoverflow.com/questions/652292/what-is-unit-testing-and-how-do-you-do-it
+  ## Unit tests
+  - What's a unit ?
+    * a function, a class, a module, a functionality ...
+    * anything that can be tested while respecting above constraints
 
--->
+  # References
+    * http://artofunittesting.com/definition-of-a-unit-test/
+    * http://softwaretestingfundamentals.com/unit-testing/
+    * https://stackoverflow.com/questions/652292/what-is-unit-testing-and-how-do-you-do-it
 
-<!--
-#########################################################################################################
-# End of content
-#########################################################################################################
--->
+  -->
 
-    <!-- Begin extension snippets. Add or remove as needed. -->
+  <!--
+  #########################################################################################################
+  # End of content
+  #########################################################################################################
+  -->
 
-    <!-- deck.navigation snippet -->
-    <div aria-role="navigation">
-      <a href="#" class="deck-prev-link" title="Previous">&#8592;</a>
-      <a href="#" class="deck-next-link" title="Next">&#8594;</a>
-    </div>
+      <!-- Begin extension snippets. Add or remove as needed. -->
 
-    <!-- deck.status snippet -->
-    <p class="deck-status" aria-role="status">
-      <span class="deck-status-current"></span>
-      /
-      <span class="deck-status-total"></span>
-    </p>
+      <!-- deck.navigation snippet -->
+      <div aria-role="navigation">
+        <a href="#" class="deck-prev-link" title="Previous">&#8592;</a>
+        <a href="#" class="deck-next-link" title="Next">&#8594;</a>
+      </div>
 
-    <!-- deck.goto snippet -->
-    <form action="." method="get" class="goto-form">
-      <label for="goto-slide">Go to slide:</label>
-      <input type="text" name="slidenum" id="goto-slide" list="goto-datalist">
-      <datalist id="goto-datalist"></datalist>
-      <input type="submit" value="Go">
-    </form>
+      <!-- deck.status snippet -->
+      <p class="deck-status" aria-role="status">
+        <span class="deck-status-current"></span>
+        /
+        <span class="deck-status-total"></span>
+      </p>
 
-    <!-- End extension snippets. -->
+      <!-- deck.goto snippet -->
+      <form action="." method="get" class="goto-form">
+        <label for="goto-slide">Go to slide:</label>
+        <input type="text" name="slidenum" id="goto-slide" list="goto-datalist">
+        <datalist id="goto-datalist"></datalist>
+        <input type="submit" value="Go">
+      </form>
 
-  </article>
+      <!-- End extension snippets. -->
+
+    </article>
+
+    <footer>
+      <h3>Vincent PALANCHER - vincent.palancher@gmail.com</h3>
+    </footer>
+
   </div>
 
 <!-- Required JS files. -->
