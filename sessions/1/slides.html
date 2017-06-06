@@ -52,6 +52,10 @@
         </h1>
       </section>
 
+      <section class="slide">
+        <h2>Introduction</h2>
+      </section>
+
       <section class="slide" id="agenda">
         <h2>Agenda</h2>
         <ol>
@@ -61,7 +65,7 @@
           </li>
           <li class="slide">
             <h3>GoogleTest Framework</h3>
-            <p>Où nous nous lancerons dans le framework C++ léger de test implémenté par Google</p>
+            <p>Où nous nous lancerons dans le framework C++ léger de test maintenu par Google</p>
           </li>
           <li class="slide">
             <h3>Etude de cas pratique</h3>
@@ -76,58 +80,75 @@
 
       <section class="slide">
         <h2>Tests unitaires</h2>
-        <h3 class="slide">C'est quoi ?</h3>
-        <p class="slide">Un processus qui <strong>vérifie qu'une unité individuelle de code fait ce qu'elle est sensée faire</strong></p>
+        <section class="slide">
+            <h3>Une définition</h3>
+            <p>Processus qui <strong>vérifie</strong> qu'une <strong>unité individuelle de code</strong> fait ce qu'elle est <strong>sensée faire</strong>.</p>
+        </section>
+        <section class="slide">
+            <h3>Unité de code</h3>
+            <ul class="slide">
+                <li>Une fonction</li>
+                <li>une fonctionnalité</li>
+                <li>une classe</li>
+                <li>un module</li>
+                <li>une bibliothèque</li>
+                <li>...</li>
+            </ul>
+            <p class="slide">Tout groupe de code qui peut être <strong>isolé</strong>.</p>
+        </section>
       </section>
 
       <section class="slide">
         <h2>Tests unitaires (2)</h2>
+        <h3>Exemple</h3>
+      </section>
+
+      <section class="slide">
+        <h2>Tests unitaires (3)</h2>
+
         <h3 class="slide">Ses caractéristiques</h3>
         <ul>
           <li class="slide">
-            est <strong>entièrement automatisé</strong><br>
-            <small>On ne s'intéresse pas aux tests manuels ici</small>
+            Il est <strong>entièrement automatisé</strong><br>
+            <small>Pas de tests manuels ici</small>
           </li>
           <li class="slide">
-            est <strong>déterministe</strong><br>
-            <small>Pas d'aléatoire ou de magie, <strong>2 lancements = 2 fois le même résultat</strong></small>
+            Il est <strong>déterministe</strong><br>
+            <small>Pas d'aléatoire ou de <em>jardinage</em>, <strong>2 lancements => 2x le même résultat</strong></small>
           </li>
           <li class="slide">
-            est <strong>isolé</strong><br>
-            <small>il s'exécute en mémoire et <strong>n'utilise pas d'i/o</strong> (fichiers, réseau, BDD, IPC, ...)</small>
+            Il est <strong>isolé</strong><br>
+            <small>Exécution en mémoire et <strong>pas d'I/O</strong> (fichiers, réseau, BDD, IPC, ...)</small>
           </li>
           <li class="slide">
-            <strong>contrôle</strong> ce qu'il teste<br>
-            <small>il <strong>isole</strong> le code testé par des <em>mocks/stubs</em> (bouchons)</small>
+            Il <strong>contrôle</strong> ce qu'il teste<br>
+            <small>Il <strong>isole</strong> le code testé par des <em>mocks/stubs</em> (bouchons)</small>
           </li>
           <li class="slide">
-            est digne de <strong>confiance</strong><br>
-            <small><strong>pas de faux positif</strong></small>
+            Il est digne de <strong>confiance</strong><br>
+            <small>Pas de faux positif !</small>
           </li>
           <li class="slide">
-            est <strong>rapide</strong><br>
-            <small>un test lent est une <em>contrainte</em> et <strong>perd son intérêt</strong></small>
+            Il est <strong>rapide</strong> à exécuter<br>
+            <small>Un test lent est une <em>contrainte</em> et <strong>perd tout intérêt</strong></small>
           </li>
         </ul>
       </section>
 
       <section class="slide">
-        <h2>Tests unitaires (3)</h2>
+        <h2>Tests unitaires (4)</h2>
         <h3 class="slide">En bonus</h3>
         <ul>
           <li class="slide">
-            <em>less is more</em><br>
+            <em>Less is more</em><br>
             <small>Petit et léger vaut mieux que gros et lourd</small></li>
           <li class="slide">
-            il est préférable qu'il soit lisible et maintenable<br>
-            <small>Mais c'est vrai pour tout le code, non ?</small>
+            Il sert de documentation ou d'exemple<br>
+            <small>Il est une application directe du code</small>
           </li>
           <li class="slide">
-            il peut servir de documentation ou d'exemple<br>
-            <small>Puisqu'il est une application directe du code</small>
-          </li>
-          <li class="slide">
-            il file +2 intel et +4 esprit à son utilisateur
+            Il donne à son créateur un air intelligent<br>
+            <img src="../media/silly.jpg" style="margin-top: 1em; width: 30%">
           </li>
         </ul>
       </section>
@@ -145,6 +166,8 @@
     * http://artofunittesting.com/definition-of-a-unit-test/
     * http://softwaretestingfundamentals.com/unit-testing/
     * https://stackoverflow.com/questions/652292/what-is-unit-testing-and-how-do-you-do-it
+
+  # Images
 
   -->
 
