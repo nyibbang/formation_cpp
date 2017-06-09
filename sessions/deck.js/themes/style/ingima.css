@@ -352,7 +352,6 @@ a:hover, a:focus {
 }
 
 .deck-container {
-  font-family: "Helvetica Neue", sans-serif;
   font-size: 1.75em;
   background: #fff;
 }
@@ -431,4 +430,8 @@ img.logo {
 
 h1 > small {
   color: rgb(255, 45, 0);
+}
+
+body {
+  font-family: "Helvetica Neue", sans-serif;
 }
