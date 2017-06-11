@@ -53,7 +53,7 @@
 
       <section class="slide">
         <h2>Introduction</h2>
-        <section class="slide">
+        <section>
           <h3>Quelques citations (certaines vécues)</h3>
           <ul>
             <li><q>Nos responsables nous demandent de faire de l'agile et des tests unitaires.</q></li>
@@ -73,7 +73,7 @@
 
       <section class="slide">
         <h2>Introduction (2)</h2>
-        <section class="slide">
+        <section>
           <h3>Objectifs</h3>
           <ul>
             <li>Présenter les tests unitaires et le TDD.</li>
@@ -101,25 +101,12 @@
           <small>Kent Beck créateur de XP et figure principale du TDD dans <cite>Refactoring: Improving the Design of Existing Code</cite>.</small>
         </p>
         <img src="../media/kent_beck.jpg" style="margin-top: 1em; width: 30%">
-        <!--
-        Le TDD, nouveau "buzz-word" ?
-        Quelle est la motivation à faire cette formation ou à la suivre ?
-        Pourquoi en C++ ? => Le tdd est apparu récemment en C++ avec la popularisation de certains frameworks
-        avant on avait CppUnit, BoostTest etc, mais ils n'étaient pas vraiment intéressants pour faire du TDD
-        GoogleTest couplé à GoogleMock permet de faire mieux
-          <ul>
-            <li class="slide">Le TDD est à la mode.</li>
-            <li class="slide">Nous devons faire de l'agile, et faire de l'agile implique faire du TDD.</li>
-            <li class="slide">Nous devons écrire des tests unitaires.</li>
-            <li class="slide">...</li>
-          </ul>
-        -->
       </section>
 
       <section class="slide">
         <h2>Agenda</h2>
         <ol id="sessions_list">
-          <li class="slide">
+          <li>
             <p>Introduction au test unitaire, au TDD et au framework GoogleTest</p>
           </li>
           <li class="slide">
@@ -140,7 +127,7 @@
       <section class="slide">
         <h2>Session n°1</h2>
         <ol>
-          <li class="slide">
+          <li>
             <h3>Tests unitaires et TDD</h3>
             <p>Introduction à la théorie du test unitaire et aux principes du développement piloté par les tests</p>
           </li>
@@ -161,7 +148,7 @@
 
       <section class="slide">
         <h2>Tests unitaires</h2>
-        <section class="slide">
+        <section>
             <h3>Définition</h3>
             <p>
               Un processus qui <strong>vérifie</strong> qu'une <strong>unité individuelle de code</strong> fait ce qu'elle est <strong>sensée faire</strong>.<br>
@@ -184,10 +171,9 @@
 
       <section class="slide">
         <h2>Tests unitaires (2)</h2>
-
-        <h3 class="slide">Caractéristiques</h3>
+        <h3>Caractéristiques</h3>
         <ul>
-          <li class="slide">
+          <li>
             Il est <strong>entièrement automatisé</strong><br>
             <small>Pas de tests manuels ici</small>
           </li>
@@ -216,9 +202,9 @@
 
       <section class="slide">
         <h2>Tests unitaires (3)</h2>
-        <h3 class="slide">En bonus</h3>
+        <h3>En bonus</h3>
         <ul>
-          <li class="slide">
+          <li>
             <em>Less is more</em><br>
             <small>Petit et léger vaut mieux que gros et lourd</small></li>
           <li class="slide">
@@ -234,8 +220,8 @@
       
       <section class="slide">
         <h2>Tests unitaires (4)</h2>
-        <h3>Jeu des 7 erreurs</h3>
-        <section class="slide">
+        <section>
+          <h3>Jeu des 7 erreurs</h3>
           <ul>
             <li>Tests de validation ou tests usines ou recette</li>
             <li>Tests système ou tests fonctionnels ou homologation</li>
@@ -246,6 +232,72 @@
             <img src="../media/tests_hierarchy.jpg" style="width: 50%">
             <figcaption>http://softwaretestingfundamentals.com/unit-testing/</figcaption>
           </figure>
+        </section>
+      </section>
+      
+      <section class="slide">
+        <h2>TDD</h2>
+        <section>
+          <h3>Définition</h3>
+          <p>
+            <em>Test Driven Development</em> en français <em>développement piloté par les tests</em>.
+          </p>
+          <p>
+            Une méthode de développement qui consiste à <strong>écrire un test unitaire</strong> pour chaque fonctionnalité <strong>avant de l'implémenter</strong>.
+          </p>
+          <p>
+            La façon dont est écrit le test <strong>décide</strong> de la façon dont est implémentée la fonctionnalité.
+          </p>
+          <img src="../media/tdd.png" style="width: 20%">
+        </section>
+      </section>
+      
+      <section class="slide">
+        <h2>TDD (2)</h2>
+        <section>
+          <h3>Cycle basique</h3>
+          <ol>
+            <li>Ecriture d'un test unitaire.</li>
+            <li>Vérification que le test unitaire <strong>échoue</strong>.</li>
+            <li>Implémentation du code <strong>le plus simple et naïf possible</strong> qui fasse passer le test.</li>
+            <li>Vérification que le test unitaire <strong>passe</strong>.</li>
+            <li><strong>Remaniement</strong> du code pour l'améliorer.</li>
+          </ol>
+          <img src="../media/tdd-cycle.png" style="margin-top: 1em; width: 20%">
+        </section>
+      </section>
+      
+      <section class="slide">
+        <h2>TDD (3)</h2>
+        <section>
+          <h3>Bénéfices</h3>
+          <ul>
+            <li>On se concentre sur le <strong>besoin</strong> : le test exprime le besoin.</li>
+            <li>Pas de <strong>sur-réflexion</strong> sur le design : le test décide.</li>
+            <li>Le code est <strong>générique</strong> : le test force l'isolation des composants et donc leur généricité.</li>
+            <li>Le code est <strong>simple</strong>.</li>
+            <li>Les fonctionnalités sont testés : les <strong>régressions</strong> sont surveillées.</li>
+          </ul>
+        </section>
+        <section class="slide">
+          <h3>Inconvénients</h3>
+          <ul>
+            <li>Ecrire des tests est <strong>chronophage</strong>.</li>
+            <li>C'est <strong>contraignant</strong>.</li>
+          </ul>
+        </section>
+        <section class="slide">
+          <p><strong>Mais</strong><br>
+          C'est une habitude à prendre. Les avantages finissent par rendre la tâche <strong>confortable</strong> et le temps
+          perdu est vite <strong>rentabilisé</strong>.</p>
+        </section>
+      </section>
+      
+      <section class="slide">
+        <h2>TDD (4)</h2>
+        <section>
+          <h3>Cycle complet</h3>
+          <img src="../media/tdd-cycle-global.png">
         </section>
       </section>
 
