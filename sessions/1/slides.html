@@ -299,6 +299,16 @@
       <section class="slide">
         <h2>TDD (4)</h2>
         <section>
+          <h3>En pratique</h3>
+          <ul>
+            <li class="slide"></li>
+          </ul>
+        </section>
+      </section>
+
+      <section class="slide">
+        <h2>TDD (5)</h2>
+        <section>
           <h3>Cycle complet</h3>
           <img src="../media/tdd-cycle-global.png">
         </section>
@@ -328,7 +338,7 @@
             <li class="slide">Elle est <strong>cross-platform</strong> et se compile avec <em>CMake</em>.</li>
             <li class="slide">Elle est de plus en plus <strong>populaire et reconnue</strong>.</li>
             <li class="slide">Elle est <strong>activement maintenue</strong>.</li>
-            <li class="slide">Elle inclut une bibliothèque de <em>mocking</em> <strong>GoogleMock</strong> (prochain session).</li>
+            <li class="slide">Elle inclut une bibliothèque de <em>mocking</em> <strong>GoogleMock</strong> (prochaine session).</li>
           </ul>
         </section>
       </section>
@@ -386,8 +396,49 @@ int main(int argc, char **argv)
         </section>
       </section>
 
+      <section class="slide">
+        <h2>GoogleTest (FIXME)</h2>
+        <section>
+          <h3>Exemple basique</h3>
+          <p>
+            <pre><code>int add(int a, int b)
+{
+  return a + b;
+}
+
+TEST(Add, Basic)
+{
+  EXPECT_EQ(8, add(5, 3));
+}
+
+TEST(Add, Commutative)
+{
+  EXPECT_EQ(add(13, 42), add(42, 13)); // a + b = b + a
+}
+
+TEST(Add, Associative)
+{
+  EXPECT_EQ(add(8, add(9, 15)), add(add(8, 9), 15)); // a + (b + c) = (a + b) + c
+}
+
+TEST(Add, Negative)
+{
+  EXPECT_EQ(12, add(17, -5));
+}</code></pre>
+          </p>
+        </section>
+      </section>
+
+      <section class="slide">
+        <h2>GoogleTest (FIXME)</h2>
+        <section>
+          <h3>Fixtures</h3>
+          <p>
+          </p>
+        </section>
+      </section>
+
       <!--
-        EXPECT/ASSERT
         Fixture
       -->
 
