@@ -11,7 +11,7 @@ Requirements
   - msvc >= 12 (VS 2013)
 * cmake >= v2.8 (https://cmake.org/)
   - How to install : https://cmake.org/install/
-* googletest >= 1.6 (https://github.com/google/googletest), included in this
+* googletest >= 1.8 (https://github.com/google/googletest), included in this
   repository
 
 Getting started
