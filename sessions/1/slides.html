@@ -51,7 +51,9 @@
         <h1>
           Tests unitaires et<br><em>Test Driven Development</em> (TDD)<br>en C++ avec GoogleTest<br>
         </h1>
-        <p class="achievement">Succès réussi : titre de présentation très long !</p>
+        <div class="slide">
+          <p class="achievement">Succès réussi : titre de présentation très long !</p>
+        </div>
       </section>
 
       <section class="slide">
@@ -113,7 +115,7 @@
             <p>Etude approfondie de GoogleTest, introduction de GoogleMock</p>
           </li>
           <li class="slide">
-            <p>Application des concepts appris sur un cas pratique</p>
+            <p>Application des concepts appris sur des cas pratiques</p>
           </li>
         </ol>
       </section>
@@ -223,13 +225,13 @@
         <h2>Tests unitaires (4)</h2>
         <section class="slide">
           <h3>Jeu des 7 erreurs</h3>
-          <ul>
+          <ul style="display: inline-block;">
             <li>Tests de validation ou tests usines ou recette</li>
             <li>Tests système ou tests fonctionnels ou homologation</li>
             <li>Tests d'intégration ou tests techniques</li>
             <li><strong>Tests unitaires</strong></li>
           </ul>
-          <figure style="width: 30%; float: right;">
+          <figure style="width: 30%; display: inline-block;">
             <img src="../media/tests_hierarchy.jpg" style="width: 50%">
             <figcaption>http://softwaretestingfundamentals.com/unit-testing/</figcaption>
           </figure>
@@ -304,12 +306,29 @@
         <h2>TDD (4)</h2>
         <section>
           <h3>En pratique</h3>
-          <!-- en réalité le TDD est plus compliqué
-            * use case complexe
-            * tests existants à ne pas casser
-            * code legacy
-            * bad design
-          -->
+          <section class="slide">
+            <p>Dans la réalité, le TDD est plus complexe à appliquer.</p>
+            <ul>
+              <li>Cas utilisateur (<em>use-case</em>) difficiles à exprimer en tests.</li>
+              <li>Base de tests existants à ne pas casser.</li>
+              <li>Code historique (<em>legacy code</em>).</li>
+              <li>Architecture inadaptée (<em>bad design</em>).</li>
+              <li>Manque de temps / hiérarchie en opposition.</li>
+            </ul>
+          </section>
+          <section class="slide">
+            <p>
+              C'est un outil qui demande de la <strong>rigueur</strong>. Il est difficile à appliquer quand on l'utilise de la <strong>mauvaise façon</strong>.<br>
+              Il ne résoud pas les problèmes, il les <strong>empêche</strong>. Il ne s'adapte pas à une méthodologie, il l'<strong>impose</strong>.
+            </p>
+            <ul>
+              <li>Un use-case complexe à exprimer en test est un use-case à <strong>reformuler</strong>.</li>
+              <li>Il faut <strong>isoler les tests existants</strong> lorsqu'on en écrit des nouveaux.</li>
+              <li>Il faut procéder <strong>par étapes</strong> et <strong>isoler les composants</strong> un à un sur une base de code historique.</li>
+              <li>Le <strong>remaniement</strong> s'impose : inutile de tenter de tester une architecture inadaptée en la <em>hackant</em>.</li>
+              <li><q>Would you rather Test-First or Debug-Later ?</q> Robert Cecil Martin, co-auteur de <cite>The Agile Manifesto</cite>.</li>
+            </ul>
+          </section>
         </section>
       </section>
 
@@ -378,6 +397,25 @@ int main(int argc, char **argv)
       <section class="slide">
         <h2>GoogleTest (4)</h2>
         <section>
+          <h3>Terminologie</h3>
+          <div class="slide">
+            <h4><em>Test program</em></h4>
+            <p>Programme contenant plusieurs cas de test (<em>test cases</em>).</p>
+          </div>
+          <div class="slide">
+            <h4><em>Test case</em></h4>
+            <p>Cas de test, groupe de tests liés ensemble par un but commun.</p>
+          </div>
+          <div class="slide">
+            <h4><em>Test</em></h4>
+            <p>Ensemble d'assertions et/ou d'attentes qui vérifient le comportement d'un code ciblé.</p>
+          </div>
+        </section>
+      </section>
+      
+      <section class="slide">
+        <h2>GoogleTest (5)</h2>
+        <section>
           <h3>Assertions / attentes</h3>
           <p>
             Les tests s'expriment par des macros d'<strong>attente</strong> (<code>EXPECT</code>) ou d'<strong>assertion</strong> (<code>ASSERT</code>).
@@ -404,7 +442,7 @@ int main(int argc, char **argv)
       </section>
 
       <section class="slide">
-        <h2>GoogleTest (5)</h2>
+        <h2>GoogleTest (6)</h2>
         <section>
           <h3>Exemple basique</h3>
             <pre><code>int add(int a, int b)
@@ -435,28 +473,143 @@ TEST(Add, Negative)
       </section>
 
       <section class="slide">
-        <h2>GoogleTest (6)</h2>
+        <h2>GoogleTest (7)</h2>
         <section>
           <h3>Fixtures</h3>
-          <p>
-          </p>
+          <div class="slide">
+            <h4>Définition</h4>
+            <p>
+              Classe servant à factoriser le code utilisé pour l'initialisation des tests d'un cas de test.
+            </p>
+            <p>
+              Dans GoogleTest, elles héritent de <code>::testing::Test</code>.
+            </p>
+            <p>
+              Elles peuvent réimplémenter les méthodes <code>SetUp</code> et <code>TearDown</code>.
+            </p>
+            <p>
+              Les macros <code>TEST(TestCase, Test)</code> deviennent <code>TEST_F(Fixture, Test)</code>.
+            </p>
+          </div>
+        </section>
+      </section>
+          
+      <section class="slide">
+        <h2>GoogleTest (8)</h2>
+        <section>
+          <h3>Fixtures (2)</h3>
+          <div class="slide">
+          <div class="slide">
+            <h4>Exemple</h4>
+              <pre><code>struct Adder
+{
+  Adder(int a) : _a(a) {}
+  int add(int b) { return _a + b;}
+  int _a;
+};
+
+class MyFixture : public ::testing::test
+{
+protected:
+  void SetUp() override
+  {
+    _adder = new Adder(42);
+  }
+  
+  void TearDown() override
+  {
+    delete _adder;
+  }
+  
+  Adder* _adder;
+}
+
+TEST_F(MyFixture, Basic)
+{
+  EXPECT_EQ(58, _adder->add(16));
+}
+
+TEST_F(MyFixture, Negative)
+{
+  EXPECT_EQ(27, _adder->add(-15));
+}</code></pre>
+          </div>
         </section>
       </section>
 
-      <!--
-         Cas pratiques : fibonacci
-                         reverse polish notation (RPN)
-                         sudoku solver
-      -->
+      <section class="slide">
+        <h1>Cas pratiques</h1>
+      </section>
+      
+      <section class="slide">
+        <h2>Cas pratiques</h2>
+        <section>
+          <h3>Fibonacci</h3>
+          <div class="slide">
+            <h4>Objectif</h4>
+            <p>
+              Implémenter une fonction <code>int fibonacci(int n);</code> qui retourne le n-ième chiffre de
+              la suite de Fibonacci en appliquant le TDD.
+            </p>
+            <img src="../media/fibonacci.jpg" style="height: 400px">
+          </div>
+          <div class="slide">
+            <h4>Comment</h4>
+            <ol>
+              <li>Récupérer le dépôt git : <a href="https://git-totem.devenly.fr/vpalancher/formation_cpp">https://git-totem.devenly.fr/vpalancher/formation_cpp</a></li>
+              <li>Ouvrir le <em>CMakeLists.txt</em> dans l'IDE favori.</li>
+              <li>Configurer votre projet (compilateur, chemins, etc).</li>
+              <li>Coder : les fichiers à remplir sont dans le dossier <em>sessions/1/practical_cases/fibonacci</em> :
+                <ul>
+                  <li><em>test.cpp</em></li>
+                  <li><em>fibonacci.cpp</em></li>
+                  <li><em>fibonacci.hpp</em> (facultatif, si besoin)</li>
+                </ul>
+              </li>
+            </ol>
+          </div>
+        </section>
+      </section>
+      
+      <section class="slide">
+        <h2>Cas pratiques</h2>
+        <section>
+          <h3><em>Reverse Polish Notation</em> (RPN)</h3>
+          <div class="slide">
+            <h4>Objectif</h4>
+            <p>
+              Implémenter une fonction <code>int rpn::interpret(const std::string& expr);</code> qui retourne le résultat de l'expression RPN passée en paramètre.
+              On lèvera une exception en cas d'erreur d'interprétation.
+            </p>
+            <img src="../media/rps.png" style="height: 400px">
+          </div>
+          <div class="slide">
+            <h4>Comment</h4>
+            <ul>
+              <li>Les fichiers à remplir sont dans le dossier <em>sessions/1/practical_cases/rpn</em> :
+                <ul>
+                  <li><em>test.cpp</em></li>
+                  <li><em>rpn.cpp</em></li>
+                  <li><em>rpn.hpp</em> (facultatif, si besoin)</li>
+                </ul>
+              </li>
+              <li>Le fichier <em>rpn.hpp</em> contient des instructions et des détails.</li>
+            </ul>
+          </div>
+        </section>
+      </section>
 
-  <!--
-  # References
-    * http://artofunittesting.com/definition-of-a-unit-test/
-    * http://softwaretestingfundamentals.com/unit-testing/
-    * https://stackoverflow.com/questions/652292/what-is-unit-testing-and-how-do-you-do-it
-    * https://fr.wikipedia.org/wiki/Test_(informatique)
-    * Kent Beck, Test Driven Development : By Example, Addison-Wesley Professional
-  -->
+      <section class="slide">
+        <h2>Références</h2>
+        <ul>
+          <li><a href="http://artofunittesting.com/definition-of-a-unit-test/">http://artofunittesting.com/definition-of-a-unit-test/</a></li>
+          <li><a href="http://softwaretestingfundamentals.com/unit-testing/">http://softwaretestingfundamentals.com/unit-testing/</a></li>
+          <li><a href="https://stackoverflow.com/questions/652292/what-is-unit-testing-and-how-do-you-do-it">https://stackoverflow.com/questions/652292/what-is-unit-testing-and-how-do-you-do-it</a></li>
+          <li><a href="https://fr.wikipedia.org/wiki/Test_(informatique)">https://fr.wikipedia.org/wiki/Test_(informatique)</a></li>
+          <li>Kent Beck, <cite>Test Driven Development : By Example</cite>, Addison-Wesley Professional</li>
+        </ul>
+        </section>
+      </section>
 
   <!--
   #########################################################################################################

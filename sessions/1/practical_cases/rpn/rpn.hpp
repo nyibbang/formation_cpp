@@ -24,6 +24,8 @@
 //   - division       "/"
 //   - puissance      "^"
 //   - opposé         "NEG"
+// 
+// En cas d'erreur, une exception sera levée.
 
 namespace rpn
 {
