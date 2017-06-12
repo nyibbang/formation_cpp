@@ -32,7 +32,7 @@
   <!-- Required Modernizr file -->
   <script src="../deck.js/modernizr.custom.js"></script>
 </head>
-<body>
+<body class="language-cpp">
 
   <header>
     <img src="../media/ingima-logo.png" class="logo">
@@ -340,13 +340,14 @@
           <p>Pour commencer : <a href="https://github.com/google/googletest/blob/master/googletest/docs/Primer.md">https://github.com/google/googletest/blob/master/googletest/docs/Primer.md</a></p>
           <ul>
             <li class="slide">
-              <pre><code class="language-cpp">TEST(MyTestCaseName, MyTestName)
+              <pre><code>#include &lt;gtest/gtest.h>
+TEST(MyTestCaseName, MyTestName)
 {
   ... test code ...
 }</code></pre>
             </li>
             <li class="slide">
-            <pre><code class="language-cpp">#include &lt;gtest/gtest.h>
+            <pre><code>#include &lt;gtest/gtest.h>
 int main(int argc, char **argv)
 {
   ::testing::InitGoogleTest(&argc, argv);
@@ -356,6 +357,43 @@ int main(int argc, char **argv)
           </ul>
         </section>
       </section>
+
+      <section class="slide">
+        <h2>GoogleTest (4)</h2>
+        <section>
+          <h3>Assertions / attentes</h3>
+          <p>
+            Les tests s'expriment par des macros d'<strong>attente</strong> (<code>EXPECT</code>) ou d'<strong>assertion</strong> (<code>ASSERT</code>).
+          </p>
+          <p>
+            Les attentes et les assertions <strong>affichent un message d'erreur lorsqu'elles échouent</strong>, mais les assertions <strong>terminent aussi le test courant</strong>.
+          </p>
+          <table>
+            <thead>
+              <tr><th>Assertion</th><th>Attente</th><th>Vérifie que</th></tr>
+            </thead>
+            <tbody>
+              <tr class="slide"><td><code>ASSERT_TRUE(condition);</code></td><td><code>EXPECT_TRUE(condition);</code></td><td><em>condition</em> est vraie.</td></tr>
+              <tr class="slide"><td><code>ASSERT_FALSE(condition);</code></td><td><code>EXPECT_FALSE(condition);</code></td><td><em>condition</em> est fausse.</td></tr>
+              <tr class="slide"><td><code>ASSERT_EQ(val1, val2);</code></td><td><code>EXPECT_EQ(val1, val2);</code></td><td><em>val1</em> == <em>val2</em></td></tr>
+              <tr class="slide"><td><code>ASSERT_NE(val1, val2);</code></td><td><code>EXPECT_NE(val1, val2);</code></td><td><em>val1</em> != <em>val2</em></td></tr>
+              <tr class="slide"><td><code>ASSERT_LT(val1, val2);</code></td><td><code>EXPECT_LT(val1, val2);</code></td><td><em>val1</em> &lt; <em>val2</em></td></tr>
+              <tr class="slide"><td><code>ASSERT_LE(val1, val2);</code></td><td><code>EXPECT_LE(val1, val2);</code></td><td><em>val1</em> &le; <em>val2</em></td></tr>
+              <tr class="slide"><td><code>ASSERT_GT(val1, val2);</code></td><td><code>EXPECT_GT(val1, val2);</code></td><td><em>val1</em> &gt; <em>val2</em></td></tr>
+              <tr class="slide"><td><code>ASSERT_GE(val1, val2);</code></td><td><code>EXPECT_GE(val1, val2);</code></td><td><em>val1</em> &ge; <em>val2</em></td></tr>
+            </tbody>
+          </table>
+        </section>
+      </section>
+
+      <!--
+        EXPECT/ASSERT
+        Fixture
+      -->
+
+      <!--
+         Cas pratiques : fibonacci
+      -->
 
   <!--
   # References
