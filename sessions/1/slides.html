@@ -50,8 +50,8 @@
       <section class="slide">
         <h1>
           Tests unitaires et<br><em>Test Driven Development</em> (TDD)<br>en C++ avec GoogleTest<br>
-          <p class="achievement slide">Succès réussi : titre de présentation très long !</p>
         </h1>
+        <p class="achievement">Succès réussi : titre de présentation très long !</p>
       </section>
 
       <section class="slide">
@@ -95,10 +95,7 @@
 
       <section class="slide">
         <h2>Introduction (3)</h2>
-        <h3>Citations</h3>
-        <p>
-          <q>Unit tests confirm that we have build the software right. Acceptance tests confirm that we have built the right software.</q>
-        </p>
+        <h3>Spéciale dédicace</h3>
         <p>
           <q cite="https://en.wikiquote.org/wiki/Kent_Beck">I'm not a great programmer; I'm just a good programmer with great habits.</q><br>
           <small>Kent Beck créateur de XP et figure principale du TDD dans <cite>Refactoring: Improving the Design of Existing Code</cite>.</small>
@@ -118,6 +115,7 @@
           <li class="slide">
             <p>Application des concepts appris sur un cas pratique</p>
           </li>
+        </ol>
       </section>
 
       <section class="slide">
@@ -223,7 +221,7 @@
 
       <section class="slide">
         <h2>Tests unitaires (4)</h2>
-        <section>
+        <section class="slide">
           <h3>Jeu des 7 erreurs</h3>
           <ul>
             <li>Tests de validation ou tests usines ou recette</li>
@@ -231,10 +229,16 @@
             <li>Tests d'intégration ou tests techniques</li>
             <li><strong>Tests unitaires</strong></li>
           </ul>
-          <figure style="width: 30%">
+          <figure style="width: 30%; float: right;">
             <img src="../media/tests_hierarchy.jpg" style="width: 50%">
             <figcaption>http://softwaretestingfundamentals.com/unit-testing/</figcaption>
           </figure>
+        </section>
+        <section class="slide">
+          <hr>
+          <p>
+            <q>Unit tests confirm that we have build the software right. Acceptance tests confirm that we have built the right software.</q>
+          </p>
         </section>
       </section>
 
@@ -300,9 +304,12 @@
         <h2>TDD (4)</h2>
         <section>
           <h3>En pratique</h3>
-          <ul>
-            <li class="slide"></li>
-          </ul>
+          <!-- en réalité le TDD est plus compliqué
+            * use case complexe
+            * tests existants à ne pas casser
+            * code legacy
+            * bad design
+          -->
         </section>
       </section>
 
@@ -362,7 +369,7 @@ int main(int argc, char **argv)
 {
   ::testing::InitGoogleTest(&argc, argv);
   return RUN_ALL_TESTS();
-}</pre></code>
+}</code></pre>
             </li>
           </ul>
         </section>
@@ -397,10 +404,9 @@ int main(int argc, char **argv)
       </section>
 
       <section class="slide">
-        <h2>GoogleTest (FIXME)</h2>
+        <h2>GoogleTest (5)</h2>
         <section>
           <h3>Exemple basique</h3>
-          <p>
             <pre><code>int add(int a, int b)
 {
   return a + b;
@@ -425,12 +431,11 @@ TEST(Add, Negative)
 {
   EXPECT_EQ(12, add(17, -5));
 }</code></pre>
-          </p>
         </section>
       </section>
 
       <section class="slide">
-        <h2>GoogleTest (FIXME)</h2>
+        <h2>GoogleTest (6)</h2>
         <section>
           <h3>Fixtures</h3>
           <p>
@@ -439,11 +444,9 @@ TEST(Add, Negative)
       </section>
 
       <!--
-        Fixture
-      -->
-
-      <!--
          Cas pratiques : fibonacci
+                         reverse polish notation (RPN)
+                         sudoku solver
       -->
 
   <!--
