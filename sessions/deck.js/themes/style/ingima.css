@@ -21,14 +21,6 @@ footer, header, hgroup, menu, nav, section {
   display: block;
 }
 
-blockquote, q {
-  quotes: none;
-}
-blockquote:before, blockquote:after, q:before, q:after {
-  content: "";
-  content: none;
-}
-
 ins {
   background-color: #ff9;
   color: #000;
@@ -435,3 +427,40 @@ h1 > small {
 body {
   font-family: "Helvetica Neue", sans-serif;
 }
+
+ol#sessions_list {
+  list-style-type: none;
+  counter-reset: elementcounter;
+  padding-left: 0;
+  font-size: 40px;
+}
+
+ol#sessions_list > li:before {
+  content: "Session n°" counter(elementcounter) " :";
+  counter-increment: elementcounter;
+  font-weight: bold;
+}
+
+q {
+  font-style: italic;
+}
+
+cite {
+  font-style: italic;
+}
+
+.achievement {
+  font-size: 22px;
+  padding: 10px;
+  color: rgb(255, 45, 0);
+}
+
+figcaption {
+  font-size: 16px;
+}
+
+figure {
+  text-align: center;
+  margin: 0 auto;
+}
+
