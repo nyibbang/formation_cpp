@@ -25,6 +25,9 @@
 
   <!-- Basic black and white print styles -->
   <link rel="stylesheet" media="print" href="../deck.js/core/print.css">
+  
+  <!-- prism.js -->
+  <link rel="stylesheet" href="../prism.js/prism.css">
 
   <!-- Required Modernizr file -->
   <script src="../deck.js/modernizr.custom.js"></script>
@@ -56,17 +59,17 @@
         <section>
           <h3>Quelques citations (certaines vécues)</h3>
           <ul>
-            <li><q>Nos responsables nous demandent de faire de l'agile et des tests unitaires.</q></li>
-            <li><q>Le chef de projet a lu un article à propos du TDD et a décidé d'en faire.</q></li>
-            <li><q>Les tests unitaires, c'est une perte de temps.</q></li>
-            <li><q>On fait des tests unitaires pour montrer au client qu'on teste le logiciel.</q></li>
+            <li class="slide"><q>Nos responsables nous demandent de faire de l'agile et des tests unitaires.</q></li>
+            <li class="slide"><q>Le chef de projet a lu un article à propos du TDD et a décidé d'en faire.</q></li>
+            <li class="slide"><q>Les tests unitaires, c'est une perte de temps.</q></li>
+            <li class="slide"><q>On fait des tests unitaires pour montrer au client qu'on teste le logiciel.</q></li>
           </ul>
         </section>
         <section class="slide">
           <h3>Motivations</h3>
           <ul>
-            <li>Démystifier les croyances sur le TDD et les tests unitaires notamment nées des croyances sur l'agile.</li>
-            <li>Proposer une méthode de développement qui facilite avant tout la vie des développeurs.</li>
+            <li class="slide">Démystifier les croyances sur le TDD et les tests unitaires notamment nées des croyances sur l'agile.</li>
+            <li class="slide">Proposer une méthode de développement qui facilite avant tout la vie des développeurs.</li>
           </ul>
         </section>
       </section>
@@ -76,16 +79,16 @@
         <section>
           <h3>Objectifs</h3>
           <ul>
-            <li>Présenter les tests unitaires et le TDD.</li>
-            <li>Présenter une solution de tests unitaires en C++.</li>
+            <li class="slide">Présenter les tests unitaires et le TDD.</li>
+            <li class="slide">Présenter une solution de tests unitaires en C++.</li>
           </ul>
         </section>
         <section class="slide">
           <h3>Public visé</h3>
           <ul>
-            <li>Développeurs novices ou expérimentés en C++ (quelques bases sont requises).</li>
-            <li>Novices en TDD qui souhaitent découvrir la méthode.</li>
-            <li>Experts en TDD qui cherchent une solution en C++.</li>
+            <li class="slide">Développeurs novices ou expérimentés en C++ (quelques bases sont requises).</li>
+            <li class="slide">Novices en TDD qui souhaitent découvrir la méthode.</li>
+            <li class="slide">Experts en TDD qui cherchent une solution en C++.</li>
           </ul>
         </section>
       </section>
@@ -106,7 +109,7 @@
       <section class="slide">
         <h2>Agenda</h2>
         <ol id="sessions_list">
-          <li>
+          <li class="slide">
             <p>Introduction au test unitaire, au TDD et au framework GoogleTest</p>
           </li>
           <li class="slide">
@@ -127,7 +130,7 @@
       <section class="slide">
         <h2>Session n°1</h2>
         <ol>
-          <li>
+          <li class="slide">
             <h3>Tests unitaires et TDD</h3>
             <p>Introduction à la théorie du test unitaire et aux principes du développement piloté par les tests</p>
           </li>
@@ -173,7 +176,7 @@
         <h2>Tests unitaires (2)</h2>
         <h3>Caractéristiques</h3>
         <ul>
-          <li>
+          <li class="slide">
             Il est <strong>entièrement automatisé</strong><br>
             <small>Pas de tests manuels ici</small>
           </li>
@@ -204,7 +207,7 @@
         <h2>Tests unitaires (3)</h2>
         <h3>En bonus</h3>
         <ul>
-          <li>
+          <li class="slide">
             <em>Less is more</em><br>
             <small>Petit et léger vaut mieux que gros et lourd</small></li>
           <li class="slide">
@@ -257,11 +260,11 @@
         <section>
           <h3>Cycle basique</h3>
           <ol>
-            <li>Ecriture d'un test unitaire.</li>
-            <li>Vérification que le test unitaire <strong>échoue</strong>.</li>
-            <li>Implémentation du code <strong>le plus simple et naïf possible</strong> qui fasse passer le test.</li>
-            <li>Vérification que le test unitaire <strong>passe</strong>.</li>
-            <li><strong>Remaniement</strong> du code pour l'améliorer.</li>
+            <li class="slide">Ecriture d'un test unitaire.</li>
+            <li class="slide">Vérification que le test unitaire <strong>échoue</strong>.</li>
+            <li class="slide">Implémentation du code <strong>le plus simple et naïf possible</strong> qui fasse passer le test.</li>
+            <li class="slide">Vérification que le test unitaire <strong>passe</strong>.</li>
+            <li class="slide"><strong>Remaniement</strong> du code pour l'améliorer.</li>
           </ol>
           <img src="../media/tdd-cycle.png" style="margin-top: 1em; width: 20%">
         </section>
@@ -270,20 +273,20 @@
       <section class="slide">
         <h2>TDD (3)</h2>
         <section>
-          <h3>Bénéfices</h3>
+          <h3>Avantages</h3>
           <ul>
-            <li>On se concentre sur le <strong>besoin</strong> : le test exprime le besoin.</li>
-            <li>Pas de <strong>sur-réflexion</strong> sur le design : le test décide.</li>
-            <li>Le code est <strong>générique</strong> : le test force l'isolation des composants et donc leur généricité.</li>
-            <li>Le code est <strong>simple</strong>.</li>
-            <li>Les fonctionnalités sont testés : les <strong>régressions</strong> sont surveillées.</li>
+            <li class="slide">On se concentre sur le <strong>besoin</strong> : le test exprime le besoin.</li>
+            <li class="slide">Pas de <strong>sur-réflexion</strong> sur le design : le test décide.</li>
+            <li class="slide">Le code est <strong>générique</strong> : le test force l'isolation des composants et donc leur généricité.</li>
+            <li class="slide">Le code est <strong>simple</strong>.</li>
+            <li class="slide">Les fonctionnalités sont testés : les <strong>régressions</strong> sont surveillées.</li>
           </ul>
         </section>
         <section class="slide">
           <h3>Inconvénients</h3>
           <ul>
-            <li>Ecrire des tests est <strong>chronophage</strong>.</li>
-            <li>C'est <strong>contraignant</strong>.</li>
+            <li class="slide">Ecrire des tests est <strong>chronophage</strong>.</li>
+            <li class="slide">C'est <strong>contraignant</strong>.</li>
           </ul>
         </section>
         <section class="slide">
@@ -298,6 +301,59 @@
         <section>
           <h3>Cycle complet</h3>
           <img src="../media/tdd-cycle-global.png">
+        </section>
+      </section>
+            
+      <section class="slide">
+        <h1>GoogleTest C++ framework</h1>
+      </section>
+      
+      <section class="slide">
+        <h2>GoogleTest</h2>
+        <section>
+          <h3>Qu'est-ce que c'est ?</h3>
+          <p>Une bibliothèque C++ maintenue par Google proposant des fonctions de test similaire à <em>CppUnit</em> ou <em>BoostTest</em>.</p>
+          <p>Disponible sur Github : <a href="https://github.com/google/googletest">https://github.com/google/googletest</a></p>
+          <p><img src="../media/gtest.png" style="height: 20%"></p>
+        </section>
+      </section>
+      
+      <section class="slide">
+        <h2>GoogleTest (2)</h2>
+        <section>
+          <h3>Motivation</h3>
+          <ul>
+            <li class="slide">Elle est <strong>légère</strong>.</li>
+            <li class="slide">Elle est <strong>complète</strong>.</li>
+            <li class="slide">Elle est <strong>cross-platform</strong> et se compile avec <em>CMake</em>.</li>
+            <li class="slide">Elle est de plus en plus <strong>populaire et reconnue</strong>.</li>
+            <li class="slide">Elle est <strong>activement maintenue</strong>.</li>
+            <li class="slide">Elle inclut une bibliothèque de <em>mocking</em> <strong>GoogleMock</strong> (prochain session).</li>
+          </ul>
+        </section>
+      </section>
+            
+      <section class="slide">
+        <h2>GoogleTest (3)</h2>
+        <section>
+          <h3>Utilisation</h3>
+          <p>Pour commencer : <a href="https://github.com/google/googletest/blob/master/googletest/docs/Primer.md">https://github.com/google/googletest/blob/master/googletest/docs/Primer.md</a></p>
+          <ul>
+            <li class="slide">
+              <pre><code class="language-cpp">TEST(MyTestCaseName, MyTestName)
+{
+  ... test code ...
+}</code></pre>
+            </li>
+            <li class="slide">
+            <pre><code class="language-cpp">#include &lt;gtest/gtest.h>
+int main(int argc, char **argv)
+{
+  ::testing::InitGoogleTest(&argc, argv);
+  return RUN_ALL_TESTS();
+}</pre></code>
+            </li>
+          </ul>
         </section>
       </section>
 
@@ -350,22 +406,26 @@
     <h3>Vincent PALANCHER - vincent.palancher@gmail.com</h3>
   </footer>
 
-<!-- Required JS files. -->
-<script src="../deck.js/jquery.min.js"></script>
-<script src="../deck.js/core/deck.core.js"></script>
+  <!-- Required JS files. -->
+  <script src="../deck.js/jquery.min.js"></script>
+  <script src="../deck.js/core/deck.core.js"></script>
 
-<!-- Extension JS files. Add or remove as needed. -->
-<script src="../deck.js/extensions/menu/deck.menu.js"></script>
-<script src="../deck.js/extensions/goto/deck.goto.js"></script>
-<script src="../deck.js/extensions/status/deck.status.js"></script>
-<script src="../deck.js/extensions/navigation/deck.navigation.js"></script>
-<script src="../deck.js/extensions/scale/deck.scale.js"></script>
+  <!-- Extension JS files. Add or remove as needed. -->
+  <script src="../deck.js/extensions/menu/deck.menu.js"></script>
+  <script src="../deck.js/extensions/goto/deck.goto.js"></script>
+  <script src="../deck.js/extensions/status/deck.status.js"></script>
+  <script src="../deck.js/extensions/navigation/deck.navigation.js"></script>
+  <script src="../deck.js/extensions/scale/deck.scale.js"></script>
 
-<!-- Initialize the deck. You can put this in an external file if desired. -->
-<script>
-  $(function() {
-    $.deck('.slide');
-  });
-</script>
+  <!-- Initialize the deck. You can put this in an external file if desired. -->
+  <script>
+    $(function() {
+      $.deck('.slide');
+    });
+  </script>
+
+  <!-- prism.js -->
+  <script src="../prism.js/prism.js"></script>
+
 </body>
 </html>
