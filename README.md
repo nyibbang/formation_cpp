@@ -18,5 +18,5 @@ Getting started
 ---------------
 
 * Clone this repository
-`git clone https://git-totem.devenly.fr/vpalancher/formation_cpp.git`
+`git clone --recursive https://git-totem.devenly.fr/vpalancher/formation_cpp.git`
 * Code
