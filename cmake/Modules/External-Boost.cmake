@@ -15,7 +15,7 @@ ExternalProject_Add(boost
   PREFIX boost_external
   GIT_REPOSITORY https://github.com/boostorg/boost.git
   GIT_TAG boost-1.63.0
-  GIT_SUBMODULES "libs/config" "libs/range" "tools/*"
+  GIT_SUBMODULES "libs/config" "libs/range" "libs/algorithm" "tools/*"
   UPDATE_COMMAND ""
   PATCH_COMMAND ""
   BUILD_IN_SOURCE 1

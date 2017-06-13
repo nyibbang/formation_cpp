@@ -1,6 +1,7 @@
 #pragma once
 
 #include <string>
+#include <vector>
 
 // La notation polonaise inverse (NPI) (en anglais RPN pour Reverse Polish
 // Notation), également connue sous le nom de notation post-fixée, permet
@@ -24,12 +25,25 @@
 //   - division       "/"
 //   - puissance      "^"
 //   - opposé         "NEG"
-// 
+//
 // En cas d'erreur, une exception sera levée.
 
 namespace rpn
 {
 
+//////////////////////////////////////////////////////////////////////////
+/// A implémenter
+//////////////////////////////////////////////////////////////////////////
 int interpret(const std::string& expr);
+
+//////////////////////////////////////////////////////////////////////////
+/// Detail: fonctions utilitaires
+//////////////////////////////////////////////////////////////////////////
+namespace detail
+{
+
+std::vector<std::string> split(std::string expr);
+
+}
 
 }
