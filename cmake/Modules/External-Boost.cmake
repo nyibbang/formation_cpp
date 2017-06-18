@@ -13,9 +13,7 @@ endif()
 
 ExternalProject_Add(boost
   PREFIX boost_external
-  GIT_REPOSITORY https://github.com/boostorg/boost.git
-  GIT_TAG boost-1.63.0
-  GIT_SUBMODULES "libs/config" "libs/range" "libs/algorithm" "tools/*"
+  URL ${PROJECT_SOURCE_DIR}/boost_1_64_0.tar.gz
   UPDATE_COMMAND ""
   PATCH_COMMAND ""
   BUILD_IN_SOURCE 1
@@ -36,5 +34,5 @@ if(NOT WIN32)
   set(Boost_INCLUDE_DIR ${INSTALL_DIR}/include/)
 else()
   set(Boost_LIBRARY_DIR ${INSTALL_DIR}/lib/)
-  set(Boost_INCLUDE_DIR ${INSTALL_DIR}/include/boost-1_63/)
+  set(Boost_INCLUDE_DIR ${INSTALL_DIR}/include/boost-1_64/)
 endif()

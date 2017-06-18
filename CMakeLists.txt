@@ -8,6 +8,7 @@ include(EnableCXX11)
 enable_testing()
 
 # third parties
+set(gtest_force_shared_crt TRUE CACHE BOOL "" FORCE)
 add_subdirectory(googletest)
 include(ExternalProject)
 include(External-Boost)
