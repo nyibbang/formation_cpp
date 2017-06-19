@@ -11,6 +11,8 @@ class Matrix
 public:
   explicit Matrix(int size);
 
+  friend bool operator==(const Matrix& l, const Matrix& r);
+
   int size() const;
   double element(int row, int col) const;
   void setElement(int row, int col, double value);
