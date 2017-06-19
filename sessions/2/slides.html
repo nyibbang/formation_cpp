@@ -58,18 +58,84 @@
       <section class="slide">
         <h2>Session n°2</h2>
         <ol>
-          <li>
-            <h3>Fonctionnalités avancées de GoogleTest</h3>
-            <p>TODO</p>
-          </li>
-          <li>
-            <h3>GoogleMock Framework</h3>
-            <p>TODO</p>
-          </li>
-          <li>
-            <h3>Etude de cas pratique</h3>
-          </li>
+          <li><h3>Fonctionnalités avancées de GoogleTest</h3></li>
+          <li><h3>GoogleMock Framework</h3></li>
+          <li><h3>Etude de cas pratique</h3></li>
         </ol>
+      </section>
+      
+      <section class="slide">
+        <h1>Fonctionnalités avancées de GoogleTest</h1>
+      </section>
+      
+      <!--
+            <ul>
+              <li>Comparaison de flottants</li>
+              <li>Gestion d'exceptions</li>
+              <li>Utilisation de prédicats</li>
+              <li>Tests paramétrés</li>
+              <li>Tests typés</li>
+              <li>Tester du code privé</li>
+            </ul>
+            -->
+      
+      <section class="slide">
+        <h2>GoogleTest avancé</h2>
+        <section>
+          <h3>Comparaison de flottants</h3>
+          <p>
+            <table>
+              <thead>
+                <tr><th>Assertion</th><th>Attente</th><th>Vérifie que</th></tr>
+              </thead>
+              <tbody>
+                <tr class="slide"><td><code>ASSERT_FLOAT_EQ(val1, val2);</code></td><td><code>EXPECT_FLOAT_EQ(val1, val2);</code></td><td>Les deux valeurs <em>float</em> sont presque égales.</td></tr>
+                <tr class="slide"><td><code>ASSERT_DOUBLE_EQ(val1, val2);</code></td><td><code>EXPECT_DOUBLE_EQ(val1, val2);</code></td><td>Les deux valeurs <em>double</em> sont presque égales.</td></tr>
+                <tr class="slide"><td><code>ASSERT_NEAR(val1, val2, eps);</code></td><td><code>EXPECT_NEAR(val1, val2, eps);</code></td><td>La différence entre les deux valeurs n'excède pas <em>eps</em>.</td></tr>
+              </tbody>
+            </table>
+          </p>
+          <p>
+            Presque égales &hArr; max 4 <strong>ULP</strong> (<em>Units in the Last Place</em>) de différence.<br>
+            Plus de détails : <cite><a href="https://randomascii.wordpress.com/2012/02/25/comparing-floating-point-numbers-2012-edition/">https://randomascii.wordpress.com/2012/02/25/comparing-floating-point-numbers-2012-edition/</a>.
+          </p>
+        </section>
+      </section>
+            
+      <section class="slide">
+        <h2>GoogleTest avancé (2)</h2>
+        <section>
+          <h3>Gestion d'exceptions</h3>
+          <p>
+            <table>
+              <thead>
+                <tr><th>Assertion</th><th>Attente</th><th>Vérifie que</th></tr>
+              </thead>
+              <tbody>
+                <tr class="slide"><td><code>ASSERT_THROW(stat, type);</code></td><td><code>EXPECT_THROW(stat, type);</code></td><td>L'instruction <em>stat</em> lève une exception de type <em>type</em>.</td></tr>
+                <tr class="slide"><td><code>ASSERT_ANY_THROW(stat);</code></td><td><code>EXPECT_ANY_THROW(stat);</code></td><td>L'instruction <em>stat</em> lève une exception de n'importe quel type.</td></tr>
+                <tr class="slide"><td><code>ASSERT_NO_THROW(stat);</code></td><td><code>EXPECT_NO_THROW(stat);</code></td><td>L'instruction <em>stat</em> ne lève <strong>pas</strong> d'exception.</td></tr>
+              </tbody>
+            </table>
+          </p>
+        </section>
+      </section>
+            
+      <section class="slide">
+        <h2>GoogleTest avancé (3)</h2>
+        <section>
+          <h3>Cas pratique (<em>matrix</em>)</h3>
+          <h4>Multiplication de matrices carrées de <em>double</em></h4>
+          <p>
+            Implémenter une fonction qui calcule la multiplication de deux matrices carrées de <em>double</em>.<br>
+            Si les matrices ne peuvent pas être multipliés (tailles incohérentes par exemple), une exception sera levée.
+          </p>
+          <p><img src="../media/matrix.jpg" style="width: 30%"></p>
+        </section>
+      </section>
+      
+      <section class="slide">
+        <h1>GoogleMock framework</h1>
       </section>
 
       <section class="slide">
