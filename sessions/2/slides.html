@@ -423,8 +423,9 @@ public:
         <h2>GoogleMock (5)</h2>
         <section>
           <h3>Paramètres d'attente</h3>
-          <p>
-            <pre><code>EXPECT_CALL(myClass, doSomething())
+          <section class="slide">
+            <p>
+              <pre><code>EXPECT_CALL(myClass, doSomething())
   .With(multi args matcher)
   .Times(cardinality)
   .After(expectations)
@@ -433,16 +434,19 @@ public:
   .WillRepeatedly(action)
   .RetiresSaturation();
 </code></pre>
-          </p>
-          <p>
-            <code>Times(n)</code> spécifie le nombre de fois que l'attente pourra être validée.<br>
-            Par défaut, si <code>Times()</code> n'est pas précisé, c'est équivalent à :
-            <ul>
-              <li><code>Times(1)</code> si ni <code>WillOnce</code> et <code>WillRepeatedly</code> ne sont spécifiés.</li>
-              <li><code>Times(n)</code> si <em>n</em> <code>WillOnce</code> sont spécifiés mais que <code>WillRepeatedly</code> n'est pas spécifié, avec <em>n >= 1</em>.</li>
-              <li><code>Times(AtLeast(n))</code> si <em>n</em> <code>WillOnce</code> et <code>WillRepeatedly</code> sont spécifiés, avec <em>n >= 0</em>.</li>
-            </ul>
-          </p>
+            </p>
+          </section>
+          <section class="slide">
+            <p>
+              <code>Times(n)</code> spécifie le nombre de fois que l'attente pourra être validée.<br>
+              Par défaut, si <code>Times()</code> n'est pas précisé, c'est équivalent à :
+              <ul>
+                <li><code>Times(1)</code> si ni <code>WillOnce</code> et <code>WillRepeatedly</code> ne sont spécifiés.</li>
+                <li><code>Times(n)</code> si <em>n</em> <code>WillOnce</code> sont spécifiés mais que <code>WillRepeatedly</code> n'est pas spécifié, avec <em>n >= 1</em>.</li>
+                <li><code>Times(AtLeast(n))</code> si <em>n</em> <code>WillOnce</code> et <code>WillRepeatedly</code> sont spécifiés, avec <em>n >= 0</em>.</li>
+              </ul>
+            </p>
+          </section>
         </section>
       </section>
 
