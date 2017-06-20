@@ -1,6 +1,7 @@
 #include "matrix.hpp"
 #include <stdexcept>
 #include <tuple>
+#include <cmath>
 
 namespace matrix
 {
