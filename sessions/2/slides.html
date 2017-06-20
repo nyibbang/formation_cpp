@@ -138,9 +138,88 @@
         <h2>GoogleTest avancé (4)</h2>
         <section>
           <h3>Prédicats</h3>
-          <p>
-          TODO
-          </p>
+          <section>
+            <p>
+              Fonction le plus souvent <strong>unaire</strong> (1 argument) ou <strong>binaire</strong> (2 arguments) retournant un <em>booléen</em>.
+            </p>
+            <p>
+              <strong>Exemples</strong>:
+              <ul>
+                <li>Unaire: <code>[](int n) { return n &lt; 0; }</code></li>
+                <li>Binaire: <code>std::less<int>()</code></li>
+              </ul>
+            </p>
+          </section>
+          <section class="slide">
+            <table>
+              <thead>
+                <tr><th>Assertion</th><th>Attente</th><th>Vérifie que</th></tr>
+              </thead>
+              <tbody>
+                <tr class="slide"><td><code>ASSERT_PRED1(pred1, val1);</code></td><td><code>EXPECT_PRED1(pred1, val1);</code></td><td><em>pred1(val1)</em> retourne vrai.</td></tr>
+                <tr class="slide"><td><code>ASSERT_PRED2(pred2, val1, val2);</code></td><td><code>EXPECT_PRED2(pred2, val1, val2);</code></td><td><em>pred2(val1, val2)</em> retourne vrai.</td></tr>
+                <tr class="slide"><td><code>ASSERT_PRED3(pred3, val1, val2, val3);</code></td><td><code>EXPECT_PRED3(pred3, val1, val3);</code></td><td><em>pred3(val1, val2, val3)</em> retourne vrai.</td></tr>
+                <tr class="slide"><td>...</td><td>...</td><td>...</td></tr>
+              </tbody>
+            </table>
+          </section>
+          <section class="slide">
+            <strong>Utilisation</strong>:
+            <pre><code>bool canDivide(int num, int den)
+{
+  return num % den == 0;
+}
+
+int val1 = 42;
+int val2 = 6;
+ASSERT_PRED2(canDivide, val1, val2);</code></pre>
+          </section>
+        </section>
+      </section>
+      
+      <section class="slide">
+        <h2>GoogleTest avancé (5)</h2>
+        <section>
+          <h3>Prédicats (2)</h3>
+          <h4>Alternative</h4>
+          <section class="slide">
+            <h5>Problème</h5>
+            <pre><code>bool all(bool... args)
+{
+  return (args && ...);
+}</code></pre>
+          </section>
+          <section class="slide">
+            <h5>Solution</h5>
+            <pre><code>namespace testing {
+
+// Returns an AssertionResult object to indicate that an assertion has
+// succeeded.
+AssertionResult AssertionSuccess();
+
+// Returns an AssertionResult object to indicate that an assertion has
+// failed.
+AssertionResult AssertionFailure();
+
+}</code></pre>
+          </section>
+          <section class="slide">
+            <h5>Utilisation</h5>
+            <pre><code>::testing::AssertionResult testAll(bool... args)
+{
+  if (all(args...))
+  {
+    return ::testing::AssertionSuccess();
+  }
+  else
+  {
+    return ::testing::AssertionFailure() &lt;&lt; "one of them is false";
+  }
+}
+
+EXPECT_TRUE(testAll(false, true, true, false, true));
+</code></pre>
+          </section>
         </section>
       </section>
       
