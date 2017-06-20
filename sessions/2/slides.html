@@ -63,21 +63,10 @@
           <li><h3>Etude de cas pratique</h3></li>
         </ol>
       </section>
-      
+
       <section class="slide">
         <h1>Fonctionnalités avancées<br>de GoogleTest</h1>
       </section>
-      
-      <!--
-            <ul>
-              <li>Comparaison de flottants</li>
-              <li>Gestion d'exceptions</li>
-              <li>Utilisation de prédicats</li>
-              <li>Tests paramétrés</li>
-              <li>Tests typés</li>
-              <li>Tester du code privé</li>
-            </ul>
-            -->
 
       <section class="slide">
         <h2>GoogleTest avancé</h2>
@@ -176,7 +165,7 @@ ASSERT_PRED2(canDivide, val1, val2);</code></pre>
           </section>
         </section>
       </section>
-      
+
       <section class="slide">
         <h2>GoogleTest avancé (5)</h2>
         <section>
@@ -222,7 +211,7 @@ EXPECT_TRUE(testAll(false, true, true, false, true));
           </section>
         </section>
       </section>
-      
+
       <section class="slide">
         <h2>GoogleTest avancé (6)</h2>
         <section>
@@ -254,7 +243,7 @@ TYPED_TEST(MyTest, Basic) // sera lancé pour chaque type
           </section>
         </section>
       </section>
-      
+
       <section class="slide">
         <h2>GoogleTest avancé (7)</h2>
         <section>
@@ -299,7 +288,7 @@ TYPED_TEST(MyTest, Basic) // sera lancé pour chaque type
           </section>
         </section>
       </section>
-      
+
       <section class="slide">
         <h2>GoogleTest avancé (8)</h2>
         <section>
@@ -326,7 +315,7 @@ public:
   void doSomething() { // ... }
 };</code></pre>
             </section>
-            
+
             <section>
               <h5>Intérêt</h5>
               <p>
@@ -337,11 +326,11 @@ public:
           </section>
         </section>
       </section>
-      
+
       <section class="slide">
         <h1>GoogleMock framework</h1>
       </section>
-      
+
       <section class="slide">
         <h2>GoogleMock</h2>
         <section>
@@ -372,44 +361,159 @@ public:
         <h2>GoogleMock (2)</h2>
         <section>
           <h3>Mock d'une classe</h3>
-          <p>
-          TODO
-          </p>
+            <section>
+              <h4>Classe à mock</h4>
+              <pre><code>class MyClass
+{
+public:
+  virtual ~MyClass() = default;
+
+  virtual void doSomething() { /* something */ }
+  virtual int doSomething(const std::string&) { /* something */ }
+  virtual void doSomethingElse(const std::string&, char) const { /* something */ }
+};</code></pre>
+            </section>
+            <section class="slide">
+              <h4>Mock</h4>
+              <pre><code>class MockOfMyClass : public MyClass
+{
+public:
+  MOCK_METHOD0(doSomething, void());
+  MOCK_METHOD1(doSomething, int(const std::string&));
+  MOCK_CONST_METHOD2(doSomethingElse, void(const std::string&, char));
+};</code></pre>
+            </section>
         </section>
       </section>
 
       <section class="slide">
         <h2>GoogleMock (3)</h2>
         <section>
-          <h3>Utilisation</h3>
-          <p>
-          TODO
-          </p>
+          <h3>Référence</h3>
+            <p>
+              <table>
+                <thead>
+                  <tr><th>Type de méthode</th><th>Syntaxe</th></tr>
+                </thead>
+                <tbody>
+                  <tr class="slide"><th>Méthode <em>const</em></th><td><code>MOCK_CONST_METHODX(method, sign);</code></td></tr>
+                  <tr class="slide"><th>Méthode <em>non-const</em></th><td><code>MOCK_METHODX(method, sign);</code></td></tr>
+                </tbody>
+              </table>
+            </p>
+            <p style="margin: 0 auto; text-align: center">
+              X = <strong>nombre d'arguments</strong> à la méthode.
+            </p>
         </section>
       </section>
-      
+
       <section class="slide">
         <h2>GoogleMock (4)</h2>
         <section>
-          <h3>Matching d'arguments</h3>
-          <p>
-          TODO
-          </p>
+          <h3>Utilisation</h3>
+            <pre><code>TEST(TestCaseName, TestName)
+{
+  MockOfMyClass myClass;
+  EXPECT_CALL(myClass, doSomething());
+}</code></pre>
         </section>
       </section>
-      
+
       <section class="slide">
         <h2>GoogleMock (5)</h2>
         <section>
-          <h3>Valeurs de retours</h3>
+          <h3>Paramètres d'attente</h3>
           <p>
-          TODO
+            <pre><code>EXPECT_CALL(myClass, doSomething())
+  .With(multi args matcher)
+  .Times(cardinality)
+  .After(expectations)
+  .InSequence(sequences)
+  .WillOnce(action)
+  .WillRepeatedly(action)
+  .RetiresSaturation();
+</code></pre>
+          </p>
+          <p>
+            <code>Times(n)</code> spécifie le nombre de fois que l'attente pourra être validée.<br>
+            Par défaut, si <code>Times()</code> n'est pas précisé, c'est équivalent à :
+            <ul>
+              <li><code>Times(1)</code> si ni <code>WillOnce</code> et <code>WillRepeatedly</code> ne sont spécifiés.</li>
+              <li><code>Times(n)</code> si <em>n</em> <code>WillOnce</code> sont spécifiés mais que <code>WillRepeatedly</code> n'est pas spécifié, avec <em>n >= 1</em>.</li>
+              <li><code>Times(AtLeast(n))</code> si <em>n</em> <code>WillOnce</code> et <code>WillRepeatedly</code> sont spécifiés, avec <em>n >= 0</em>.</li>
+            </ul>
           </p>
         </section>
       </section>
-      
+
       <section class="slide">
-        <h2>GoogleMock (5)</h2>
+        <h2>GoogleMock (6)</h2>
+        <section>
+          <h3>Matching d'arguments</h3>
+            <section class="slide">
+              <h4>Vérification basique</h4>
+              <p>
+                <pre><code>EXPECT_CALL(myClass, doSomethingElse("this must be first arg", 'E'));</code></pre>
+              </p>
+              <p>
+                L'attente ne sera validée que lorsque la méthode sera appelée avec les bons arguments.
+              </p>
+            </section>
+            <section class="slide">
+              <h4>Vérification complexe</h4>
+              <p>
+                <pre><code>EXPECT_CALL(myClass, doSomethingElse(StartsWith("hello"), Gt('E')));</code></pre>
+              </p>
+              <p>
+                L'attente ne sera validée que lorsque la méthode sera appelée avec des arguments validants les contraintes fixées.
+              </p>
+            </section>
+            <section class="slide">
+              <h4><em>Wildcard</em></h4>
+              <p>
+                <pre><code>EXPECT_CALL(myClass, doSomethingElse(_, _));</code></pre>
+              </p>
+              <p>
+                L'attente ne sera validée que lorsque la méthode sera appelée avec n'importe quel argument.
+              </p>
+            </section>
+        </section>
+      </section>
+
+      <section class="slide">
+        <h2>GoogleMock (7)</h2>
+        <section>
+          <h3>Actions</h3>
+            <section class="slide">
+              <h4>Action sur attente</h4>
+              <pre><code>EXPECT_CALL(myClass, doSomething()).WillOnce(action);</code></pre>
+            </section>
+            <section class="slide">
+              <h4>Action par défaut</h4>
+              <pre><code>ON_CALL(myClass, doSomething(_)).WillByDefault(action);
+ON_CALL(myClass, doSomething(EndsWith("goodbye"))).WillByDefault(action); // le matching d'argument peut servir de filtre</code></pre>
+            </section>
+            <section class="slide">
+              <h4>Actions</h4>
+              <ul>
+                <li><code>Return(value)</code></li>
+                <li><code>Assign(&variable, value)</code></li>
+                <li><code>Throw(exception)</code></li>
+                <li><code>Invoke(f)</code></li>
+                <li>...</li>
+              </ul>
+            </section>
+            <section class="slide">
+              <h4>Exemple</h4>
+              <pre><code>EXPECT_CALL(myClass, doSomething(StartsWith("some integers"))
+  .WillOnce(Return(42))
+  .WillOnce(Return(63));</code></pre>
+            </section>
+        </section>
+      </section>
+
+      <section class="slide">
+        <h2>GoogleMock (8)</h2>
         <section>
           <h3>Cas pratique (<em>interpreter</em>)</h3>
           <h4>Interpréteur de chaîne de caractères</h4>
@@ -420,7 +524,7 @@ public:
           <p><img src="../media/interprete.jpg" style="width: 30%"></p>
         </section>
       </section>
-      
+
       <section class="slide">
         <h1>Prochaine session</h1>
       </section>
