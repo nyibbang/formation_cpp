@@ -182,7 +182,7 @@ ASSERT_PRED2(canDivide, val1, val2);</code></pre>
         <section>
           <h3>Prédicats (2)</h3>
           <h4>Alternative</h4>
-          <section class="slide">
+          <section>
             <h5>Problème</h5>
             <pre><code>bool all(bool... args)
 {
@@ -224,22 +224,34 @@ EXPECT_TRUE(testAll(false, true, true, false, true));
       </section>
       
       <section class="slide">
-        <h2>GoogleTest avancé (5)</h2>
-        <section>
-          <h3>Tests paramétrés</h3>
-          <p>
-          TODO
-          </p>
-        </section>
-      </section>
-      
-      <section class="slide">
         <h2>GoogleTest avancé (6)</h2>
         <section>
           <h3>Tests typés</h3>
-          <p>
-          TODO
-          </p>
+          <section>
+            <h5>Problème</h5>
+            <pre><code>T add(T val1, T val2)
+{
+  return val1 + val2;
+}</code></pre>
+          </section>
+          <section class="slide">
+            <h5>Solution</h5>
+            <pre><code>template &lt;typename T&gt;
+class MyTest : public ::testing::Test
+{
+};
+
+using MyTypes = ::testing::Types&lt;char, int, unsigned int&gt;;
+TYPED_TEST_CASE(MyTest, MyTypes);
+        
+TYPED_TEST(MyTest, Basic) // sera lancé pour chaque type
+{
+  // TypeParam == T
+  const auto val1 = static_cast&lt;TypeParam&gt;(12);
+  const auto val1 = static_cast&lt;TypeParam&gt;(47);
+  EXPECT_EQ(static_cast&lt;TypeParam&gt;(59), add(val1, val2));
+}</code></pre>
+          </section>
         </section>
       </section>
       
@@ -247,9 +259,82 @@ EXPECT_TRUE(testAll(false, true, true, false, true));
         <h2>GoogleTest avancé (7)</h2>
         <section>
           <h3>Tester du code privé</h3>
-          <p>
-          TODO
-          </p>
+          <section>
+            <h5>Problème</h5>
+            <p>Toutes les bibliothèques conséquentes possèdent du <strong>code privé</strong></p>
+            <p>Comment tester ce code (et donc le rendre disponible dans les tests) sans pour autant le rendre public ?</p>
+          </section>
+          <section class="slide">
+            <h5>Solutions</h5>
+            <ul>
+              <li>
+                <h6>Fonctions statiques privées</h6>
+                <p>
+                  Normalement placées dans un <em>namespace anonyme</em> dans le fichier <em>source</em> (<em>.cpp</em>).<br>
+                  Les déclarer dans un namespace <code>detail</code> ou <code>internal</code> et dans le <em>header</em> (<em>.hpp</em>).
+                </p>
+              </li>
+              <li>
+                <h6>Méthodes privées / protégées</h6>
+                <ul>
+                  <li>
+                    <p>
+                      Déclarer la <strong>fixture</strong> des tests comme <strong><em>friend</em></strong> de la classe à tester.
+                    </p>
+                  </li>
+                  <li>
+                    <p>
+                      Déclarer un test spécifique comme <strong><em>friend</em></strong> de la classe à tester : <code>FRIEND_TEST(TestCaseName, TestName);</code>.
+                    </p>
+                  </li>
+                  <li>
+                    <p>
+                      Utiliser un <strong><em>PImpl</em></strong> et placer la classe interne dans un fichier à part (<em>myclass_p.hpp</em>, <em>myclass_internal.hpp</em>).
+                      Inclure et utiliser cette classe dans les tests.
+                    </p>
+                  </li>
+                </ul>
+              </li>
+            </ul>
+          </section>
+        </section>
+      </section>
+      
+      <section class="slide">
+        <h2>GoogleTest avancé (8)</h2>
+        <section>
+          <h3>Tester du code privé (2)</h3>
+          <section>
+            <h4>PImpl</h4>
+            <section>
+              <h5>Idiom</h5>
+              <pre><code>class MyClass
+{
+public:
+  MyClass() : _p(new MyClassPrivate) {}
+  ~MyClass() { delete _p; }
+
+  void doSomething() { _p->doSomething(); }
+  
+private:
+  MyClassPrivate* _p;
+};
+
+class MyClassPrivate
+{
+public:
+  void doSomething() { // ... }
+};</code></pre>
+            </section>
+            
+            <section>
+              <h5>Intérêt</h5>
+              <p>
+                Protège une <strong>API</strong> des changements internes pouvant l'affecter.<br>
+                Maintient la compabilité binaire même lors de changements internes n'affectant pas l'interface publique de la classe.
+              </p>
+            </section>
+          </section>
         </section>
       </section>
       
