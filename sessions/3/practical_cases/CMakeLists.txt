@@ -1,5 +1,7 @@
 add_library(sess3_lib STATIC
+  strided_iterator.hpp
   types.hpp types.cpp
+  ranges.hpp
   logic.hpp logic.cpp
 )
 

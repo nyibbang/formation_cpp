@@ -1,4 +1,5 @@
 #include "types.hpp"
+#include "ranges.hpp"
 #include <gtest/gtest.h>
 
 class TestBoard : public ::testing::Test {
@@ -52,7 +53,7 @@ protected:
 };
 
 TEST_F(TestBoard, RowRange) {
-    const Row_range range{board, 1};
+    const Row_range<Board> range{board, 1};
     EXPECT_EQ(7u, range.size());
     auto iter = range.begin();
     EXPECT_EQ(Player::Red, *iter++);
@@ -64,7 +65,7 @@ TEST_F(TestBoard, RowRange) {
 }
 
 TEST_F(TestBoard, ColumnRange) {
-    const Column_range range{board, 1};
+    const Column_range<Board> range{board, 1};
     EXPECT_EQ(6u, range.size());
     auto iter = range.begin();
     EXPECT_EQ(Player::Orange, *iter++);
@@ -76,7 +77,7 @@ TEST_F(TestBoard, ColumnRange) {
 }
 
 TEST_F(TestBoard, LeftDiagonalRange) {
-    const LeftDiagonal_range range{board, Slot{2, 2}};
+    const LeftDiagonal_range<Board> range{board, Slot{2, 2}};
     EXPECT_EQ(5u, range.size());
     auto iter = range.begin();
     EXPECT_EQ(Player::Orange, *iter++);
@@ -88,7 +89,7 @@ TEST_F(TestBoard, LeftDiagonalRange) {
 }
 
 TEST_F(TestBoard, RightDiagonalRange) {
-    const RightDiagonal_range range{board, Slot{3, 3}};
+    const RightDiagonal_range<Board> range{board, Slot{3, 3}};
     EXPECT_EQ(3u, range.size());
     auto iter = range.begin();
     EXPECT_EQ(Player::Red, *iter++);
