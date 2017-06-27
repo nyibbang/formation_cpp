@@ -95,3 +95,18 @@ TEST_F(TestBoard, RightDiagonalRange) {
     EXPECT_EQ(Player::Red, *iter++);
     EXPECT_EQ(Player::Orange, *iter++);
 }
+
+// ******************************************************************************
+// LOGIC
+// ******************************************************************************
+TEST(TestRun, Run) {
+}
+
+TEST(TestSwitchPlayer, SwitchPlayer) {
+}
+
+TEST(TestWinner, Winner) {
+}
+
+TEST(TestPlayTurn, PlayTurn) {
+}

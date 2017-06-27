@@ -2,19 +2,6 @@
 #include "ranges.hpp"
 #include <stdexcept>
 
-Player& switch_player(Player& player) {
-    switch (player) {
-    case Player::None:
-    case Player::Orange:
-        player = Player::Red;
-        break;
-    case Player::Red:
-        player = Player::Orange;
-        break;
-    }
-    return player;
-}
-
 Slot playable_column_slot(const Board& board, int column) {
     const Column_range<const Board> range{board, column};
     auto it = range.begin();
@@ -30,6 +17,10 @@ Slot playable_column_slot(const Board& board, int column) {
 // *************************************************************
 // TODO
 // *************************************************************
+Player& switch_player(Player& player) {
+    throw std::exception();
+}
+
 Player winner(const Board& board) {
     throw std::exception();
 }
