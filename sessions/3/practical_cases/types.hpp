@@ -1,6 +1,7 @@
 #pragma once
 
 #include <array>
+#include <tuple>
 
 enum class Player : char {
     None = 0,

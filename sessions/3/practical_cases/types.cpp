@@ -1,4 +1,5 @@
 #include "types.hpp"
+#include <ostream>
 
 std::ostream& operator<<(std::ostream& os, Player player) {
     switch (player) {

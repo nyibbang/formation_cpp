@@ -12,11 +12,11 @@ template <typename RAIter,
 class Strided_iterator {
 public:
     using self_type = Strided_iterator;
-    using value_type = typename RAIter::value_type;
-    using reference = typename RAIter::reference;
-    using pointer = typename RAIter::pointer;
-    using iterator_category = typename std::random_access_iterator_tag;
-    using difference_type = typename RAIter::difference_type;
+    using value_type = typename std::iterator_traits<RAIter>::value_type;
+    using reference = typename std::iterator_traits<RAIter>::reference;
+    using pointer = typename std::iterator_traits<RAIter>::pointer;
+    using iterator_category = std::random_access_iterator_tag;
+    using difference_type = typename std::iterator_traits<RAIter>::difference_type;
 
     Strided_iterator() : _iter(), _end() {
     }
@@ -30,7 +30,7 @@ public:
     Strided_iterator(Strided_iterator&& o) : _iter(std::move(o._iter)), _end(std::move(o._end)) {
     }
 
-    Strided_iterator& operator=(Strided_iterator&&) {
+    Strided_iterator& operator=(Strided_iterator&& o) {
         _iter = std::move(o._iter);
         _end = std::move(o._end);
     }

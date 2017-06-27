@@ -68,26 +68,26 @@ private:
     Slot _slot;
 };
 
-template <typename Board>
-class Column_range : public Board_strided_range<Board::column_count::value, Board> {
+template <typename B>
+class Column_range : public Board_strided_range<Board::column_count::value, B> {
 public:
-    Column_range(Board& board, int column) : Board_strided_range(board, Slot{0, column}) {
+    Column_range(B& board, int column) : Board_strided_range<Board::column_count::value, B>(board, Slot{0, column}) {
     }
 };
 
-template <typename Board>
-using LeftDiagonal_range = Board_strided_range<Board::column_count::value - 1, Board>;
+template <typename B>
+using LeftDiagonal_range = Board_strided_range<Board::column_count::value - 1, B>;
 
-template <typename Board>
-using RightDiagonal_range = Board_strided_range<Board::column_count::value + 1, Board>;
+template <typename B>
+using RightDiagonal_range = Board_strided_range<Board::column_count::value + 1, B>;
 
-template <typename Board>
+template <typename B>
 class Row_range {
 public:
-    using iterator = typename Board::value_type::iterator;
-    using const_iterator = typename Board::value_type::const_iterator;
+    using iterator = typename B::value_type::iterator;
+    using const_iterator = typename B::value_type::const_iterator;
 
-    Row_range(Board& board, int row) : _board(&board), _row(row) {
+    Row_range(B& board, int row) : _board(&board), _row(row) {
     }
 
     Row_range(const Row_range&) = default;
@@ -151,6 +151,6 @@ public:
     }
 
 private:
-    Board* _board;
+    B* _board;
     int _row;
 };
