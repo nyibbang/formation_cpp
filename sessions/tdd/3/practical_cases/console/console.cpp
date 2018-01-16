@@ -28,7 +28,7 @@
 
 int main(int, char**) {
     try {
-        run(&winner, &play_turn, &switch_player);
+        run(&winner, &play_turn, &switch_player, &getColumnChoice);
     } catch (const std::exception& ex) { std::cerr << "Fatal error: " << ex.what() << std::endl; }
 
     return 0;
