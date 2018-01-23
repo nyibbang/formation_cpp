@@ -5,14 +5,12 @@ Requirements
 ------------
 
 * git
-* C++ compiler which supports most C++11 features
-  - gcc >= 4.8
-  - clang >= 3.3
-  - msvc >= 12 (VS 2013)
-* cmake >= v2.8 (https://cmake.org/)
+* C++ compiler which supports C++17 features
+  - gcc >= 7
+  - clang >= 5
+  - MSVC++ >= 14.1 (Visual Studio 2017)
+* cmake >= v3.8 (https://cmake.org/)
   - How to install : https://cmake.org/install/
-* googletest >= 1.8 (https://github.com/google/googletest), included in this
-  repository
 
 Getting started
 ---------------

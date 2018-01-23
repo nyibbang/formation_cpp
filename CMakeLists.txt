@@ -1,10 +1,13 @@
-cmake_minimum_required(VERSION 2.8)
+cmake_minimum_required(VERSION 3.8)
 
 project(FormationCpp)
 
 # modules and packages
 list(APPEND CMAKE_MODULE_PATH "${CMAKE_CURRENT_LIST_DIR}/cmake/Modules")
-include(EnableCXX11)
+
+set(CMAKE_CXX_STANDARD_REQUIRED TRUE)
+set(CMAKE_CXX_STANDARD 17)
+
 enable_testing()
 
 set(gtest_force_shared_crt TRUE CACHE BOOL "" FORCE)
