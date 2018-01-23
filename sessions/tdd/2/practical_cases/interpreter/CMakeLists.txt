@@ -1,4 +1,4 @@
-add_library(sess2_interpreter STATIC interpreter.hpp interpreter.cpp)
-add_executable(sess2_interpreter_test test.cpp)
-add_test(NAME sess2_interpreter_test COMMAND sess2_interpreter_test)
-target_link_libraries(sess2_interpreter_test sess2_interpreter gmock_main)
+add_library(tdd_sess2_interpreter STATIC interpreter.hpp interpreter.cpp)
+add_executable(tdd_sess2_interpreter_test test.cpp)
+add_test(NAME tdd_sess2_interpreter_test COMMAND tdd_sess2_interpreter_test)
+target_link_libraries(tdd_sess2_interpreter_test tdd_sess2_interpreter gmock_main)

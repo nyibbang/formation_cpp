@@ -1,4 +1,4 @@
-add_library(sess3_lib STATIC
+add_library(tdd_sess3_lib STATIC
   strided_iterator.hpp
   types.hpp types.cpp
   ranges.hpp

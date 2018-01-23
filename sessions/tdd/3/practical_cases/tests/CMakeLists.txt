@@ -1,3 +1,3 @@
-add_executable(sess3_test test.cpp)
-add_test(NAME sess3_test COMMAND sess3_test)
-target_link_libraries(sess3_test sess3_lib gmock_main)
+add_executable(tdd_sess3_test test.cpp)
+add_test(NAME tdd_sess3_test COMMAND tdd_sess3_test)
+target_link_libraries(tdd_sess3_test tdd_sess3_lib gmock_main)

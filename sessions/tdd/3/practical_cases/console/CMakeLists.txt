@@ -1,2 +1,2 @@
-add_executable(sess3_console console.cpp)
-target_link_libraries(sess3_console sess3_lib)
+add_executable(tdd_sess3_console console.cpp)
+target_link_libraries(tdd_sess3_console tdd_sess3_lib)
