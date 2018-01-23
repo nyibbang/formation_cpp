@@ -1,8 +1,6 @@
-INGIMA C++ formation
-====================
+# INGIMA C++ formation
 
-Requirements
-------------
+## Requirements
 
 * git
 * C++ compiler which supports C++17 features
@@ -12,9 +10,20 @@ Requirements
 * cmake >= v3.8 (https://cmake.org/)
   - How to install : https://cmake.org/install/
 
-Getting started
----------------
+## Getting started
 
 * Clone this repository
-`git clone --recursive https://git-totem.devenly.fr/vpalancher/formation_cpp.git`
-* Code
+ `git clone --recursive https://git-totem.devenly.fr/vpalancher/formation_cpp.git`.
+
+### Slides
+
+* Slides are available as HTML files named *slides.html* in *sessions/tdd* and
+  *sessions/generic* subdirectories.
+
+### Code
+* Create a directory *build* at the root of the repository (`mkdir build`), and
+  go into it (`cd build`).
+* Run **cmake** (`cmake ..`).
+* Either build the project with the command associated with your generator (by
+  default **make** with `make`), or use your favorite IDE to open the generated
+  files (for instance with **Visual Studio**, open the *FormationCpp.sln* file).
