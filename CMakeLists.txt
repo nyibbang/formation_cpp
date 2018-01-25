@@ -11,6 +11,7 @@ add_subdirectory(contrib/googletest)
 add_executable(moderncpp
   lambdas.cpp
   deduced_return_type.cpp
+  relaxed_constexpr.cpp
 )
 add_test(moderncpp moderncpp)
 target_include_directories(moderncpp
