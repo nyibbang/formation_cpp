@@ -4,12 +4,17 @@ project(moderncpp)
 set(CMAKE_CXX_STANDARD 14)
 set(CMAKE_CXX_STANDARD_REQUIRED TRUE)
 
-find_package(GTest REQUIRED)
 enable_testing()
 
+add_subdirectory(contrib/googletest)
+
 add_executable(moderncpp
-  generic_lambdas.cpp
-  extended_capture_in_lambdas.cpp
+  lambdas.cpp
+  deduced_return_type.cpp
 )
-target_include_directories(moderncpp PUBLIC ${GTEST_INCLUDE_DIRS})
-target_link_libraries(moderncpp ${GTEST_BOTH_LIBRARIES})
+add_test(moderncpp moderncpp)
+target_include_directories(moderncpp
+  PUBLIC
+    ${CMAKE_CURRENT_LIST_DIR}/contrib/googletest/include
+    ${CMAKE_BINARY_DIR}/contrib/googletest/include)
+target_link_libraries(moderncpp gmock_main)
