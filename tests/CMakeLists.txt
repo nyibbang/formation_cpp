@@ -1,22 +1,12 @@
-cmake_minimum_required(VERSION 3.9)
-project(moderncpp)
-
-set(CMAKE_CXX_STANDARD 14)
-set(CMAKE_CXX_STANDARD_REQUIRED TRUE)
-
-enable_testing()
-
-add_subdirectory(contrib/googletest)
-
-add_executable(moderncpp
+add_executable(generic_tests
   lambdas.cpp
   deduced_return_type.cpp
   relaxed_constexpr.cpp
   template_variables.cpp
 )
-add_test(moderncpp moderncpp)
-target_include_directories(moderncpp
+add_test(generic_tests generic_tests)
+target_include_directories(generic_tests
   PUBLIC
     ${CMAKE_CURRENT_LIST_DIR}/contrib/googletest/include
     ${CMAKE_BINARY_DIR}/contrib/googletest/include)
-target_link_libraries(moderncpp gmock_main)
+target_link_libraries(generic_tests gmock_main)
