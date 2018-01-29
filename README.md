@@ -1,5 +1,10 @@
 # INGIMA C++ formation
 
+## Sessions
+
+* TDD - 3 sessions - June 2017
+* Generic C++ - 2 sessions - February 2018
+
 ## Requirements
 
 * git
@@ -18,7 +23,7 @@
 ### Slides
 
 * Slides are available as HTML files named *slides.html* in *sessions/tdd* and
-  *sessions/generic* subdirectories.
+  *sessions/generic_cpp* subdirectories.
 
 ### Code
 * Create a directory *build* at the root of the repository (`mkdir build`), and
