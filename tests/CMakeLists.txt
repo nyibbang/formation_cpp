@@ -3,6 +3,9 @@ add_executable(generic_tests
   deduced_return_type.cpp
   relaxed_constexpr.cpp
   template_variables.cpp
+  heterogeneous_lookup.cpp
+  user_defined_literals.cpp
+  attributes.cpp
 )
 add_test(generic_tests generic_tests)
 target_include_directories(generic_tests
