@@ -1,11 +1,11 @@
 <!DOCTYPE html>
-<html>
+<html lang="fr">
 <head>
   <meta charset="utf-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
   <meta name="viewport" content="width=1024, user-scalable=no">
 
-  <title>Titre à définir</title>
+  <title>Formation C++ moderne</title>
 
   <!-- Required stylesheet -->
   <link rel="stylesheet" media="screen" href="../../../contrib/deck.js/core/deck.core.css">
@@ -18,7 +18,7 @@
   <link rel="stylesheet" media="screen" href="../../../contrib/deck.js/extensions/scale/deck.scale.css">
 
   <!-- Style theme. More available in /themes/style/ or create your own. -->
-  <link rel="stylesheet" media="screen" href="../../themes/ingima.css">
+  <link rel="stylesheet" media="screen" href="../../themes/ingima2.css">
 
   <!-- Transition theme. More available in /themes/transition/ or create your own. -->
   <link rel="stylesheet" media="screen" href="../../../contrib/deck.js/themes/transition/horizontal-slide.css">
@@ -34,10 +34,6 @@
 </head>
 <body class="language-cpp">
 
-  <header>
-    <img src="../../media/ingima-logo.png" class="logo">
-  </header>
-
   <div class="home">
 
     <article class="deck-container">
@@ -47,9 +43,425 @@
   # Content
   #########################################################################################################
   -->
-      <section class="slide">
-        <h1>Titre à définir</h1>
-      </section>
+
+<section class="slide title">
+  <h1>C++14 et<br/>C++17</h1>
+</section>
+
+<section class="slide">
+  <h2>Objectifs</h2>
+  <ul style="font-size: 44px">
+    <li>Se familiariser avec les nouveautés des normes C++14 et C++17</li>
+    <li>Mieux comprendre l'évolution du langage et la ligne de pensée du comité de standardisation</li>
+  </ul>
+</section>
+
+<section class="slide">
+  <h2>Rappel de la session précédente</h2>
+  <ul style="font-size: 44px">
+    <li>Petit rappel/résumé de la session précédente et du C++11</li>
+    <li>Questions ? Nécessaire de comprendre le C++11 avant de continuer.</li>
+  </ul>
+</section>
+
+<section class="slide">
+  <h2>Avant propos</h2>
+  <p style="font-size: 44px">Dans les exemples de la présentation, le <em>namespace
+    std</em> (<code>std::</code>) est implicite lorsqu'il est évident. </p>
+</section>
+
+<section class="slide title">
+  <h1>C++14</h1>
+</section>
+
+<section class="slide">
+  <h2>C++14</h2>
+  <ul>
+    <li><em>C++1y</em></li>
+    <li>Approuvée et finalisée courant 2014</li>
+    <li>Évolution comparée à C++11
+      <ul>
+        <li>Peu de nouvelles fonctionnalités
+          <ul>
+            <li>Simplification d'utilisation et amélioration de fonctionnalités C++11</li>
+            <li>Sucre syntaxique</li>
+          </ul>
+        </li>
+        <li>Corrections et éclaircissements du standard</li>
+     </ul>
+   </li>
+  </ul>
+</section>
+
+<section class="slide">
+  <h2>Aperçu</h2>
+  <ul>
+    <li>Déduction du type de retour des fonctions</li>
+    <li>Lambdas génériques</li>
+    <li>Captures étendues dans les lambdas</li>
+    <li>Relâchement des règles des fonctions constexpr</li>
+    <li>Variables templates</li>
+    <li>Recherche hétérogène dans les conteneurs associatifs</li>
+    <li>User defined literals</li>
+    <li>Shared timed mutex</li>
+    <li>Attribut [[deprecated]]</li>
+    <li>Metaprogramming</li>
+    <li>std::exchange</li>
+    <li>Bonus</li>
+  </ul>
+</section>
+
+<section class="slide">
+  <h2>Déduction du type de retour des fonctions</h2>
+  <pre><code>string do_something_impl(int v) { return to_string(v); }
+bool do_something_impl(pair&lt;string, int&gt; v) { return v.first == to_string(v.second); }
+// ... Potentiellement d'autres implémentations  non triviales de do_something_impl
+
+template&lt;typename T&gt;
+auto do_something(T t) { // Type de retour non trivial
+  return do_something_impl(t);
+}</code></pre>
+</section>
+
+<section class="slide">
+  <h2>Déduction du type de retour des fonctions (2)</h2>
+  <pre><code>template&lt;typename Proc&gt;
+auto log_wrap(Proc proc) { // Type de retour non trivial : le type d'une lambda n'est pas défini
+  return [=]() mutable {
+    cout &lt;&lt; "Calling procedure" &lt;&lt; endl;
+    auto&amp;&amp; r = proc();
+    cout &lt;&lt; "Called procedure, got result: " &lt;&lt; r &lt;&lt; endl;
+    return forward&lt;decltype(r)&gt;(r);
+  };
+}</code></pre>
+</section>
+
+<section class="slide">
+  <h2>Lambdas génériques</h2>
+  <p>
+    Les fonctions templates polymorphiques appliquées aux lambdas :<br/>
+    <code>auto multiply = [](auto a, auto b) { return a * b; };</code>
+  </p>
+
+  <pre><code>template&lt;typename Proc&gt;
+auto log_wrap(Proc p) {
+  return [=](auto&amp;&amp;... args) mutable { // Arguments variadiques
+    cout &lt;&lt; "Calling procedure" &lt;&lt; endl;
+    auto&amp;&amp; r = p(forward&lt;decltype(args)&gt;(args)...);
+    cout &lt;&lt; "Called procedure, got result: " &lt;&lt; r &lt;&lt; endl;
+    return forward&lt;decltype(r)&gt;(r);
+  };
+}</code></pre>
+</section>
+
+<section class="slide">
+  <h2>Lambdas génériques (2)</h2>
+  <pre><code>template&lt;typename Range, typename Proc, typename OutIter&gt;
+OutIter transform_range_log_on_exception(Range r, OutIter out, Proc proc) {
+  return transform(begin(r), end(r), out,
+    [=](const auto&amp; elem) { // Le type d'elem dépend de Range
+      try { return proc(elem); }
+      catch (const exception&amp; ex) {
+        cerr &lt;&lt; "Something bad happened: " &lt;&lt; ex.what() &lt;&lt; endl;
+        throw;
+      }
+    }
+  );
+}</code></pre>
+</section>
+
+<section class="slide">
+  <h2>Captures étendues dans les lambdas</h2>
+  <p>Il est maintenant possible d'initialiser les captures des lambdas :<br/>
+  <code>auto answer_to_life = [x = 42]{ return x; };</code>
+  </p>
+  <pre><code>unique_ptr&lt;int&gt; ptr{new auto(42)};
+auto capture_moveonly = [lptr = move(ptr)] { return *lptr; };
+assert(ptr == nullptr);
+assert(capture_moveonly() == 42);</code></pre>
+</section>
+
+<section class="slide">
+  <h2>Relâchement des règles des fonctions <em>constexpr</em></h2>
+  <p>
+    Dans une fonction <em>constexpr</em>, il est maintenant possible de :
+  </p>
+  <ul>
+    <li>Déclarer des variables locales (non-<em>static</em>, non-<em>thread_local</em>) initialisées;</li>
+    <li>Utiliser des <em>if</em> et des <em>switch</em> (instructions de branchements);</li>
+    <li>Utiliser des boucles (y compris les boucles for each);</li>
+    <li>Muter des objets dont la durée de vie est liée au scope de la fonction.</li>
+  </ul>
+</section>
+
+<section class="slide">
+  <h2>Relâchement des règles des fonctions <em>constexpr</em> (1)</h2>
+  <pre><code>constexpr unsigned long long factorial(unsigned int n) {
+  unsigned long long result = 1;
+  while (n &gt; 0) {
+    result *= n--;
+  }
+  return result;
+}
+static_assert(factorial(12) == 479001600, "Factorial failed.");</code></pre>
+</section>
+
+<section class="slide">
+  <h2>Relâchement des règles des fonctions <em>constexpr</em> (2)</h2>
+  <pre><code>struct Int {
+  int value;
+  constexpr Int&amp; operator+=(const Int&amp; o) { value += o.value; return *this; }
+  constexpr Int&amp; operator/=(const Int&amp; o) { value /= o.value; return *this; }
+  constexpr Int&amp; operator=(const Int&amp; o) { value = o.value; return *this; }
+  constexpr bool operator==(const Int&amp;amp; o) const { return value == o.value; }
+};
+constexpr Int divide_all_and_accumulate(initializer_list&lt;int&gt; numbers, int denom) {
+  Int result{0};
+  for (int number : numbers) {
+    Int curr{number};
+    if (denom != 0) curr /= Int{denom};
+    result += curr;
+  }
+  return result;
+}
+static_assert(divide_all_and_accumulate({21, 16, 8, -7, 42}, 3) == Int{26}, "Woops");</code></pre>
+</section>
+
+<section class="slide">
+  <h2>Variables templates</h2>
+  <pre><code>template&lt;typename T&gt;
+constexpr T pi = T(3.1415926535897932385);
+static_assert(pi&lt;int&gt; == 3, "Pi is not 3");
+static_assert(pi&lt;double&gt; - 3.1415 &lt; 0.0001, "Pi is not 3.1415");</code></pre>
+</section>
+
+<section class="slide">
+  <h2>Recherche hétérogène dans les conteneurs associatifs</h2>
+  <pre><code>struct NamedInt {
+  int value;
+  string name;
+  bool operator&amp;lt;(const NamedInt&amp; o) const {
+    return make_tuple(value, name) &amp;lt; make_tuple(o.value, o.name);
+  }
+  friend bool operator&amp;lt;(int a,             const NamedInt&amp; b) { return a &amp;lt; b.value; }
+  friend bool operator&amp;lt;(const NamedInt&amp; a, int b)             { return a.value &amp;lt; b; }
+  friend bool operator&amp;lt;(const string&amp; a,   const NamedInt&amp; b) { return a &amp;lt; b.name; }
+  friend bool operator&amp;lt;(const NamedInt&amp; a, const string&amp; b)   { return a.name &amp;lt; b; }
+};
+std::set&lt;NamedInt, std::less&lt;&gt;&gt; s {{"foo", 42}, {"bar", 1337}};
+assert(s.find("foo") != end(s));
+assert(s.find(1337)  != end(s));</code></pre>
+</section>
+
+<section class="slide">
+  <h2><em>User defined literals</em> (<em>chrono</em>, <em>string</em>)</h2>
+
+  <p>Offre de nouvelles formes de sucre syntaxique pour les durées standards :</p>
+  <pre><code>using namespace std::literals;
+constexpr auto d = 2h + 18min + 33s + 12ms + 9us;
+static_assert(d == 8313012009us, "duration is wrong");</code></pre>
+
+  <p>Ainsi que les chaînes de caractères :</p>
+  <pre><code>using namespace std::literals;
+const auto str = "Hello world"s;
+static_assert(is_same&lt;const string, decltype(str)&gt;::value, "s is not a string");
+assert(str.size() == 11);</code></pre>
+</section>
+
+<section class="slide">
+  <h2>Shared timed mutex</h2>
+  <pre><code>struct Buffer {
+  vector&lt;char&gt; data;
+  mutable std::shared_timed_mutex mut;
+
+  vector&lt;char&gt; read() {
+    // partage pour lecture
+    std::shared_lock&lt;shared_timed_mutex&gt; lock(mut);
+    return data;
+  }
+
+  void write(const vector&lt;char&gt;&amp; o) {
+    // exclusion pour écriture
+    std::unique_lock&lt;shared_timed_mutex&gt; lock(mut);
+    data = o;
+  }
+};</code></pre>
+</section>
+
+<section class="slide">
+  <h2>Attribut <em>[[deprecated]]</em></h2>
+  <ul>
+    <li>Fonctions
+      <pre><code>[[deprecated("This function is evil")]]
+void make_coffee(int n) {
+  // ...
+}</code></pre>
+    </li>
+
+    <li>Classes
+      <pre><code>struct [[deprecated]] OttoPointHeure {};</code></pre>
+    </li>
+  </ul>
+</section>
+
+<section class="slide">
+  <h2>Attribut <em>[[deprecated]]</em> (2)</h2>
+  <ul>
+    <li>Membres
+      <pre><code>struct A {
+  [[deprecated]] int too_small;
+  long long a;
+};</code></pre>
+    </li>
+
+    <li>Paramètres et variables
+      <pre><code>void foo(int a, [[deprecated]] double b = 0.) {
+  [[deprecated]] bool c;
+  // warning: ... is deprecated si b ou c est utilisé
+}</code></pre>
+    </li>
+  </ul>
+</section>
+
+<section class="slide">
+  <h2>Metaprogramming</h2>
+  <ul>
+    <li>
+      <p>
+        <code>std::integer_sequence</code>, <code>std::index_sequence</code>
+      </p>
+      <pre><code>template&lt;typename IntType, IntType... Ints&gt; struct integer_sequence { /* ... */ };
+template&lt;size_t... Indexes&gt; using index_sequence = integer_sequence&lt;size_t, Indexes...&gt;;</code></pre>
+
+      <pre><code>template&lt;typename Array, size_t... I&gt;
+decltype(auto) array_to_tuple_impl(const Array&amp; a, index_sequence&lt;I...&gt;) {
+    return make_tuple(a[I]...); // pack expansion
+}
+template&lt;typename T, size_t N, typename Indices = make_index_sequence&lt;N&gt;&gt;
+decltype(auto) array_to_tuple(const array&lt;T, N&gt;&amp; a) {
+    return array_to_tuple_impl(a, Indices{});
+}</code></pre>
+    </li>
+  </ul>
+</section>
+
+<section class="slide">
+  <h2>Metaprogramming (2)</h2>
+  <ul>
+    <li>
+      <code>std::enable_if_t</code>, <code>std::result_of_t</code>, <code>std::decay_t</code>, <code>std::conditional_t</code>, etc
+      <pre><code>typename decay&lt;T&gt;::type // C++11
+decay_t&lt;T&gt;              // C++14</code></pre>
+    </li>
+
+    <li><code>std::is_null_pointer&lt;T&gt;</code>, <code>std::is_final&lt;T&gt;</code></li>
+  </ul>
+</section>
+
+<section class="slide">
+  <h2><em>std::exchange</em></h2>
+    <pre><code>int a = 13;
+const auto b = exchange(a, 42);
+// a = 42, b = 13</code></pre>
+
+    <p>
+      Utilise <code>std::move</code> et <code>std::forward</code> sur ses arguments, utile pour les <em>move</em>-constructeurs
+    </p>
+
+    <pre><code>struct A {
+  int* p;
+  vector&lt;string&gt; names;
+  A(A&amp;&amp; other)
+    : p{exchange(other.p, nullptr)}
+    , names{exchange(other.names, {}}
+  {}
+};</code></pre>
+</section>
+
+<section class="slide">
+  <h2>Bonus</h2>
+  <ul>
+    <li>
+      <code>std::make_unique</code>
+        <pre><code>unique_ptr&lt;int&gt; p = make_unique&lt;int&gt;(42); // new et delete ont disparu !</code></pre>
+    </li>
+    <li>
+      <code>std::get&lt;T&gt;</code>
+      <pre><code>auto t = make_tuple(1, "Foo", 3.14);
+auto s = get&lt;const char*&gt;(t);</code></pre>
+    </li>
+
+    <li>
+      <p>
+        <code>std::cbegin/std::cend</code>, <code>std::rbegin/std::rend</code>
+      </p>
+      <p>
+        Comme <code>std::begin/std::end</code> mais pour les itérateurs <em>const</em> et <em>reverse</em>
+      </p>
+    </li>
+  </ul>
+</section>
+
+<section class="slide">
+  <h2>Bonus (3)</h2>
+  <ul>
+    <li>
+      <code>std::quoted</code>
+      <pre><code>cout &lt;&lt; "Quote de porc : " &lt;&lt; quoted("Hello world")";
+// affiche 'Quote de porc: "Hello world"'
+string in;
+cin &gt;&gt; quoted(in);
+// l'utilisateur entre '"C++ rocks !"', in vaut 'C++ rocks !'</code></pre>
+    </li>
+
+    <li>
+      <p>Binary literals</p>
+      <p><code>int a = 0b0111;</code></p>
+    </li>
+  </ul>
+</section>
+
+<section class="slide title">
+  <h1>C++17</h1>
+</section>
+
+<section class="slide">
+  <h2>C++17</h2>
+    Petit historique sur le C++17 : dates, motivations, proposals (acceptés/rejetés)
+</section>
+
+<section class="slide title">
+  <h1>Résumé</h1>
+</section>
+
+<section class="slide">
+  <h2>Résumé</h2>
+</section>
+
+<!--
+    <h2><code>string_view</code>, <code>optional</code>, <code>variant</code>, <code>any</code></h2>
+    <h2>Bibliothèque de système de fichiers</h2>
+    <h2>Algorithmes parallèles</h2>
+    <h2><code>constexpr-if</code></h2>
+    <h2>Variables Inline</h2>
+    <h2>Fold expressions</h2>
+    <h2>Structured binding declarations</h2>
+    <h2>Initializers in if and switch statements</h2>
+    <h2>Garantie RVO</h2>
+    <h2>Nouveaux user defined literals (<code>string_view</code>)</h2>
+    <h2>Attributs standard <code>[[fallthrough]]</code>, <code>[[maybe_unused]]</code> et <code>[[nodiscard]]</code></h2>
+-->
+
+<section class="slide title">
+  <h1>TP application :<br/>C++14 et C++17</h1>
+</section>
+
+<section class="slide">
+  <h2>TP application : C++14 et C++17</h2>
+  <h3>Transformation d'un programme C++11 en 14/17</h3>
+</section>
+
+</section>
 
   <!--
   #########################################################################################################
@@ -85,10 +497,6 @@
     </article>
 
   </div>
-
-  <footer>
-    <h3>Vincent PALANCHER - vincent.palancher@gmail.com</h3>
-  </footer>
 
   <!-- Required JS files. -->
   <script src="../../../contrib/deck.js/jquery.min.js"></script>
