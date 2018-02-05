@@ -17,4 +17,12 @@ include_directories(${gtest_SOURCE_DIR}/include ${gtest_SOURCE_DIR})
 add_subdirectory(sessions/tdd/1/practical_cases)
 add_subdirectory(sessions/tdd/2/practical_cases)
 add_subdirectory(sessions/tdd/3/practical_cases)
-add_subdirectory(tests)
+add_subdirectory(sessions/generic_cpp/1/practical)
+
+option(FORMATIONCPP_COMPILE_GENERIC_TESTS
+  "If true, the project will compile the generic tests in the tests subdirectory"
+  FALSE
+)
+if (FORMATIONCPP_COMPILE_GENERIC_TESTS)
+  add_subdirectory(tests)
+endif()
