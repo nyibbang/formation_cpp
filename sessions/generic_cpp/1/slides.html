@@ -50,18 +50,28 @@
 
 <section class="slide">
   <h2>Objectifs</h2>
-  <ul style="font-size: 44px">
-    <li>Se familiariser avec les nouveautés des normes C++14 et C++17</li>
-    <li>Mieux comprendre l'évolution du langage et la ligne de pensée du comité de standardisation</li>
+  <ul style=";">
+    <li><strong>Se familiariser avec les nouveautés des normes C++14 et C++17</strong></li>
+    <li><strong>Mieux comprendre l'évolution du langage et la ligne de pensée du comité de standardisation</strong></li>
   </ul>
 </section>
 
 <section class="slide">
   <h2>Rappel de la session précédente</h2>
-  <ul style="font-size: 44px">
-    <li>Petit rappel/résumé de la session précédente et du C++11</li>
-    <li>Questions ? Nécessaire de comprendre le C++11 avant de continuer.</li>
+  <ul style="column-count: 2;">
+    <li><em>for-range</em> loop</li>
+    <li><em>auto</em>, <em>decltype</em>, <em>noexcept</em>, <em>nullptr</em></li>
+    <li><em>Move</em> semantic</li>
+    <li><em>static_assert</em></li>
+    <li>Templates variadiques</li>
+    <li>Lambdas</li>
+    <li><em>final</em>, <em>override</em></li>
+    <li>Smart pointers (<em>std::unique_ptr</em>, <em>std::shared_ptr</em>, <em>std::weak_ptr</em>)</li>
+    <li><em>std::hash</em>, <em>std::array</em>, <em>std::tuple</em></li>
+    <li><em>std::regex</em>, <em>std::thread</em></li>
   </ul>
+  <h3>Questions ?</h3>
+  <p>Il est nécessaire de bien comprendre le C++11 pour la suite.</p>
 </section>
 
 <section class="slide">
@@ -430,6 +440,23 @@ cin &gt;&gt; quoted(in);
     Petit historique sur le C++17 : dates, motivations, proposals (acceptés/rejetés)
 </section>
 
+<section class="slide">
+  <h2>Aperçu</h2>
+  <ul>
+    <li><code>string_view</code>, <code>optional</code>, <code>variant</code>, <code>any</code></li>
+    <li>Bibliothèque de système de fichiers</li>
+    <li>Algorithmes parallèles</li>
+    <li><code>constexpr-if</code></li>
+    <li>Variables Inline</li>
+    <li>Fold expressions</li>
+    <li>Structured binding declarations</li>
+    <li>Initializers in if and switch statements</li>
+    <li>Garantie RVO</li>
+    <li>Nouveaux user defined literals (<code>string_view</code>)</li>
+    <li>Attributs standards <code>[[fallthrough]]</code>, <code>[[maybe_unused]]</code> et <code>[[nodiscard]]</code></li>
+  </ul>
+</section>
+
 <section class="slide title">
   <h1>Résumé</h1>
 </section>
@@ -437,20 +464,6 @@ cin &gt;&gt; quoted(in);
 <section class="slide">
   <h2>Résumé</h2>
 </section>
-
-<!--
-    <h2><code>string_view</code>, <code>optional</code>, <code>variant</code>, <code>any</code></h2>
-    <h2>Bibliothèque de système de fichiers</h2>
-    <h2>Algorithmes parallèles</h2>
-    <h2><code>constexpr-if</code></h2>
-    <h2>Variables Inline</h2>
-    <h2>Fold expressions</h2>
-    <h2>Structured binding declarations</h2>
-    <h2>Initializers in if and switch statements</h2>
-    <h2>Garantie RVO</h2>
-    <h2>Nouveaux user defined literals (<code>string_view</code>)</h2>
-    <h2>Attributs standard <code>[[fallthrough]]</code>, <code>[[maybe_unused]]</code> et <code>[[nodiscard]]</code></h2>
--->
 
 <section class="slide title">
   <h1>TP application :<br/>C++14 et C++17</h1>
@@ -462,6 +475,8 @@ cin &gt;&gt; quoted(in);
 </section>
 
 </section>
+
+<!-- Recommandations : Effective modern C++ -->
 
   <!--
   #########################################################################################################
