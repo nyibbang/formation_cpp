@@ -504,7 +504,23 @@ cin &gt;&gt; quoted(in);
 
 <section class="slide">
   <h2>C++17</h2>
-    Petit historique sur le C++17 : dates, motivations, proposals (acceptés/rejetés)
+  <h3>Préambule</h3>
+  <ul>
+    <li><em>C++1z;</em></li>
+    <li>Approuvée et finalisée courant 2017 (dernière publication en décembre);</li>
+    <li>Évolution comparée à C++11 :
+      <ul>
+        <li>Beaucoup de nouvelles fonctionnalités :
+          <ul>
+            <li>Nouvelles classes, algorithmes et conteneurs;</li>
+            <li>Nouvelles bibliothèques.</li>
+          </ul>
+        </li>
+        <li>Beaucoup de corrections et d'améliorations du standard;</li>
+        <li>Quelques suppressions d'outils dépréciés (✝ RIP auto_ptr ✝).</li>
+     </ul>
+   </li>
+  </ul>
 </section>
 
 <section class="slide">
@@ -513,7 +529,6 @@ cin &gt;&gt; quoted(in);
   <ol>
     <li><h4>Langage</h4></li>
     <li><h4>Bibliothèque</h4></li>
-    <li><h4>Bonus</h4></li>
   </ol>
 </section>
 
@@ -521,52 +536,144 @@ cin &gt;&gt; quoted(in);
   <h2>C++17</h2>
   <h3>Plan</h3>
   <ol>
-    <li><h4>Langage</h4></li>
+    <li><h4>Langage</h4>
+      <ol>
+        <li><em>constexpr-if</em>;</li>
+        <li>Variables inline;</li>
+        <li><em>Fold expressions</em>;</li>
+        <li><em>Structured binding declarations</em>;</li>
+        <li>Initialisation dans les <em>if</em> et <em>switch</em>;</li>
+        <li>Garantie <em>RVO</em>;</li>
+        <li>Attributs standards <em>[[fallthrough]]</em>, <em>[[maybe_unused]]</em> et <em>[[nodiscard]]</em>.</li>
+      </ol>
+    </li>
     <li class="faded"><h4>Bibliothèque</h4></li>
-    <li class="faded"><h4>Bonus</h4></li>
   </ol>
+</section>
+
+<section class="slide">
+  <h2>C++17 &rarr; Langage</h2>
+  <h3><em>constexpr-if</em></h3>
+  <pre><code></code></pre>
+</section>
+
+<section class="slide">
+  <h2>C++17 &rarr; Langage</h2>
+  <h3>Variables inline</h3>
+  <pre><code></code></pre>
+</section>
+
+<section class="slide">
+  <h2>C++17 &rarr; Langage</h2>
+  <h3><em>Fold expressions</em></h3>
+  <pre><code></code></pre>
+</section>
+
+<section class="slide">
+  <h2>C++17 &rarr; Langage</h2>
+  <h3><em>Structured binding declarations</em></h3>
+  <pre><code></code></pre>
+</section>
+
+<section class="slide">
+  <h2>C++17 &rarr; Langage</h2>
+  <h3>Initialisation dans les <em>if</em> et <em>switch</em></h3>
+  <pre><code></code></pre>
+</section>
+
+<section class="slide">
+  <h2>C++17 &rarr; Langage</h2>
+  <h3>Garantie <em>RVO</em></h3>
+  <h4>RVO :</h4>
+  <p>
+    <em>Return Value Optimization.</em>
+  </p>
+  <pre><code></code></pre>
+</section>
+
+<section class="slide">
+  <h2>C++17 &rarr; Langage</h2>
+  <h3>Attributs standards <em>[[fallthrough]]</em>, <em>[[maybe_unused]]</em> et <em>[[nodiscard]]</em></h3>
+  <pre><code></code></pre>
 </section>
 
 <section class="slide">
   <h2>C++17</h2>
   <h3>Plan</h3>
   <ol>
-    <li class="faded"><h4>Langage</h4></li>
+    <li class="faded"><h4>Langage</h4>
     <li><h4>Bibliothèque</h4></li>
-    <li class="faded"><h4>Bonus</h4></li>
+      <ol>
+        <li><em>string_view</em>, <em>optional</em>, <em>variant</em>, <em>any</em>;</li>
+        <li>Bibliothèque de système de fichiers;</li>
+        <li>Algorithmes parallèles;</li>
+        <li>Nouveaux user defined literals (<em>string_view</em>).</li>
+      </ol>
+    </li>
   </ol>
 </section>
 
 <section class="slide">
-  <h2>C++17</h2>
-  <h3>Plan</h3>
-  <ol>
-    <li class="faded"><h4>Langage</h4></li>
-    <li class="faded"><h4>Bibliothèque</h4></li>
-    <li><h4>Bonus</h4></li>
-  </ol>
+  <h2>C++17 &rarr; Bibliothèque</h2>
+  <h3><em>string_view</em>, <em>optional</em>, <em>variant</em>, <em>any</em></h3>
+  <pre><code></code></pre>
 </section>
 
-<!--
-    <li><code>string_view</code>, <code>optional</code>, <code>variant</code>, <code>any</code></li>
-    <li>Bibliothèque de système de fichiers</li>
-    <li>Algorithmes parallèles</li>
-    <li><code>constexpr-if</code></li>
-    <li>Variables inline</li>
-    <li><em>Fold expressions</em></li>
-    <li>Structured binding declarations</li>
-    <li>Initializers in <em>if</em> and <em>switch</em> statements</li>
-    <li>Garantie <em>RVO</em></li>
-    <li>Nouveaux user defined literals (<code>string_view</code>)</li>
-    <li>Attributs standards <code>[[fallthrough]]</code>, <code>[[maybe_unused]]</code> et <code>[[nodiscard]]</code></li>
--->
+<section class="slide">
+  <h2>C++17 &rarr; Bibliothèque</h2>
+  <h3>Bibliothèque de système de fichiers</h3>
+</section>
+
+<section class="slide">
+  <h2>C++17 &rarr; Bibliothèque</h2>
+  <h3>Algorithmes parallèles</h3>
+</section>
+
+<section class="slide">
+  <h2>C++17 &rarr; Bibliothèque</h2>
+  <h3>Nouveaux user defined literals (<em>string_view</em>)</h3>
+  <pre><code></code></pre>
+</section>
 
 <section class="slide title">
   <h1>Résumé</h1>
 </section>
 
 <section class="slide">
-  <h2>Résumé</h2>
+  <h2>Résumé &rarr; C++14</h2>
+  <ul>
+    <li>Simplification de l'écriture de template avec la <strong>déduction des
+        types de retour</strong>;</li>
+    <li><strong>Lambdas</strong> plus puissantes : <strong>lambdas
+        génériques</strong> et <strong>captures étendues</strong>;</li>
+    <li>Flexibilité au <em>compile time</em> avec les fonctions
+      <strong>constexpr</strong> étendues;</li>
+    <li>Quelques outils en plus dans la bibliothèque.</li>
+  </ul>
+</section>
+
+<section class="slide">
+  <h2>Résumé &rarr; C++17</h2>
+  <ul>
+    <li>Fonctions <strong>constexpr</strong> toujours plus puissantes;</li>
+    <li>Ecrire du code plus <em>safe</em>, plus court et plus générique sans
+      perte de performances;</li>
+    <li>Nouveaux outils pour faire de la <strong>sémantique de valeur</strong>
+      plus simplement;</li>
+    <li>Plus de bibliothèques standards pour <strong>moins de bibliothèques
+        tierces</strong>.</li>
+  </ul>
+</section>
+
+<section class="slide">
+  <h2>Recommandations</h1>
+  <h4>Effective Modern C++</h4>
+  <p><cite>42 Specific Ways to Improve Your Use of C++11 and C++14</cite>.</p>
+  <p>Publié par O'Reilly, écrit par Scott Meyers</p>
+  <div style="display: flex; justify-content: space-evenly; margin: 0 auto; align-items: center; width: 66%;">
+    <img src="../../media/effective_modern_cpp.jpg" alt="Effective Modern C++" style="margin: 0 2rem;">
+    <img src="../../media/scott_meyers.jpeg" alt="Scott Meyers" style="margin: 0 2rem;">
+  </div>
 </section>
 
 <section class="slide title">
@@ -576,11 +683,12 @@ cin &gt;&gt; quoted(in);
 <section class="slide">
   <h2>TP application : C++14 et C++17</h2>
   <h3>Transformation d'un programme C++11 en 14/17</h3>
+  <p>Disponible dans <strong>sessions/generic_cpp/1/practical</strong></p>
+  <ul>
+    <li>Ouvrir le <em>CMakeLists.txt</em> à la racine du dépôt avec votre IDE favori.</li>
+    <li>Les projets à implémenter sont ceux commençant par <strong>genericcpp_sess1</strong>.</li>
+  </ul>
 </section>
-
-</section>
-
-<!-- Recommandations : Effective modern C++ -->
 
   <!--
   #########################################################################################################
