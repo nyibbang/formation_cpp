@@ -543,7 +543,7 @@ cin &gt;&gt; quoted(in);
         <li><em>Fold expressions</em>;</li>
         <li><em>Structured binding declarations</em>;</li>
         <li>Initialisation dans les <em>if</em> et <em>switch</em>;</li>
-        <li>Garantie <em>RVO</em>;</li>
+        <li>Garantie <em>copy elision</em> et <em>RVO</em>;</li>
         <li>Attributs standards <em>[[fallthrough]]</em>, <em>[[maybe_unused]]</em> et <em>[[nodiscard]]</em>.</li>
       </ol>
     </li>
@@ -554,47 +554,206 @@ cin &gt;&gt; quoted(in);
 <section class="slide">
   <h2>C++17 &rarr; Langage</h2>
   <h3><em>constexpr-if</em></h3>
-  <pre><code></code></pre>
+  <p>Une condition évaluée à la compilation.</p>
+  <pre><code>void algo_sequential();
+void algo_parallel();
+
+struct parallel {};
+struct sequential {};
+
+template&lt;typename Execution&gt;
+void algo(Execution exec) {
+  if constexpr (is_base_of_v&lt;sequential, Execution&gt;)
+    algo_sequential();
+  else if (is_base_of_v&lt;parallel, Execution&gt;)
+    algo_parallel();
+}</code></pre>
 </section>
 
 <section class="slide">
   <h2>C++17 &rarr; Langage</h2>
   <h3>Variables inline</h3>
-  <pre><code></code></pre>
+  <ul>
+      <li>Utile pour les membres de classes statiques;</li>
+      <li>Permet de déclarer et initialiser une telle variable dans un header;</li>
+      <li>Evite d'avoir à déclarer une fonction inline.</li>
+  </ul>
+  <pre><code>// Dans un header
+class MyClass {
+  static inline const int member = rand();
+};
+// Tous les fichiers qui inclueront ce header partageront la même valeur,
+// qui sera attribuée à l'exécution.</code></pre>
 </section>
 
 <section class="slide">
   <h2>C++17 &rarr; Langage</h2>
-  <h3><em>Fold expressions</em></h3>
-  <pre><code></code></pre>
+  <h3><em>Fold expressions</em> (1/2)</h3>
+  <ul>
+      <li>Extension aux template variadiques;</li>
+      <li>Ecrire simplement une opération sur les template variadiques;</li>
+      <li>Valide pour les opérateurs '+', '*', '&amp;', '|' , '&amp;&amp;', '||' et ','.</li>
+  </ul>
+  <pre><code>( pack op ... )
+( ... op pack )
+( pack op ... op init )
+( init op ... op pack )</code></pre>
 </section>
 
 <section class="slide">
   <h2>C++17 &rarr; Langage</h2>
-  <h3><em>Structured binding declarations</em></h3>
-  <pre><code></code></pre>
+  <h3><em>Fold expressions</em> (2/2)</h3>
+  <pre><code>template&lt;typename... T&gt;
+auto sum(T... values) {
+  return (... + values);
+}
+
+template&lt;typename... T&gt;
+auto sum_plus_one(T... values) {
+  return (1 + ... + values);
+}
+
+template&lt;typename... T&gt;
+void print_all(T... args) {
+  (cout &lt;&lt; ... &lt;&lt; args) &lt;&lt; endl;
+}</code></pre>
+</section>
+
+<section class="slide">
+  <h2>C++17 &rarr; Langage</h2>
+  <h3><em>Structured binding declarations (1/2)</em></h3>
+  <ul>
+    <li>Permet de déclarer des variables directement depuis un type structuré.</li>
+    <li>Un type structuré peut être un :
+      <ul>
+        <li>Tableau C;</li>
+        <li>Tuple;</li>
+        <li>Objet &rarr; Eléments publics de la classe.</li>
+      </ul>
+    </li>
+  </ul>
+</section>
+
+<section class="slide">
+  <h2>C++17 &rarr; Langage</h2>
+  <h3><em>Structured binding declarations (2/2)</em></h3>
+  <pre><code>struct S {
+  int e;
+  string f;
+  vector&lt;char&gt; g;
+};
+pair&lt;char, string&gt; returnAPair();
+S returnAStruct();
+
+double d[3] = {3.14, 4.12, 6.66};
+const auto [a, b, c] = d;
+// ...
+const auto [a, b] = returnAPair();
+// ...
+const auto [a, b, c] = returnAStruct();</code></pre>
 </section>
 
 <section class="slide">
   <h2>C++17 &rarr; Langage</h2>
   <h3>Initialisation dans les <em>if</em> et <em>switch</em></h3>
-  <pre><code></code></pre>
+  <p>Utile pour réduire au minimum le <em>scope</em> des variables temporaires.</p>
+  <pre><code>if (init; condition) {
+  ...
+}</code></pre>
+  <pre><code>vector&lt;int&gt; v = ...;
+if (auto it = v.find(42); it != v.end()) {
+  return distance(begin(v), it);
+}</code></pre>
 </section>
 
 <section class="slide">
   <h2>C++17 &rarr; Langage</h2>
-  <h3>Garantie <em>RVO</em></h3>
-  <h4>RVO :</h4>
-  <p>
-    <em>Return Value Optimization.</em>
-  </p>
-  <pre><code></code></pre>
+  <h3>Garantie <em>copy elision</em> et <em>RVO</em> (1/3)</h3>
+  <h4>copy elision :</h4>
+  <p>Technique qui permet de ne pas <strong>copier</strong> un objet lorsque le
+  compilateur détecte que ce n'est <strong>pas nécessaire</strong>.</em>
+
+  <h4><em>prvalue</em> (<em>pure-rvalue</em>) :</h4>
+  <p>Objet <strong>temporaire</strong> classique, comme la valeur de retour d'une fonction.</p>
+  <p>Se référer à <a
+         href="http://en.cppreference.com/w/cpp/language/value_category">http://en.cppreference.com/w/cpp/language/value_category</a>
+  pour plus de détails.</p>
 </section>
 
 <section class="slide">
   <h2>C++17 &rarr; Langage</h2>
-  <h3>Attributs standards <em>[[fallthrough]]</em>, <em>[[maybe_unused]]</em> et <em>[[nodiscard]]</em></h3>
-  <pre><code></code></pre>
+  <h3>Garantie <em>copy elision</em> et <em>RVO</em> (2/3)</h3>
+  <h4><em>Return Value Optimization</em> (RVO) :</h4>
+  <ul>
+    <li>Forme de <em>copy elision</em> pour les valeurs de retour de fonctions;</li>
+    <li>Souvent déjà implémentée mais garantie en C++17 pour les <em>prvalue</em>;</li>
+    <li>Même pour des types sans <em>copy-ctor</em> ou <em>move-ctor</em>;</li>
+    <li><strong>Pas de garantie</strong> pour le <em>Named-RVO</em> (lorsque la valeur est nommée).</li>
+  </ul>
+</section>
+
+<section class="slide">
+  <h2>C++17 &rarr; Langage</h2>
+  <h3>Garantie <em>copy elision</em> et <em>RVO</em> (3/3)</h3>
+  <pre><code>T x = T(T(T())); // Un seul constructeur de T sera appelé en C++17</code></pre>
+  <pre><code>// std::mutex n'a ni cpy-ctor ni move-ctor
+mutex make_mutex() {
+  return mutex{};
+}
+
+/* Ce cas ne compile pas car C++17 n'offre pas de garantie ici
+mutex make_mutex() {
+  mutex m; // m est une glvalue
+  return m;
+} */
+
+void foo() {
+  mutex m = make_mutex();
+}</code></pre>
+</section>
+
+<section class="slide">
+  <h2>C++17 &rarr; Langage</h2>
+  <h3>Attributs standards <em>[[fallthrough]]</em>, <em>[[maybe_unused]]</em> et <em>[[nodiscard]]</em> (1/3)</h3>
+  <h4>fallthrough :</h4>
+  <pre><code>switch (int n = ...; n) {
+  case 0:
+    cout &lt;&lt; "Cas 0" &lt;&lt; endl;
+    break; // Habituel
+  case 1:
+  case 2:
+    cout &lt;&lt; "1 ou 2 " &lt;&lt; endl;
+    [[fallthrough]];
+  case 3: // Pas de warning
+    cout &lt;&lt; "1 2 ou 3" &lt;&lt; endl;
+  case 4: // Risque de warning
+    cout &lt;&lt; "1 2 3 ou 4" &lt;&lt; endl;
+    [[fallthrough]]; // Mal formé, doit être avant un case
+}</code></pre>
+</section>
+
+<section class="slide">
+  <h2>C++17 &rarr; Langage</h2>
+  <h3>Attributs standards <em>[[fallthrough]]</em>, <em>[[maybe_unused]]</em> et <em>[[nodiscard]]</em> (2/3)</h3>
+  <h4>maybe_unused :</h4>
+  <pre><code>[[maybe_unused]] void foo([[maybe_unused]] int a) {
+   [[maybe_unused]] const bool b = (a == 42);
+   assert(b); // en release, assert est un noop donc on risque un warning
+}</code></pre>
+</section>
+
+<section class="slide">
+  <h2>C++17 &rarr; Langage</h2>
+  <h3>Attributs standards <em>[[fallthrough]]</em>, <em>[[maybe_unused]]</em> et <em>[[nodiscard]]</em> (3/3)</h3>
+  <h4>nodiscard :</h4>
+  <pre><code>struct [[nodiscard]] error {};
+error launch_critical_action();
+[[nodiscard]] int do_critical_stuff();
+
+void foo () {
+  launch_critical_action(); // warning, la valeur de retour est ignorée
+  do_critical_stuff(); // idem
+}</code></pre>
 </section>
 
 <section class="slide">
