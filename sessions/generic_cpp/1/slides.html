@@ -766,7 +766,7 @@ void foo () {
         <li><em>string_view</em>, <em>optional</em>, <em>variant</em>, <em>any</em>;</li>
         <li>Bibliothèque de système de fichiers;</li>
         <li>Algorithmes parallèles;</li>
-        <li>Nouveaux user defined literals (<em>string_view</em>).</li>
+        <li>User defined literals (<em>string_view</em>).</li>
       </ol>
     </li>
   </ol>
@@ -774,24 +774,149 @@ void foo () {
 
 <section class="slide">
   <h2>C++17 &rarr; Bibliothèque</h2>
-  <h3><em>string_view</em>, <em>optional</em>, <em>variant</em>, <em>any</em></h3>
-  <pre><code></code></pre>
+  <h3><em>string_view</em>, <em>optional</em>, <em>variant</em>, <em>any</em> (1/4)</h3>
+  <h4>string_view :</h4>
+  <ul>
+    <li>Chaine de caractères (comme string) sans allocation mais immutable;</li>
+    <li>Evite la construction de string temporaires &rarr; Moins d'allocation.</li>
+  </ul>
+  <pre><code>// Pas besoin de répéter la fonction pour toutes
+// les combinaisons de chaines de caractères possibles (char*, string, QString, ...)
+bool compare(std::string_view s1, std::string_view s2) {
+    return s1 == s2;
+}
+string s = "hello world";
+compare(s, "another string"); // pas de string temporaire
+compare("this works too", s);</code></pre>
+</section>
+
+<section class="slide">
+  <h2>C++17 &rarr; Bibliothèque</h2>
+  <h3><em>string_view</em>, <em>optional</em>, <em>variant</em>, <em>any</em> (2/4)</h3>
+  <h4>optional :</h4>
+  <ul>
+    <li>Objet qui est soit vide, soit possède une valeur;</li>
+    <li>Evite de passer certaines valeurs par pointeur ou de retourner des <em>pair&lt;T, bool&gt;</em>;</li>
+    <li>N'alloue pas de mémoire dynamiquement.</li>
+  </ul>
+  <pre><code>std::optional&lt;double&gt; sqrt(int v) {
+  if (v &lt; 0)
+    return nullopt; // ou juste {}
+  return std::sqrt(v);
+}</code></pre>
+  <pre><code>int square(int v; std::optional&lt;string&gt; log) {
+  const auto r = v * v;
+  if (log) // optional a la même interface qu'un pointeur
+    cout &lt;&lt; *log &lt;&lt; endl;
+  return r;
+}</code></pre>
+</section>
+
+<section class="slide">
+  <h2>C++17 &rarr; Bibliothèque</h2>
+  <h3><em>string_view</em>, <em>optional</em>, <em>variant</em>, <em>any</em> (3/4)</h3>
+  <h4>variant :</h4>
+  <ul>
+    <li>Union <em>type-safe</em>;</li>
+    <li>Stocke une valeur d'un des types déclarés;</li>
+    <li>N'alloue pas de mémoire dynamiquement.</li>
+  </ul>
+  <pre><code>std::variant&lt;int, string&gt; v;
+v = string{"hello world"};
+auto s = std::get&lt;string&gt;(v); // s == "hello world"
+v = 42;
+auto i = std::get&lt;int&gt;(v); // i == 42
+auto s2 = std::get&lt;string&gt;(v); // exception bad_variant_access</code></pre>
+</section>
+
+<section class="slide">
+  <h2>C++17 &rarr; Bibliothèque</h2>
+  <h3><em>string_view</em>, <em>optional</em>, <em>variant</em>, <em>any</em> (4/4)</h3>
+  <h4>any :</h4>
+  <ul>
+    <li>Stocke une valeur de n'importe quel type;</li>
+    <li>Utilise en général du <em>small buffer optimization</em>;</li>
+    <li>Donc dans la plupart des cas, n'alloue pas de mémoire dynamiquement.</li>
+  </ul>
+  <pre><code>std::any a;
+a = 12;
+auto i = std::any_cast&lt;int&gt;(a); // i == 12;
+a = string{"cpprocks"};
+auto s = std::any_cast&lt;string&gt;(a); // s == "cpprocks"
+auto i2 = std::any_cast&lt;int&gt;(a); // exception bad_any_cast</code></pre>
 </section>
 
 <section class="slide">
   <h2>C++17 &rarr; Bibliothèque</h2>
   <h3>Bibliothèque de système de fichiers</h3>
+  <ul>
+    <li><code>#include &lt;filesystem&gt;</code></li>
+    <li><code>boost::filesystem</code> &rArr; <code>std::filesystem</code></li>
+    <li>API multiplateforme;</li>
+    <li>Permet de :
+      <ul>
+        <li>Interroger le FS (arborescence, permissions, dates, etc);</li>
+        <li>Agir sur le FS (copie, déplacement, renommage, etc).</li>
+      </ul>
+    </li>
+    <li>L'exploration de la bibliothèque est laissée à votre curiosité !</li>
+  </ul>
 </section>
 
 <section class="slide">
   <h2>C++17 &rarr; Bibliothèque</h2>
-  <h3>Algorithmes parallèles</h3>
+  <h3>Algorithmes parallèles (1/3)</h3>
+  <ul>
+    <li>Nouvelles surcharges pour la plupart des algorithmes :
+      <ul>
+        <li>Premier argument : <code>ExecutionPolicy&amp;&amp; policy</code></li>
+        <li>3 disponibles : <pre><code>std::execution::seq // sequentiel
+std::execution::par // parallèle
+std::execution::par_unseq // parallèle sans séquencement</code></pre></li>
+        <li>Exemple : <pre><code>template&lt;class ExecutionPolicy, class ForwardIt, class T&gt;
+ForwardIt find(ExecutionPolicy&amp;&amp; policy, ForwardIt first, ForwardIt last, const T&amp; value);</code></pre></li>
+        <li>Chaque implémentation peut en ajouter des nouvelles (<code>std::parallel::cuda</code>, <code>std::parallel::opencl</code> ?)</li>
+      </ul>
+    </li>
+    <li>Permettent de contrôler le type d'exécution des algorithmes;</li>
+    <li>Potentiellement de les parallèliser sur plusieurs threads.</li>
+  </ul>
 </section>
 
 <section class="slide">
   <h2>C++17 &rarr; Bibliothèque</h2>
-  <h3>Nouveaux user defined literals (<em>string_view</em>)</h3>
-  <pre><code></code></pre>
+  <h3>Algorithmes parallèles (2/3)</h3>
+  <pre><code>double mul(double x,double y) {
+  return x * y;
+}
+
+vector&lt;double&gt; x = ...
+vector&lt;double&gt; y = ...
+transform(std::execution::par, begin(x), end(x), begin(y), begin(x), mul);
+</code></pre>
+</section>
+
+<section class="slide">
+  <h2>C++17 &rarr; Bibliothèque</h2>
+  <h3>Algorithmes parallèles (3/3)</h3>
+  <h4><em>reduce</em></h4>
+  <ul>
+    <li>Entre autres, nouvel algorithme : <em>std::reduce</em>
+      <pre><code>template&lt;class ExecutionPolicy, class ForwardIt&gt;
+typename std::iterator_traits&lt;ForwardIt&gt;::value_type reduce(
+    ExecutionPolicy&amp;&amp; policy,
+    ForwardIt first, ForwardIt last);</code></pre></li>
+    <li>Similaire à <em>accumulate</em> mais dans le désordre;</li>
+    <li>Requiert que l'opération soit associative et commutative.</li>
+  </ul>
+</section>
+
+<section class="slide">
+  <h2>C++17 &rarr; Bibliothèque</h2>
+  <h3>User defined literals (<em>string_view</em>)</h3>
+  <pre><code>using namespace std::literals;
+const auto view = "this is a string"sv;
+static_assert(is_same_v&lt;decltype(view), const string_view&gt;);</code></pre>
 </section>
 
 <section class="slide title">
