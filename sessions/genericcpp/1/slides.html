@@ -528,6 +528,7 @@ cin &gt;&gt; quoted(in);
         <li>Variables inline;</li>
         <li><em>Fold expressions</em>;</li>
         <li><em>Structured binding declarations</em>;</li>
+        <li>Déduction de paramètres de template;</li>
         <li>Initialisation dans les <em>if</em> et <em>switch</em>;</li>
         <li>Garantie <em>copy elision</em> et <em>RVO</em>;</li>
         <li>Attributs standards <em>[[fallthrough]]</em>, <em>[[maybe_unused]]</em> et <em>[[nodiscard]]</em>.</li>
@@ -637,6 +638,22 @@ const auto [a, b, c] = d;
 const auto [a, b] = returnAPair();
 // ...
 const auto [a, b, c] = returnAStruct();</code></pre>
+</section>
+
+<section class="slide">
+  <h2>C++17 &rarr; Langage</h2>
+  <h3>Déduction de paramètres de template</h3>
+  <p>Le compilateur déduit le paramètre d'un template automatiquement :</p>
+  <pre><code>vector v {1, 2, 3}; // au lieu de vector&lt;int&gt;
+unique_ptr ptr = make_unique&lt;double&gt;(3.14); // au lieu de unique_ptr&lt;double&gt;
+pair p {1, "hey"}; // au lieu de pair&lt;int, const char*&gt;</code></pre>
+  <p>Il est possible de déclarer des guides de déduction.</p>
+  <pre><code>template &lt;class T&gt;
+struct Element {
+  Element(const T&amp;);
+};
+Element(char const*) -&gt; Element&lt;std::string&gt;;
+Element e{"an element with text"}</code></pre>
 </section>
 
 <section class="slide">
@@ -956,7 +973,8 @@ static_assert(is_same_v&lt;decltype(view), const string_view&gt;);</code></pre>
   <p>Disponible dans <strong>sessions/genericcpp/1/practical</strong></p>
   <ul>
     <li>Ouvrir le <em>CMakeLists.txt</em> à la racine du dépôt avec votre IDE favori.</li>
-    <li>Les projets à implémenter sont ceux commençant par <strong>genericcpp_sess1</strong>.</li>
+    <li>Ouvrir le fichier <strong>practical.cpp</strong> dans le projet <strong>genericcpp_sess1</strong>.</li>
+    <li>Améliorer le code en utilisant C++14 et C++17 (chercher les TODO).</li>
   </ul>
 </section>
 
