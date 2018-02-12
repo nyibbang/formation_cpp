@@ -661,7 +661,7 @@ const auto [a, b, c] = returnAStruct();</code></pre>
   ...
 }</code></pre>
   <pre><code>vector&lt;int&gt; v = ...;
-if (auto it = v.find(42); it != v.end()) {
+if (auto it = find(begin(v), end(v), 42); it != v.end()) {
   return distance(begin(v), it);
 }</code></pre>
 </section>
