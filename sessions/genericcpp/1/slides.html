@@ -63,7 +63,7 @@
   <ul class="bicolumns">
     <li><em>for-range</em> loop;</li>
     <li><em>auto</em>, <em>decltype</em>, <em>noexcept</em>, <em>nullptr</em>;</li>
-    <li><em>Move</em> semantic;</li>
+    <li><em>Move</em> semantics;</li>
     <li><em>static_assert</em>;</li>
     <li>Templates variadiques;</li>
     <li>Lambdas;</li>
@@ -80,7 +80,7 @@
   <h2>Introduction</h2>
   <h3>Avant propos</h3>
   <p style="font-size: 44px">Dans les exemples de la présentation, le <em>namespace
-    std</em> (<code>std::</code>) est implicite lorsqu'il est évident. </p>
+    std</em> (<code>std::</code>) est omis lorsqu'il est évident. </p>
 </section>
 
 <section class="slide title">
@@ -127,7 +127,7 @@
         <li>Déduction du type de retour des fonctions;</li>
         <li>Lambdas génériques;</li>
         <li>Captures étendues dans les lambdas;</li>
-        <li>Relâchement des règles des fonctions constexpr;</li>
+        <li>Relâchement des restrictions des fonctions constexpr;</li>
         <li>Variables templates;</li>
         <li>Attribut [[deprecated]].</li>
       </ol>
@@ -140,13 +140,10 @@
 <section class="slide">
   <h2>C++14 &rarr; Langage</h2>
   <h3>Déduction du type de retour des fonctions (1/2)</h3>
-  <pre><code>string do_something_impl(int v) { return to_string(v); }
-bool do_something_impl(pair&lt;string, int&gt; v) { return v.first == to_string(v.second); }
-// ... Potentiellement d'autres implémentations  non triviales de do_something_impl
-
-template&lt;typename T&gt;
-auto do_something(T t) { // Type de retour non trivial
-  return do_something_impl(t);
+  <pre><code>
+// Nom de type de retour à rallonge
+auto make_const_iterator(const map&lt;string, tuple&lt;vector&lt;pair&lt; ...&gt;&amp; c) {
+  return begin(c);
 }</code></pre>
   <p>
     Requiert que le code de la fonction soit visible par l'appelant !
@@ -157,12 +154,12 @@ auto do_something(T t) { // Type de retour non trivial
   <h2>C++14 &rarr; Langage</h2>
   <h3>Déduction du type de retour des fonctions (2/2)</h3>
   <pre><code>template&lt;typename Proc&gt;
-auto log_wrap(Proc proc) { // Type de retour non trivial : le type d'une lambda n'est pas défini
+auto log_wrap(Proc proc) { // Retour non trivial car le nom du type d'une lambda n'est pas exposé
   return [=]() mutable {
     cout &lt;&lt; "Calling procedure" &lt;&lt; endl;
-    auto&amp;&amp; r = proc();
+    auto r = proc();
     cout &lt;&lt; "Called procedure, got result: " &lt;&lt; r &lt;&lt; endl;
-    return forward&lt;decltype(r)&gt;(r);
+    return r;
   };
 }</code></pre>
 </section>
@@ -170,18 +167,15 @@ auto log_wrap(Proc proc) { // Type de retour non trivial : le type d'une lambda 
 <section class="slide">
   <h2>C++14 &rarr; Langage</h2>
   <h3>Lambdas génériques (1/2)</h3>
-  <p>
-    Les fonctions templates polymorphiques appliquées aux lambdas :<br/>
-    <code>auto multiply = [](auto a, auto b) { return a * b; };</code>
-  </p>
-
+  <p>Les fonctions templates appliquées aux lambdas :</p>
+  <pre><code>auto multiply = [](auto a, auto b) { return a * b; };</code></pre>
   <pre><code>template&lt;typename Proc&gt;
 auto log_wrap(Proc p) {
   return [=](auto&amp;&amp;... args) mutable { // Arguments variadiques
     cout &lt;&lt; "Calling procedure" &lt;&lt; endl;
-    auto&amp;&amp; r = p(forward&lt;decltype(args)&gt;(args)...);
+    auto r = p(forward&lt;decltype(args)&gt;(args)...);
     cout &lt;&lt; "Called procedure, got result: " &lt;&lt; r &lt;&lt; endl;
-    return forward&lt;decltype(r)&gt;(r);
+    return r;
   };
 }</code></pre>
 </section>
@@ -206,10 +200,8 @@ OutIter transform_range_log_on_exception(Range r, OutIter out, Proc proc) {
 <section class="slide">
   <h2>C++14 &rarr; Langage</h2>
   <h3>Captures étendues dans les lambdas</h3>
-  <p>
-    Il est maintenant possible d'initialiser les captures des lambdas :<br/>
-    <code>auto answer_to_life = [x = 42]{ return x; };</code>
-  </p>
+  <p>Il est maintenant possible d'initialiser les captures des lambdas :</p>
+  <pre><code>auto answer_to_life = [x = 42]{ return x; };</code></pre>
   <pre><code>unique_ptr&lt;int&gt; ptr{new auto(42)};
 auto capture_moveonly = [lptr = move(ptr)] { return *lptr; };
 assert(ptr == nullptr);
@@ -218,7 +210,7 @@ assert(capture_moveonly() == 42);</code></pre>
 
 <section class="slide">
   <h2>C++14 &rarr; Langage</h2>
-  <h3>Relâchement des règles des fonctions <em>constexpr</em> (1/3)</h3>
+  <h3>Relâchement des restrictions des fonctions <em>constexpr</em> (1/3)</h3>
   <p>Dans une fonction <em>constexpr</em>, il est maintenant possible de :</p>
   <ul>
     <li>Déclarer des variables locales (non-<em>static</em>, non-<em>thread_local</em>) initialisées;</li>
@@ -230,10 +222,10 @@ assert(capture_moveonly() == 42);</code></pre>
 
 <section class="slide">
   <h2>C++14 &rarr; Langage</h2>
-  <h3>Relâchement des règles des fonctions <em>constexpr</em> (2/3)</h3>
-  <pre><code>constexpr unsigned long long factorial(unsigned int n) {
+  <h3>Relâchement des restrictions des fonctions <em>constexpr</em> (2/3)</h3>
+  <pre><code>constexpr unsigned long long factorial(unsigned long long n) {
   unsigned long long result = 1;
-  while (n &gt; 0) {
+  while (n &gt; 0ULL) {
     result *= n--;
   }
   return result;
@@ -243,13 +235,13 @@ static_assert(factorial(12) == 479001600, "Factorial failed.");</code></pre>
 
 <section class="slide">
   <h2>C++14 &rarr; Langage</h2>
-  <h3>Relâchement des règles des fonctions <em>constexpr</em> (3/3)</h3>
+  <h3>Relâchement des restrictions des fonctions <em>constexpr</em> (3/3)</h3>
   <pre><code>struct Int {
   int value;
   constexpr Int&amp; operator+=(const Int&amp; o) { value += o.value; return *this; }
   constexpr Int&amp; operator/=(const Int&amp; o) { value /= o.value; return *this; }
   constexpr Int&amp; operator=(const Int&amp; o) { value = o.value; return *this; }
-  constexpr bool operator==(const Int&amp;amp; o) const { return value == o.value; }
+  constexpr bool operator==(const Int&amp; o) const { return value == o.value; }
 };
 constexpr Int divide_all_and_accumulate(initializer_list&lt;int&gt; numbers, int denom) {
   Int result{0};
@@ -303,7 +295,7 @@ void make_coffee(int n) {
     <li>Paramètres et variables :
       <pre><code>void foo(int a, [[deprecated]] double b = 0.) {
   [[deprecated]] bool c;
-  // warning: ... is deprecated si b ou c est utilisé
+  // warning: ... is deprecated si b ou c sont utilisés
 }</code></pre>
     </li>
   </ul>
@@ -336,7 +328,7 @@ void make_coffee(int n) {
   int value;
   string name;
   bool operator&lt;(const NamedInt&amp; o) const {
-    return make_tuple(value, name) &lt; make_tuple(o.value, o.name);
+    return make_tuple(cref(value), cref(name)) &lt; make_tuple(cref(o.value), cref(o.name));
   }
   friend bool operator&lt;(int a,             const NamedInt&amp;b)  { return a &lt; b.value; }
   friend bool operator&lt;(const NamedInt&amp; a, int b)             { return a.value &lt; b; }
@@ -427,17 +419,15 @@ decay_t&lt;T&gt;              // C++14</code></pre>
     <pre><code>int a = 13;
 const auto b = exchange(a, 42);
 // a = 42, b = 13</code></pre>
-
-    <p>
-      Utilise <code>std::move</code> et <code>std::forward</code> sur ses
-      arguments, utile pour les <em>move</em>-constructeurs.
-    </p>
-
+    <p>Utilise <code>std::move</code> et <code>std::forward</code> sur ses
+      arguments, utile pour les <em>move-ctor</em>. </p>
     <pre><code>struct A {
   int* p;
+  unique_ptr&lt;double&gt; p2;
   vector&lt;string&gt; names;
   A(A&amp;&amp; other)
     : p{exchange(other.p, nullptr)}
+    , p2{exchange(other.p2, nullptr)}
     , names{exchange(other.names, {}}
   {}
 };</code></pre>
@@ -459,7 +449,7 @@ const auto b = exchange(a, 42);
   <ul>
     <li>
       <code>std::make_unique</code>
-        <pre><code>unique_ptr&lt;int&gt; p = make_unique&lt;int&gt;(42); // new et delete ont disparu !</code></pre>
+      <pre><code>unique_ptr&lt;int&gt; p = make_unique&lt;int&gt;(42); // new et delete ont disparu !</code></pre>
     </li>
     <li>
       <code>std::get&lt;T&gt;</code>
@@ -468,12 +458,8 @@ auto s = get&lt;const char*&gt;(t);</code></pre>
     </li>
 
     <li>
-      <p>
-        <code>std::cbegin/std::cend</code>, <code>std::rbegin/std::rend</code>
-      </p>
-      <p>
-        Comme <code>std::begin/std::end</code> mais pour les itérateurs <em>const</em> et <em>reverse</em>
-      </p>
+      <p><code>std::cbegin/std::cend</code>, <code>std::rbegin/std::rend</code>, <code>std::crbegin/std::crend</code></p>
+      <p>Comme <code>std::begin/std::end</code> mais pour les itérateurs <em>const</em> et/ou <em>reverse</em></p>
     </li>
   </ul>
 </section>
@@ -801,10 +787,10 @@ compare("this works too", s);</code></pre>
   </ul>
   <pre><code>std::optional&lt;double&gt; sqrt(int v) {
   if (v &lt; 0)
-    return nullopt; // ou juste {}
+    return std::nullopt; // ou juste {}
   return std::sqrt(v);
 }</code></pre>
-  <pre><code>int square(int v; std::optional&lt;string&gt; log) {
+  <pre><code>int square(int v, std::optional&lt;string&gt; log) {
   const auto r = v * v;
   if (log) // optional a la même interface qu'un pointeur
     cout &lt;&lt; *log &lt;&lt; endl;
