@@ -23,7 +23,7 @@
 ### Slides
 
 * Slides are available as HTML files named *slides.html* in *sessions/tdd* and
-  *sessions/generic_cpp* subdirectories.
+  *sessions/genericcpp* subdirectories.
 
 ### Code
 * Create a directory *build* at the root of the repository (`mkdir build`), and
