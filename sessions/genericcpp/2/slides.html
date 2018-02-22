@@ -96,39 +96,69 @@
 
 <!--
 
-- Théorie
+- Introduction
+  - Définition thread
+    - Différences par rapport aux forks
+  - CPU multi-core
+  - Définition thread-safe
+Terme ambigu !
+
 !! Revoir cette partie !!!
-  - Motivations
-    - Asynchronisme
-    - Parallélisation d’algorithme
-    - Performances
-      - Scaling
-      - Goulot d’étranglement
+- Pourquoi ne pas faire du multithreading
   - Risques
     - Data races
+      - Partage de données
+      - Partage de ressources
+      - DDL access sous Windows
     - Complexification
+    - Performances ?
+      - Scaling
+      - Goulot d’étranglement
+      - Changements de contexte
+  - Alternatives
+    - Event loop (Qt ?)
+    - Coroutines
 
-- Outils
+- Raisons de faire du multithreading
+  - Asynchronisme / responsive
+    - Routines à ne pas bloquer (ex: GUI)
+    - + Opérations couteuses en temps
+      - IO (GUI events, input utilisateur, network, bdd, ...)
+      - Calcul lourd
+      - Image processing
+  - Parallélisation d’algorithme pour gain de perfs (app specific)
+
+- Outils du langage et de la STL
+  - Préambule
+Qu'est ce qui est thread-safe dans la STL ?
+  - Variables volatile
+Ne fait pas ce que tout le monde pense que cela fait.
+  - Variables thread_local
   - Threads
-    - `std::thread`
+    - std::thread
   - Mutexes
-    - `std::mutex`
-    - `std::recursive_mutex`
+    - std::mutex
+    - std::recursive_mutex
+    - std::unique_lock, std::lock_guard
+  - Condition variables
+    - std::condition_variable
   - Atomic
-    - `std::atomic`
+    - std::atomic
   - Promise/Future
-    - `std::async`
-    - `std::promise`/`std::future`
+    - std::promise/std::future
+  - Utilitaires
+    - std::async
+    - std::packaged_task
+
+- Bonus
 !! Revoir cette partie !!!
   - Concurrent queue
   - Strand
   - Executors
-  - Eventloop
   - Worker
   - Threadpool
-  - Coroutines
 
-- Organiser son code
+- Conseils pour organiser son code
 
 -->
 
