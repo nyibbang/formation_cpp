@@ -99,66 +99,69 @@
 - Introduction
   - Définition thread
     - Différences par rapport aux forks
-  - CPU multi-core
   - Définition thread-safe
 Terme ambigu !
 
-!! Revoir cette partie !!!
-- Pourquoi ne pas faire du multithreading
-  - Risques
-    - Data races
-      - Partage de données
-      - Partage de ressources
-      - DDL access sous Windows
-    - Complexification
-    - Performances ?
-      - Scaling
-      - Goulot d’étranglement
-      - Changements de contexte
-  - Alternatives
-    - Event loop (Qt ?)
-    - Coroutines
+  - Raisons de ne pas faire de multithreading
+    - Risques
+      - Data races
+        - Partage de données
+        - Partage de ressources
+        - DDL access sous Windows
+      - Complexification
+      - Performances ?
+        - Scaling
+        - Goulot d’étranglement
+        - Changements de contexte
+    - Alternatives
+      - Event loop (Qt ?)
+      - Coroutines
 
-- Raisons de faire du multithreading
-  - Asynchronisme / responsive
-    - Routines à ne pas bloquer (ex: GUI)
-    - + Opérations couteuses en temps
-      - IO (GUI events, input utilisateur, network, bdd, ...)
-      - Calcul lourd
-      - Image processing
-  - Parallélisation d’algorithme pour gain de perfs (app specific)
+  - Raisons de faire de multithreading
+    - Asynchronisme / responsive
+      - Routines à ne pas bloquer (ex: GUI)
+      - + Opérations couteuses en temps
+        - IO (GUI events, input utilisateur, network, bdd, ...)
+        - Calcul lourd
+        - Image processing
+    - Parallélisation d’algorithme pour gain de perfs (app specific)
 
 - Outils du langage et de la STL
-  - Préambule
-Qu'est ce qui est thread-safe dans la STL ?
-  - Variables volatile
+  - Language
+    - Variables volatile
 Ne fait pas ce que tout le monde pense que cela fait.
-  - Variables thread_local
-  - Threads
-    - std::thread
-  - Mutexes
-    - std::mutex
-    - std::recursive_mutex
-    - std::unique_lock, std::lock_guard
-  - Condition variables
-    - std::condition_variable
-  - Atomic
-    - std::atomic
-  - Promise/Future
-    - std::promise/std::future
-  - Utilitaires
-    - std::async
-    - std::packaged_task
+    - Variables thread_local
+    - Magic static
+  - Bibliothèque
+Qu'est ce qui est thread-safe dans la STL ?
+    - Threads
+      - std::thread
+    - Mutexes
+      - std::mutex
+      - std::recursive_mutex
+      - std::unique_lock, std::lock_guard
+    - Condition variables
+      - std::condition_variable
+    - Atomic
+      - std::atomic
+    - Promise/Future
+      - std::promise/std::future
+    - Utilitaires
+      - std::async
+      - std::packaged_task
+      - std::lock
+
+- TP
 
 - Bonus
 !! Revoir cette partie !!!
-  - Concurrent queue
-  - Strand
-  - Executors
-  - Worker
-  - Threadpool
-
-- Conseils pour organiser son code
+  - Conseil/réflexe
+  - Concepts haut niveau
+    - Concurrent queue
+    - Strand
+    - Executors
+    - Worker
+    - Threadpool
 
 -->
 
