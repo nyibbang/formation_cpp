@@ -52,18 +52,8 @@
   <h2>Introduction</h2>
   <h3>Objectifs</h3>
   <ul>
-    <li><strong></strong>;</li>
-    <li><strong></strong>.</li>
-  </ul>
-</section>
-
-<section class="slide">
-  <h2>Introduction</h2>
-  <h3>Rappel de la session précédente</h3>
-  <ul class="bicolumns">
-    <li>;</li>
-    <li>;</li>
-    <li>.</li>
+    <li><strong>Reprendre les concepts de base de la programmation multithread</strong>;</li>
+    <li><strong>Découvrir les outils de la STL pour le multithread en C++ (11)</strong>.</li>
   </ul>
 </section>
 
@@ -71,99 +61,230 @@
   <h2>Multithreading en C++</h2>
   <h3>Plan</h3>
   <ol>
-    <li><h4></h4></li>
-    <li><h4></h4></li>
-    <li><h4></h4></li>
+    <li><h4>Théorie et raisonnement</h4></li>
+    <li><h4>Outils du langage et de la STL</h4></li>
+    <li><h4>TP</h4></li>
+    <li><h4>Bonus</h4></li>
   </ol>
 </section>
+
 
 <section class="slide">
   <h2>Multithreading en C++</h2>
   <h3>Plan</h3>
   <ol>
     <li>
-      <h4></h4>
+      <h4>Théorie et raisonnement</h4>
       <ol>
-        <li>;</li>
-        <li>;</li>
-        <li>.</li>
+        <li>Définitions;</li>
+        <li>Raisons ne <strong>pas</strong> en faire;</li>
+        <li>Raisons d'en faire.</li>
       </ol>
     </li>
-    <li class="faded"><h4></h4></li>
-    <li class="faded"><h4></h4></li>
+    <li class="faded"><h4>Outils du langage et de la STL</h4></li>
+    <li class="faded"><h4>TP</h4></li>
+    <li class="faded"><h4>Bonus</h4></li>
   </ol>
 </section>
 
+<section class="slide">
+  <h2>Théorie et raisonnement &rarr; Définitions</h2>
+  <h3>Thread</h3>
+<!-- - Différences par rapport aux forks -->
+</section>
+
+<section class="slide">
+  <h2>Théorie et raisonnement &rarr; Définitions</h2>
+  <h3>Thread-safety</h3>
+<!-- Ambiguité -->
+</section>
+
+<section class="slide">
+  <h2>Théorie et raisonnement &rarr; Raisons de ne <strong>pas</strong> en faire</h2>
+  <h3>Risques</h3>
 <!--
+  - Data races
+    - Partage de données
+    - Partage de ressources
+    - DDL access sous Windows
+  - Complexification
+  - Performances ?
+    - Scaling
+    - Goulot d’étranglement
+    - Changements de contexte
+ -->
+</section>
 
-- Introduction
-  - Définition thread
-    - Différences par rapport aux forks
-  - Définition thread-safe
-Terme ambigu !
+<section class="slide">
+  <h2>Théorie et raisonnement &rarr; Raisons de ne <strong>pas</strong> en faire</h2>
+  <h3>Risques</h3>
+<!--
+  - Alternatives
+    - Event loop (Qt ?)
+    - Coroutines
+ -->
+</section>
 
-  - Raisons de ne pas faire de multithreading
-    - Risques
-      - Data races
-        - Partage de données
-        - Partage de ressources
-        - DDL access sous Windows
-      - Complexification
-      - Performances ?
-        - Scaling
-        - Goulot d’étranglement
-        - Changements de contexte
-    - Alternatives
-      - Event loop (Qt ?)
-      - Coroutines
 
-  - Raisons de faire de multithreading
-    - Asynchronisme / responsive
-      - Routines à ne pas bloquer (ex: GUI)
-      - + Opérations couteuses en temps
-        - IO (GUI events, input utilisateur, network, bdd, ...)
-        - Calcul lourd
-        - Image processing
-    - Parallélisation d’algorithme pour gain de perfs (app specific)
+<section class="slide">
+  <h2>Théorie et raisonnement &rarr; Raisons d'en faire</h2>
+  <h3>Asynchronisme et <em>responsiveness</em></h3>
+<!--
+  - Routines à ne pas bloquer (ex: GUI)
+  - + Opérations couteuses en temps
+    - IO (GUI events, input utilisateur, network, bdd, ...)
+    - Calcul lourd
+    - Image processing
+ -->
+</section>
 
-- Outils du langage et de la STL
-  - Language
-    - Variables volatile
-Ne fait pas ce que tout le monde pense que cela fait.
-    - Variables thread_local
-    - Magic static
-  - Bibliothèque
+<section class="slide">
+  <h2>Théorie et raisonnement &rarr; Raisons d'en faire</h2>
+  <h3>Parallélisation d’algorithme</h3>
+</section>
+
+<section class="slide">
+  <h2>Multithreading en C++</h2>
+  <h3>Plan</h3>
+  <ol>
+    <li class="faded"><h4>Théorie et raisonnement</h4></li>
+    <li>
+      <h4>Outils du langage et de la STL</h4>
+      <ol>
+        <li>Langage
+          <ul>
+            <li>Variables volatile;</li>
+            <li>Variables thread_local;</li>
+            <li>Magic static.</li>
+          </ul>
+        </li>
+        <li>Bibliothèque
+          <ul>
+            <li>Threads;</li>
+            <li>Mutexes;</li>
+            <li>Condition variables;</li>
+            <li>Atomics;</li>
+            <li>Promise/future;</li>
+            <li>Utilitaires.</li>
+          </ul>
+        </li>
+      </ol>
+    </li>
+    <li class="faded"><h4>TP</h4></li>
+    <li class="faded"><h4>Bonus</h4></li>
+  </ol>
+</section>
+
+<section class="slide">
+  <h2>Outils du langage et de la STL &rarr; Langage</h2>
+  <h3>Variables volatile</h3>
+</section>
+
+<section class="slide">
+  <h2>Outils du langage et de la STL &rarr; Langage</h2>
+  <h3>Variables thread_local</h3>
+</section>
+
+<section class="slide">
+  <h2>Outils du langage et de la STL &rarr; Langage</h2>
+  <h3>Magic static</h3>
+</section>
+
+<section class="slide">
+  <h2>Outils du langage et de la STL &rarr; Bibliothèque</h2>
+  <h3>Avant-propos</h3>
 Qu'est ce qui est thread-safe dans la STL ?
-    - Threads
-      - std::thread
-    - Mutexes
+</section>
+
+<section class="slide">
+  <h2>Outils du langage et de la STL &rarr; Bibliothèque</h2>
+  <h3>Threads</h3>
+</section>
+
+<section class="slide">
+  <h2>Outils du langage et de la STL &rarr; Bibliothèque</h2>
+  <h3>Mutexes</h3>
       - std::mutex
       - std::recursive_mutex
       - std::unique_lock, std::lock_guard
-    - Condition variables
-      - std::condition_variable
-    - Atomic
-      - std::atomic
-    - Promise/Future
-      - std::promise/std::future
-    - Utilitaires
+</section>
+
+<section class="slide">
+  <h2>Outils du langage et de la STL &rarr; Bibliothèque</h2>
+  <h3>Condition variables</h3>
+</section>
+
+<section class="slide">
+  <h2>Outils du langage et de la STL &rarr; Bibliothèque</h2>
+  <h3>Atomics</h3>
+</section>
+
+<section class="slide">
+  <h2>Outils du langage et de la STL &rarr; Bibliothèque</h2>
+  <h3>Promise/future</h3>
+</section>
+
+<section class="slide">
+  <h2>Outils du langage et de la STL &rarr; Bibliothèque</h2>
+  <h3>Utilitaires</h3>
       - std::async
       - std::packaged_task
       - std::lock
+</section>
 
-- TP
+<section class="slide">
+  <h2>Multithreading en C++</h2>
+  <h3>Plan</h3>
+  <ol>
+    <li class="faded"><h4>Théorie et raisonnement</h4></li>
+    <li class="faded"><h4>Outils du langage et de la STL</h4></li>
+    <li><h4>TP</h4></li>
+    <li class="faded"><h4>Bonus</h4></li>
+  </ol>
+</section>
 
-- Bonus
-!! Revoir cette partie !!!
-  - Conseil/réflexe
-  - Concepts haut niveau
+<section class="slide">
+  <h2>TP application : Multithreading en C++</h2>
+  <h3>Producer/consumer</h3>
+  <p>Disponible dans <strong>sessions/genericcpp/2/practical</strong></p>
+  <ul>
+    <li>Ouvrir le <em>CMakeLists.txt</em> à la racine du dépôt avec votre IDE favori.</li>
+    <li>Ouvrir le fichier <strong>practical.cpp</strong> dans le projet <strong>genericcpp_sess2</strong>.</li>
+    <li>Coder la fonction <code>consumer_multithread</code>.</li>
+  </ul>
+</section>
+
+<section class="slide">
+  <h2>Multithreading en C++</h2>
+  <h3>Plan</h3>
+  <ol>
+    <li class="faded"><h4>Théorie et raisonnement</h4></li>
+    <li class="faded"><h4>Outils du langage et de la STL</h4></li>
+    <li class="faded"><h4>TP</h4></li>
+    <li>
+      <h4>Bonus</h4>
+      <ol>
+        <li>Conseils et bonnes pratiques;</li>
+        <li>Concepts haut niveau.</li>
+      </ol>
+    </li>
+  </ol>
+</section>
+
+<section class="slide">
+  <h2>Bonus</h2>
+  <h3>Conseils et bonnes pratiques</h3>
+</section>
+
+<section class="slide">
+  <h2>Bonus</h2>
+  <h3>Concepts haut niveau</h3>
     - Concurrent queue
-    - Strand
     - Executors
+    - Strand
     - Worker
     - Threadpool
-
--->
+</section>
 
 <section class="slide title">
   <h1>Résumé</h1>
@@ -175,21 +296,6 @@ Qu'est ce qui est thread-safe dans la STL ?
     <li>;</li>
     <li>;</li>
     <li>.</li>
-  </ul>
-</section>
-
-<section class="slide title">
-  <h1>TP application :<br/>Multithreading en C++</h1>
-</section>
-
-<section class="slide">
-  <h2>TP application : Multithreading en C++</h2>
-  <h3>Titre du TP</h3>
-  <p>Disponible dans <strong>sessions/genericcpp/2/practical</strong></p>
-  <ul>
-    <li>Ouvrir le <em>CMakeLists.txt</em> à la racine du dépôt avec votre IDE favori.</li>
-    <li>Ouvrir le fichier <strong>practical.cpp</strong> dans le projet <strong>genericcpp_sess2</strong>.</li>
-    <li>Coder.</li>
   </ul>
 </section>
 
