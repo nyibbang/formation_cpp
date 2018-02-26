@@ -5,7 +5,7 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
   <meta name="viewport" content="width=1024, user-scalable=no">
 
-  <title>Formation multithreading en C++</title>
+  <title>Formation programmation multithread en C++</title>
 
   <!-- Required stylesheet -->
   <link rel="stylesheet" media="screen" href="../../../contrib/deck.js/core/deck.core.css">
@@ -45,7 +45,7 @@
   -->
 
 <section class="slide title">
-  <h1>Multithreading en C++</h1>
+  <h1>Programmation<br>multithread en C++</h1>
 </section>
 
 <section class="slide">
@@ -58,76 +58,212 @@
 </section>
 
 <section class="slide">
-  <h2>Multithreading en C++</h2>
+  <h2>Programmation multithread en C++</h2>
   <h3>Plan</h3>
   <ol>
     <li><h4>Théorie et raisonnement</h4></li>
     <li><h4>Outils du langage et de la STL</h4></li>
-    <li><h4>TP</h4></li>
-    <li><h4>Bonus</h4></li>
+    <li><h4>TP application</h4></li>
+    <li><h4>Réflexion</h4></li>
+    <li><h4>Conclusion</h4></li>
   </ol>
 </section>
 
-
 <section class="slide">
-  <h2>Multithreading en C++</h2>
+  <h2>Programmation multithread en C++</h2>
   <h3>Plan</h3>
   <ol>
     <li>
       <h4>Théorie et raisonnement</h4>
       <ol>
         <li>Définitions;</li>
-        <li>Raisons ne <strong>pas</strong> en faire;</li>
-        <li>Raisons d'en faire.</li>
+        <li class="faded">Mauvaises raisons d'en faire;</li>
+        <li class="faded">Bonnes raisons d'en faire.</li>
       </ol>
     </li>
     <li class="faded"><h4>Outils du langage et de la STL</h4></li>
-    <li class="faded"><h4>TP</h4></li>
-    <li class="faded"><h4>Bonus</h4></li>
+    <li class="faded"><h4>TP application</h4></li>
+    <li class="faded"><h4>Réflexion</h4></li>
+    <li class="faded"><h4>Conclusion</h4></li>
   </ol>
 </section>
 
 <section class="slide">
   <h2>Théorie et raisonnement &rarr; Définitions</h2>
+  <h3>Concurrence</h3>
+  <ul>
+    <li>Plusieurs codes peuvent être découpés;</li>
+    <li>Les morceaux ainsi découpés peuvent être executés tour à tour pas forcément en bloc.</li>
+    <li>A B &rArr; A1 B1 B2 A2 B3 A3 A4;</li>
+    <li>Exemple : du code multithreadé sur un CPU monocore.</li>
+  </ul>
+</section>
+
+<section class="slide">
+  <h2>Théorie et raisonnement &rarr; Définitions</h2>
+  <h3>Parallélisme</h3>
+  <p>Plusieurs codes sont executés <strong>en même temps</strong>.</p>
+  <p><q>Concurrency is not parallelism.</q> Rob Pike (<a href="https://vimeo.com/49718712">https://vimeo.com/49718712</a>)</p>
+</section>
+
+<section class="slide">
+  <h2>Théorie et raisonnement &rarr; Définitions</h2>
   <h3>Thread</h3>
-<!-- - Différences par rapport aux forks -->
+  <ul>
+    <li>Fil d'exécution;</li>
+    <li>Partage la mémoire avec les autres threads d'un même processus;</li>
+    <li>Possède sa propre pile d'exécution.</li>
+  </ul>
+  <p>Différences par rapport à un fork ?</p>
 </section>
 
 <section class="slide">
   <h2>Théorie et raisonnement &rarr; Définitions</h2>
   <h3>Thread-safety</h3>
-<!-- Ambiguité -->
+  <p><strong>Attention</strong>, terme ambigu.</p>
+  <ul>
+    <li>S'applique à un du code par rapport à un autre (ou lui même);</li>
+    <li>Vérifiée quand les 2 codes peuvent être appelés simultanément sans data race;</li>
+    <li>Appliquée à une classe
+      <ul>
+        <li>Méthodes de la classe peuvent être appelées simultanément sur même objet;</li>
+        <li>Attention aux omissions de combinaison de méthodes (notamment constructeurs et destructeurs) !</li>
+      </ul>
+    </li>
+  </ul>
 </section>
 
 <section class="slide">
-  <h2>Théorie et raisonnement &rarr; Raisons de ne <strong>pas</strong> en faire</h2>
-  <h3>Risques</h3>
-<!--
-  - Data races
-    - Partage de données
-    - Partage de ressources
-    - DDL access sous Windows
-  - Complexification
-  - Performances ?
-    - Scaling
-    - Goulot d’étranglement
-    - Changements de contexte
- -->
+  <h2>Théorie et raisonnement &rarr; Définitions</h2>
+  <h3>Réentrance</h3>
+  <ul>
+    <li>Réentrance &ne; Thread safety;</li>
+    <li>Code qui peut être réexécuté en même temps qu'il l'est déjá;
+      <ul>
+        <li>Soit par lui même (par récursivité);</li>
+        <li>Soit par un autre thread (pas forcément les mêmes paramètres, notamment <em>this</em>).</li>
+      </ul>
+    </li>
+    <li>Exclure du code par un mutex
+      <ul>
+        <li>Empêche la réentrance (sauf si mutex recursif);</li>
+        <li>Permet en général la thread safety.</li>
+      </ul>
+    </li>
+  </ul>
 </section>
 
 <section class="slide">
-  <h2>Théorie et raisonnement &rarr; Raisons de ne <strong>pas</strong> en faire</h2>
-  <h3>Risques</h3>
-<!--
-  - Alternatives
-    - Event loop (Qt ?)
-    - Coroutines
- -->
+  <h2>Théorie et raisonnement &rarr; Définitions</h2>
+  <h3><em>Data race</em> ou <em>race condition</em></h3>
+  <ul>
+    <li>Lorsque la bonne exécution d'un code dépend du séquencement des threads;</li>
+    <li>Modification / lecture de donnée par plusieurs opérations concurrentes sans synchronisation;</li>
+    <li><strong>Undefined behavior</strong> ! Résultat indéterministe.</li>
+  </ul>
 </section>
 
+<section class="slide">
+  <h2>Programmation multithread en C++</h2>
+  <h3>Plan</h3>
+  <ol>
+    <li>
+      <h4>Théorie et raisonnement</h4>
+      <ol>
+        <li class="faded">Définitions;</li>
+        <li>Mauvaises raisons d'en faire;</li>
+        <li class="faded">Bonnes raisons d'en faire.</li>
+      </ol>
+    </li>
+    <li class="faded"><h4>Outils du langage et de la STL</h4></li>
+    <li class="faded"><h4>TP application</h4></li>
+    <li class="faded"><h4>Réflexion</h4></li>
+    <li class="faded"><h4>Conclusion</h4></li>
+  </ol>
+</section>
 
 <section class="slide">
-  <h2>Théorie et raisonnement &rarr; Raisons d'en faire</h2>
+  <h2>Théorie et raisonnement &rarr; Mauvaises raisons d'en faire</h2>
+  <h3>Risques (1/2)</h3>
+  <ul>
+    <li>Data races
+      <ul>
+        <li>Partage de données;</li>
+        <li>Partage de ressources.</li>
+      </ul>
+    </li>
+    <li>Complexification du code
+      <ul>
+        <li>Utilisation de routines de synchronisation;</li>
+        <li>Besoin de porter une plus grande attention aux détails.</li>
+      </ul>
+    </li>
+    <li>Gain de perfomances ?
+      <ul>
+        <li>Code ne scale pas nécessairement;</li>
+        <li>Existence de goulots d'étranglement;</li>
+        <li>Répétition de changements de contextes;</li>
+        <li>Loi d'Amdahl : l'accélération théorique est limitée par la partie séquentielle du code.<br/><a
+            href="https://fr.wikipedia.org/wiki/Loi_d%27Amdahl">https://fr.wikipedia.org/wiki/Loi_d%27Amdahl</a></li>
+      </ul>
+    </li>
+  </ul>
+</section>
+
+<section class="slide">
+  <h2>Théorie et raisonnement &rarr; Mauvaises raisons d'en faire</h2>
+  <h3>Risques (2/2)</h3>
+  <img src="../../media/concurrency_perf.png"/>
+  <p><q>Sean Parent, Better Code : Concurrency</q></p>
+</section>
+
+<section class="slide">
+  <h2>Théorie et raisonnement &rarr; Mauvaises raisons d'en faire</h2>
+  <h3>Alternatives au multithread (1/2)</h3>
+  <h4>Event loop</h4>
+  <ul>
+    <li>Voir par exemple l'implémentation de Qt (QEventLoop);</li>
+    <li>Boucle infinie de dispatch d'évènements;</li>
+    <li>Les évènements sont traités par des <strong>handlers</strong>;</li>
+    <li>Les handlers <strong>rendent la main à l'EventLoop</strong> une fois le traitement terminé;</li>
+    <li>Les handlers <strong>créent de nouveaux évènements</strong> à traiter lors de leur traitement.</li>
+  </ul>
+</section>
+
+<section class="slide">
+  <h2>Théorie et raisonnement &rarr; Mauvaises raisons d'en faire</h2>
+  <h3>Alternatives au multithread (2/2)</h3>
+  <h4>Coroutines</h4>
+  <ul>
+    <li>Voir boost.Coroutines ou boost.Coroutines2;</li>
+    <li>Potentiellement implémentées en C++20;<br/>
+      <a href="http://www.open-std.org/jtc1/sc22/wg21/docs/papers/2018/n4723.pdf">http://www.open-std.org/jtc1/sc22/wg21/docs/papers/2018/n4723.pdf</a></li>
+    <li>Contrôle du changement de contexte intégré au langage;</li>
+    <li>Similaire aux générateurs en python.</li>
+  </ul>
+</section>
+
+<section class="slide">
+  <h2>Programmation multithread en C++</h2>
+  <h3>Plan</h3>
+  <ol>
+    <li>
+      <h4>Théorie et raisonnement</h4>
+      <ol>
+        <li class="faded">Définitions;</li>
+        <li class="faded">Mauvaises raisons d'en faire;</li>
+        <li>Bonnes raisons d'en faire.</li>
+      </ol>
+    </li>
+    <li class="faded"><h4>Outils du langage et de la STL</h4></li>
+    <li class="faded"><h4>TP application</h4></li>
+    <li class="faded"><h4>Réflexion</h4></li>
+    <li class="faded"><h4>Conclusion</h4></li>
+  </ol>
+</section>
+
+<section class="slide">
+  <h2>Théorie et raisonnement &rarr; Bonnes raisons d'en faire</h2>
   <h3>Asynchronisme et <em>responsiveness</em></h3>
 <!--
   - Routines à ne pas bloquer (ex: GUI)
@@ -139,12 +275,12 @@
 </section>
 
 <section class="slide">
-  <h2>Théorie et raisonnement &rarr; Raisons d'en faire</h2>
+  <h2>Théorie et raisonnement &rarr; Bonnes raisons d'en faire</h2>
   <h3>Parallélisation d’algorithme</h3>
 </section>
 
 <section class="slide">
-  <h2>Multithreading en C++</h2>
+  <h2>Programmation multithread en C++</h2>
   <h3>Plan</h3>
   <ol>
     <li class="faded"><h4>Théorie et raisonnement</h4></li>
@@ -152,6 +288,54 @@
       <h4>Outils du langage et de la STL</h4>
       <ol>
         <li>Langage
+          <ul>
+            <li>Variables volatile;</li>
+            <li>Variables thread_local;</li>
+            <li>Magic static.</li>
+          </ul>
+        </li>
+        <li class="faded">Bibliothèque
+          <ul>
+            <li>Threads;</li>
+            <li>Mutexes;</li>
+            <li>Condition variables;</li>
+            <li>Atomics;</li>
+            <li>Promise/future;</li>
+            <li>Utilitaires.</li>
+          </ul>
+        </li>
+      </ol>
+    </li>
+    <li class="faded"><h4>TP application</h4></li>
+    <li class="faded"><h4>Réflexion</h4></li>
+    <li class="faded"><h4>Conclusion</h4></li>
+  </ol>
+</section>
+
+<section class="slide">
+  <h2>Outils du langage et de la STL &rarr; Langage</h2>
+  <h3>Variables volatile</h3>
+</section>
+
+<section class="slide">
+  <h2>Outils du langage et de la STL &rarr; Langage</h2>
+  <h3>Variables thread_local</h3>
+</section>
+
+<section class="slide">
+  <h2>Outils du langage et de la STL &rarr; Langage</h2>
+  <h3>Magic static</h3>
+</section>
+
+<section class="slide">
+  <h2>Programmation multithread en C++</h2>
+  <h3>Plan</h3>
+  <ol>
+    <li class="faded"><h4>Théorie et raisonnement</h4></li>
+    <li>
+      <h4>Outils du langage et de la STL</h4>
+      <ol>
+        <li class="faded">Langage
           <ul>
             <li>Variables volatile;</li>
             <li>Variables thread_local;</li>
@@ -170,24 +354,10 @@
         </li>
       </ol>
     </li>
-    <li class="faded"><h4>TP</h4></li>
-    <li class="faded"><h4>Bonus</h4></li>
+    <li class="faded"><h4>TP application</h4></li>
+    <li class="faded"><h4>Réflexion</h4></li>
+    <li class="faded"><h4>Conclusion</h4></li>
   </ol>
-</section>
-
-<section class="slide">
-  <h2>Outils du langage et de la STL &rarr; Langage</h2>
-  <h3>Variables volatile</h3>
-</section>
-
-<section class="slide">
-  <h2>Outils du langage et de la STL &rarr; Langage</h2>
-  <h3>Variables thread_local</h3>
-</section>
-
-<section class="slide">
-  <h2>Outils du langage et de la STL &rarr; Langage</h2>
-  <h3>Magic static</h3>
 </section>
 
 <section class="slide">
@@ -233,18 +403,19 @@ Qu'est ce qui est thread-safe dans la STL ?
 </section>
 
 <section class="slide">
-  <h2>Multithreading en C++</h2>
+  <h2>Programmation multithread en C++</h2>
   <h3>Plan</h3>
   <ol>
     <li class="faded"><h4>Théorie et raisonnement</h4></li>
     <li class="faded"><h4>Outils du langage et de la STL</h4></li>
-    <li><h4>TP</h4></li>
-    <li class="faded"><h4>Bonus</h4></li>
+    <li><h4>TP application</h4></li>
+    <li class="faded"><h4>Réflexion</h4></li>
+    <li class="faded"><h4>Conclusion</h4></li>
   </ol>
 </section>
 
 <section class="slide">
-  <h2>TP application : Multithreading en C++</h2>
+  <h2>TP application</h2>
   <h3>Producer/consumer</h3>
   <p>Disponible dans <strong>sessions/genericcpp/2/practical</strong></p>
   <ul>
@@ -255,29 +426,61 @@ Qu'est ce qui est thread-safe dans la STL ?
 </section>
 
 <section class="slide">
-  <h2>Multithreading en C++</h2>
+  <h2>TP application</h2>
+  <h3>Conclusion</h3>
+  <p>Qu'en pensez-vous ?</p>
+  <ul>
+    <li>Gain de performances ?</li>
+    <li>Bonne utilisation de la concurrence ?</li>
+    <li>Facile à lire / à écrire ?</li>
+    <li>Est-on sûrs de n'avoir fait aucune erreur / data-race ?</li>
+    <li>Facile à tester ?</li>
+  </ul>
+</section>
+
+<section class="slide">
+  <h2>Programmation multithread en C++</h2>
   <h3>Plan</h3>
   <ol>
     <li class="faded"><h4>Théorie et raisonnement</h4></li>
     <li class="faded"><h4>Outils du langage et de la STL</h4></li>
-    <li class="faded"><h4>TP</h4></li>
+    <li class="faded"><h4>TP application</h4></li>
     <li>
-      <h4>Bonus</h4>
+      <h4>Réflexion</h4>
       <ol>
         <li>Conseils et bonnes pratiques;</li>
-        <li>Concepts haut niveau.</li>
+        <li class="faded">Concepts haut niveau.</li>
       </ol>
     </li>
+    <li class="faded"><h4>Conclusion</h4></li>
   </ol>
 </section>
 
 <section class="slide">
-  <h2>Bonus</h2>
+  <h2>Réflexion</h2>
   <h3>Conseils et bonnes pratiques</h3>
 </section>
 
 <section class="slide">
-  <h2>Bonus</h2>
+  <h2>Programmation multithread en C++</h2>
+  <h3>Plan</h3>
+  <ol>
+    <li class="faded"><h4>Théorie et raisonnement</h4></li>
+    <li class="faded"><h4>Outils du langage et de la STL</h4></li>
+    <li class="faded"><h4>TP application</h4></li>
+    <li>
+      <h4>Réflexion</h4>
+      <ol>
+        <li class="faded">Conseils et bonnes pratiques;</li>
+        <li>Concepts haut niveau.</li>
+      </ol>
+    </li>
+    <li class="faded"><h4>Conclusion</h4></li>
+  </ol>
+</section>
+
+<section class="slide">
+  <h2>Réflexion</h2>
   <h3>Concepts haut niveau</h3>
     - Concurrent queue
     - Executors
@@ -286,18 +489,34 @@ Qu'est ce qui est thread-safe dans la STL ?
     - Threadpool
 </section>
 
-<section class="slide title">
-  <h1>Résumé</h1>
+<section class="slide">
+  <h2>Programmation multithread en C++</h2>
+  <h3>Plan</h3>
+  <ol>
+    <li class="faded"><h4>Théorie et raisonnement</h4></li>
+    <li class="faded"><h4>Outils du langage et de la STL</h4></li>
+    <li class="faded"><h4>TP application</h4></li>
+    <li class="faded"><h4>Réflexion</h4></li>
+    <li><h4>Conclusion</h4></li>
+  </ol>
 </section>
 
 <section class="slide">
-  <h2>Résumé</h2>
+  <h2>Conclusion</h2>
+  <h3>Résumé</h3>
   <ul>
     <li>;</li>
     <li>;</li>
     <li>.</li>
   </ul>
 </section>
+
+<section class="slide">
+  <h2>Conclusion</h2>
+  <h3>Recommandations</h3>
+http://sean-parent.stlab.cc/papers-and-presentations#better-code-concurrency
+</section>
+
 
   <!--
   #########################################################################################################
