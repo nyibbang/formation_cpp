@@ -94,9 +94,9 @@
   <h3>Concurrence</h3>
   <ul>
     <li>Plusieurs codes peuvent être découpés;</li>
-    <li>Les morceaux ainsi découpés peuvent être executés tour à tour pas forcément en bloc.</li>
+    <li>Les morceaux découpés peuvent être executés <strong>tour à tour pas forcément en bloc</strong> (interleaving).</li>
     <li>A B &rArr; A1 B1 B2 A2 B3 A3 A4;</li>
-    <li>Exemple : du code multithreadé sur un CPU monocore.</li>
+    <li>Exemple : du code multithreadé sur une machine monoc&oelog;ur.</li>
   </ul>
 </section>
 
@@ -127,8 +127,8 @@
     <li>Vérifiée quand les 2 codes peuvent être appelés simultanément sans data race;</li>
     <li>Appliquée à une classe
       <ul>
-        <li>Méthodes de la classe peuvent être appelées simultanément sur même objet;</li>
-        <li>Attention aux omissions de combinaison de méthodes (notamment constructeurs et destructeurs) !</li>
+        <li>Méthodes de la classe peuvent être appelées <strong>simultanément sur même objet</strong>;</li>
+        <li>Attention aux <strong>combinaison de méthodes</strong> (notamment ctor et dtor) !</li>
       </ul>
     </li>
   </ul>
@@ -147,8 +147,8 @@
     </li>
     <li>Exclure du code par un mutex
       <ul>
-        <li>Empêche la réentrance (sauf si mutex recursif);</li>
-        <li>Permet en général la thread safety.</li>
+        <li><strong>Empêche</strong> la réentrance (sauf si mutex recursif);</li>
+        <li><strong>Permet en général</strong> la thread safety.</li>
       </ul>
     </li>
   </ul>
@@ -161,6 +161,19 @@
     <li>Lorsque la bonne exécution d'un code dépend du séquencement des threads;</li>
     <li>Modification / lecture de donnée par plusieurs opérations concurrentes sans synchronisation;</li>
     <li><strong>Undefined behavior</strong> ! Résultat indéterministe.</li>
+  </ul>
+</section>
+
+<section class="slide">
+  <h2>Théorie et raisonnement &rarr; Définitions</h2>
+  <h3>Primitives de synchronisation</h3>
+  <p>Entre autres :</p>
+  <ul>
+    <li>Mutexes;</li>
+    <li>Atomics;</li>
+    <li>Sémaphores;</li>
+    <li>Memory barriers/fences;</li>
+    <li>Condition variables.</li>
   </ul>
 </section>
 
@@ -196,16 +209,16 @@
     </li>
     <li>Complexification du code
       <ul>
-        <li>Utilisation de routines de synchronisation;</li>
-        <li>Besoin de porter une plus grande attention aux détails.</li>
+        <li>Utilisation de <strong>primitives de synchronisation</strong>;</li>
+        <li>Besoin de porter une plus grande <strong>attention aux détails</strong>.</li>
       </ul>
     </li>
-    <li>Gain de perfomances ?
+    <li>Gain de performances ?
       <ul>
-        <li>Code ne scale pas nécessairement;</li>
-        <li>Existence de goulots d'étranglement;</li>
-        <li>Répétition de changements de contextes;</li>
-        <li>Loi d'Amdahl : l'accélération théorique est limitée par la partie séquentielle du code.<br/><a
+        <li>Le code ne <strong><em>scale</em> pas</strong> nécessairement;</li>
+        <li>Il existe souvent des <strong>goulots d'étranglement</strong>;</li>
+        <li>Il y a répétition de <strong>changements de contextes</strong>;</li>
+        <li><strong>Loi d'Amdahl</strong> : l'accélération théorique est limitée par la partie séquentielle du code.<br/><a
             href="https://fr.wikipedia.org/wiki/Loi_d%27Amdahl">https://fr.wikipedia.org/wiki/Loi_d%27Amdahl</a></li>
       </ul>
     </li>
@@ -216,7 +229,7 @@
   <h2>Théorie et raisonnement &rarr; Mauvaises raisons d'en faire</h2>
   <h3>Risques (2/2)</h3>
   <img src="../../media/concurrency_perf.png"/>
-  <p><q>Sean Parent, Better Code : Concurrency</q></p>
+  <p>Tiré de <em>Better Code: Concurrency</em>, Sean Parent</p>
 </section>
 
 <section class="slide">
@@ -225,10 +238,10 @@
   <h4>Event loop</h4>
   <ul>
     <li>Voir par exemple l'implémentation de Qt (QEventLoop);</li>
-    <li>Boucle infinie de dispatch d'évènements;</li>
+    <li>Une boucle infinie de dispatch d'évènements;</li>
     <li>Les évènements sont traités par des <strong>handlers</strong>;</li>
-    <li>Les handlers <strong>rendent la main à l'EventLoop</strong> une fois le traitement terminé;</li>
-    <li>Les handlers <strong>créent de nouveaux évènements</strong> à traiter lors de leur traitement.</li>
+    <li>Les handlers <strong>rendent la main à l'EventLoop</strong> après traitement;</li>
+    <li>Les handlers <strong>injectent de nouveaux évènements</strong> lors du traitement.</li>
   </ul>
 </section>
 
@@ -268,18 +281,28 @@
 <section class="slide">
   <h2>Théorie et raisonnement &rarr; Bonnes raisons d'en faire</h2>
   <h3>Asynchronisme et <em>responsiveness</em></h3>
-<!--
-  - Routines à ne pas bloquer (ex: GUI)
-  - + Opérations couteuses en temps
-    - IO (GUI events, input utilisateur, network, bdd, ...)
-    - Calcul lourd
-    - Image processing
- -->
+  <ul>
+    <li>Certains routines ne doivent <strong>pas être bloquées</strong> (ex: GUI);</li>
+    <li>Malgré l'appel à des <strong>opérations lentes ou coûteuses</strong>, exemple :
+      <ul>
+        <li>Input/Ouput (GUI events, système de fichiers, réseau, BDD, ...);</li>
+        <li>Calcul lourd (image processing, simulation, ...);</li>
+      </ul>
+    </li>
+    <li>Il est alors nécessaire de les lancer de façon <strong>asynchrone</strong>;</li>
+    <li>Par exemple en les exécutant dans <strong>un autre thread</strong>.</li>
+  </ul>
 </section>
 
 <section class="slide">
   <h2>Théorie et raisonnement &rarr; Bonnes raisons d'en faire</h2>
-  <h3>Parallélisation d’algorithme</h3>
+  <h3>Parallélisme</h3>
+  <ul>
+    <li>Certains algorithmes sont connus pour être <strong>parallélisables</strong>;</li>
+    <li>Il est utile de les <strong>découper sur plusieurs threads</strong>;</li>
+    <li>Pour ainsi <strong>gagner en performances</strong> sur des machines multic&oelig;urs;</li>
+    <li>Néanmoins dans ce genre de cas, se tourner vers des solutions comme <strong>OpenCL ou CUDA</strong>;</li>
+  </ul>
 </section>
 
 <section class="slide">
