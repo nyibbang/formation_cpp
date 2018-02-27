@@ -55,6 +55,13 @@
     <li><strong>Reprendre les concepts de base de la programmation multithread</strong>;</li>
     <li><strong>Découvrir les outils de la STL pour le multithread en C++ (11)</strong>.</li>
   </ul>
+  <h3>Pourquoi C++11 ?</h3>
+  <ul>
+    <li>Un des plus gros apports au langage en C++11 : <strong>l'intégration du multithreading au standard</strong>;</li>
+    <li>Avant C++11, le standard ne définissait pas les threads et ne fournissait aucune garantie;</li>
+    <li>En C++11, le standard fournit <strong>certaines garanties</strong> et définit la notion de <strong>thread et de data race</strong>;</li>
+    <li>Exemples : Magic statics, mot clé thread_local.</li>
+  </ul>
 </section>
 
 <section class="slide">
@@ -93,7 +100,7 @@
   <h2>Théorie et raisonnement &rarr; Définitions</h2>
   <h3>Concurrence</h3>
   <ul>
-    <li>Plusieurs codes peuvent être découpés;</li>
+    <li>Plusieurs bouts de codes peuvent être découpés;</li>
     <li>Les morceaux découpés peuvent être executés <strong>tour à tour pas forcément en bloc</strong> (interleaving).</li>
     <li>A B &rArr; A1 B1 B2 A2 B3 A3 A4;</li>
     <li>Exemple : du code multithreadé sur une machine monoc&oelog;ur.</li>
@@ -103,7 +110,7 @@
 <section class="slide">
   <h2>Théorie et raisonnement &rarr; Définitions</h2>
   <h3>Parallélisme</h3>
-  <p>Plusieurs codes sont executés <strong>en même temps</strong>.</p>
+  <p>Plusieurs bouts de codes sont executés <strong>en même temps</strong>.</p>
   <p><q>Concurrency is not parallelism.</q> Rob Pike (<a href="https://vimeo.com/49718712">https://vimeo.com/49718712</a>)</p>
 </section>
 
@@ -127,7 +134,7 @@
     <li>Vérifiée quand les 2 codes peuvent être appelés simultanément sans data race;</li>
     <li>Appliquée à une classe
       <ul>
-        <li>Méthodes de la classe peuvent être appelées <strong>simultanément sur même objet</strong>;</li>
+        <li>Méthodes de la classe peuvent être appelées <strong>simultanément sur un même objet</strong>;</li>
         <li>Attention aux <strong>combinaison de méthodes</strong> (notamment ctor et dtor) !</li>
       </ul>
     </li>
@@ -342,16 +349,41 @@
 <section class="slide">
   <h2>Outils du langage et de la STL &rarr; Langage</h2>
   <h3>Variables volatile</h3>
+  <ul>
+    <li>Ne fait pas ce que la plupart des devs pensent;</li>
+    <li>Ne rend pas la variable <strong>magiquement thread-safe</strong>;</li>
+    <li><strong>Interdit au compilateur d'optimiser les accès</strong> à cette variable (comme la mise en registre);</li>
+    <li><strong>Force le compilateur à rendre visible les changements</strong> de la variable aux autres threads.</li>
+  </ul>
 </section>
 
 <section class="slide">
   <h2>Outils du langage et de la STL &rarr; Langage</h2>
   <h3>Variables thread_local</h3>
+  <pre><code>thread_local int foo = 42;</code></pre>
+  <ul>
+    <li>Depuis C++11;</li>
+    <li>Chaque thread possède une copie de la variable;</li>
+    <li>Les accès à la variable n'ont pas besoin d'être synchronisés.</li>
+  </ul>
 </section>
 
 <section class="slide">
   <h2>Outils du langage et de la STL &rarr; Langage</h2>
   <h3>Magic static</h3>
+  <ul>
+    <li>Depuis C++11;</li>
+    <li>
+      <pre><code>MySingleton&amp; instance() {
+  static MySingleton i;
+  return i;
+}</code></pre>
+    </li>
+    <li>Le langage garantit que la variable sera <strong>initialisée une seule fois</strong>;</li>
+    <li>Et que son <strong>constructeur</strong> sera donc appelé une seule fois;</li>
+    <li>Même si <em>instance</em> est appelée simultanément la première fois par plusieurs threads;</li>
+    <li>C'est l'implémentation thread-safe la plus simple d'un singleton (et la plus conseillée);</li>
+  </ul>
 </section>
 
 <section class="slide">
@@ -391,43 +423,258 @@
 <section class="slide">
   <h2>Outils du langage et de la STL &rarr; Bibliothèque</h2>
   <h3>Avant-propos</h3>
-Qu'est ce qui est thread-safe dans la STL ?
+
+  <h4>Qu'est ce qui est thread-safe dans la STL ?</h4>
+  <p>
+    En dehors des primitives de synchronisation et des outils liés aux threads;<br/>
+    <strong>Rien</strong>.
+  </p>
+
+  <h4>Pourquoi ?</h4>
+  <ul>
+    <li>Devise du C++ : <q>You don't pay for what you don't use</q>;</li>
+    <li>Avoir des conteneurs, algo, ... thread-safe a un impact sur les performances;</li>
+    <li>Cet impact est injustifié et inacceptable dans un contexte monothread.</li>
+  </p>
 </section>
 
 <section class="slide">
   <h2>Outils du langage et de la STL &rarr; Bibliothèque</h2>
-  <h3>Threads</h3>
+  <h3>Threads (1/2)</h3>
+  <ul>
+    <li><pre><code>#include &lt;thread&gt;
+std::thread</code></pre></li>
+    <li>Constructeur: <pre><code>template&lt;class Function, class... Args&gt;
+explicit thread(Function&amp;&amp; f, Args&amp;&amp;... args);</code></pre></li>
+    <li>Move-only</li>
+    <li>Avant destruction : <pre><code>if (thread.joinable()) {
+  thread.join();
+}</code></pre>Sinon <code>std::terminate</code> sera appelé ! (crash du programme)</li>
+  </ul>
 </section>
 
 <section class="slide">
   <h2>Outils du langage et de la STL &rarr; Bibliothèque</h2>
-  <h3>Mutexes</h3>
-      - std::mutex
-      - std::recursive_mutex
-      - std::unique_lock, std::lock_guard
+  <h3>Threads (2/2)</h3>
+  <p>Exemple :</p>
+  <pre><code>const auto sayHello = [](std::string str){
+  std::cout &lt;&lt; "Hello from another thread : "
+    &lt;&lt; str &lt;&lt;"\n";
+};
+std::thread th{ sayHello, "this is cool" };
+th.join();</code></pre>
 </section>
 
 <section class="slide">
   <h2>Outils du langage et de la STL &rarr; Bibliothèque</h2>
-  <h3>Condition variables</h3>
+  <h3>Mutexes (1/2)</h3>
+  <p>Plusieurs classes du concept Mutex existent, mais la principale :
+    <pre><code>#include &lt;mutex&gt;
+std::mutex</code></pre>
+  </p>
+  <p>Ainsi que des lock pour le RAII :</p>
+  <ul>
+    <li><code>std::lock_guard</code> (no-cpy, no-move)</li>
+    <li><code>std::unique_lock</code> (no-cpy, move-only)</li>
+  </ul>
+  <p>Toujours utiliser des locks !<br>Ne jamais lock un mutex directement.</p>
 </section>
 
 <section class="slide">
   <h2>Outils du langage et de la STL &rarr; Bibliothèque</h2>
-  <h3>Atomics</h3>
+  <h3>Mutexes (2/2)</h3>
+  <p>Exemple :</p>
+  <pre><code>std::mutex m;
+m.lock(); // pas bien
+m.unlock();
+{
+  // tant que lock est en vie, le mutex est verrouillé
+  std::lock_guard&lt;std::mutex&gt; lock { m };
+  // si une exception n'est pas catchée par la suite, le mutex
+  // sera automatiquement déverrouillé par lock
+}</code></pre>
 </section>
 
 <section class="slide">
   <h2>Outils du langage et de la STL &rarr; Bibliothèque</h2>
-  <h3>Promise/future</h3>
+  <h3>Condition variables (1/2)</h3>
+  <p>Objet de signalement entre threads
+    <pre><code>#include &lt;condition_variable&gt;
+std::condition_variable</code></pre>
+  </p>
+  <p>Méthodes importantes :</p>
+  <ul>
+    <li><code>void wait(std::unique_lock&lt;std::mutex&gt;&amp; lock);</code></li>
+    <li><code>void notify_one() noexcept;</code></li>
+    <li><code>void notify_all() noexcept;</code></li>
+  </ul>
 </section>
 
 <section class="slide">
   <h2>Outils du langage et de la STL &rarr; Bibliothèque</h2>
-  <h3>Utilitaires</h3>
-      - std::async
-      - std::packaged_task
-      - std::lock
+  <h3>Condition variables (2/2)</h3>
+  <p>Exemple :</p>
+  <pre><code>std::condition_variable cv;
+std::mutex mut;
+
+void thread_a() {
+  std::lock_guard&lt;std::mutex&gt; lock{ mut };
+  do_something(); // tâche
+  lock.unlock();
+  cv.notify_all(); // notification
+}
+
+void thread_b() {
+  // on attend que thread_a nous notifie
+  std::unique_lock&lt;std::mutex&gt; lock{ mut };
+  cv.wait(lock);
+  // tâche terminée
+}</code></pre>
+</section>
+
+<section class="slide">
+  <h2>Outils du langage et de la STL &rarr; Bibliothèque</h2>
+  <h3>Atomics (1/2)</h3>
+  <pre><code>#include &lt;atomic&gt;
+template&lt;typename T&gt; std::atomic&lt;T&gt;</code></pre>
+  <p>Les opérations sur les variables atomiques ne peuvent
+    <strong>pas être interrompues/découpées</strong> (interleaving) par le processeur.</p>
+  <p>Les variables atomiques n'ont en général pas besoin d'être protégées.</p>
+  <p>Méthodes importantes :</p>
+  <ul>
+    <li><code>T load() noexcept;</code></li>
+    <li><code>void store(T desired) noexcept;</code></li>
+    <li><code>bool compare_exchange_strong(T&amp; expected, T desired) noexcept;</code></li>
+  </ul>
+</section>
+
+<section class="slide">
+  <h2>Outils du langage et de la STL &rarr; Bibliothèque</h2>
+  <h3>Atomics (2/2)</h3>
+  <p>Exemple :</p>
+  <pre><code>std::atomic&lt;int&gt; a{ 42 };
+
+a.store(13); // ou a = 13;
+int b = a.load(); // ou int b = a;
+
+// compare_exchange : pourquoi 2 actions en 1 ?
+int c = 13;
+if (!a.compare_exchange_strong(c, 51)) {
+  // c = valeur actuelle de a
+}
+else {
+  // a = 51, c = 13
+}</code></pre>
+</section>
+
+<section class="slide">
+  <h2>Outils du langage et de la STL &rarr; Bibliothèque</h2>
+  <h3>Promise/future (1/3)</h3>
+  <p>Les deux bouts du résultat d'une tâche asynchrone. Ensemble, ces classes forment une <em>pipeline</em>.</p>
+  <pre><code>#include &lt;future&gt;
+template&lt;typename T&gt; std::promise&lt;T&gt;
+template&lt;typename T&gt; std::future&lt;T&gt;</code></pre>
+
+  <h4>Promise</h4>
+  <ul>
+    <li>Côté serveur de la tâche asynchrone;</li>
+    <li>Fournisseur de la future;</li>
+    <li>Objet sur lequel le résultat sera placé.</li>
+  </ul>
+  <p>Méthodes importantes :</p>
+  <ul>
+    <li><code>std::future&lt;T&gt; get_future();</code></li>
+    <li><code>void set_value(const T&amp; value);</code></li>
+    <li>Si le <strong>dtor est appelé avant set_value</strong>,
+      <strong>la future sera en erreur</strong> ! (<em>promise broken</em>)</li>
+  </ul>
+</section>
+
+<section class="slide">
+  <h2>Outils du langage et de la STL &rarr; Bibliothèque</h2>
+  <h3>Promise/future (2/3)</h3>
+  <h4>Future</h4>
+  <ul>
+    <li>Côté client de la tâche asynchrone;</li>
+    <li>Récupérateur du résultat.</li>
+  </ul>
+  <p>Méthodes importantes :</p>
+  <ul>
+    <li><code>T get();</code></li>
+    <li><code>void wait() const;</code></li>
+  </ul>
+</section>
+
+<section class="slide">
+  <h2>Outils du langage et de la STL &rarr; Bibliothèque</h2>
+  <h3>Promise/future (3/3)</h3>
+  <p>Exemple :</p>
+  <pre><code>std::promise&lt;int&gt; prom;
+auto fut = prom.get_future();
+prom.set_value(42);
+int a = fut.get(); // a = 42</code></pre>
+</section>
+
+<section class="slide">
+  <h2>Outils du langage et de la STL &rarr; Bibliothèque</h2>
+  <h3>Utilitaires (1/5)</h3>
+  <h4>std::async</h4>
+  <p>Lance une tâche asynchrone.</p>
+  <pre><code>#include &lt;future&gt;
+std::future&lt;R&gt; async(std::launch policy, Function&amp;&amp; f, Args&amp;&amp;... args);</code></pre>
+  <ul>
+    <li><code>std::launch::deferred</code></li>
+    <li><code>std::launch::async</code></li>
+  </ul>
+</section>
+
+<section class="slide">
+  <h2>Outils du langage et de la STL &rarr; Bibliothèque</h2>
+  <h3>Utilitaires (2/5)</h3>
+  <h4>std::packaged_task</h4>
+  <p>Encapsule une tâche et permet d'en récupérer une future.</p>
+  <pre><code>#include &lt;future&gt;
+std::packaged_task&lt;int(int)&gt; task{ [](int a){ return a * 12; } };
+auto fut = task.get_future();
+task(3);
+int res = fut.get(); // res = 36</code></pre>
+</section>
+
+<section class="slide">
+  <h2>Outils du langage et de la STL &rarr; Bibliothèque</h2>
+  <h3>Utilitaires (3/5)</h3>
+  <h4>std::lock</h4>
+  <p>Algorithme pour locker plusieurs Lockable (mutex et locks) sans deadlock.</p>
+  <pre><code>#include &lt;mutex&gt;
+std::mutex mut1;
+std::mutex mut2;
+
+std::lock(mut1, mut2);
+std::lock_guard&lt;std::mutex&gt; l1 { mut1, std::adopt_lock };
+std::lock_guard&lt;std::mutex&gt; l2 { mut2, std::adopt_lock };</code></pre>
+</section>
+
+<section class="slide">
+  <h2>Outils du langage et de la STL &rarr; Bibliothèque</h2>
+  <h3>Utilitaires (4/5)</h3>
+  <h4>std::call_once</h4>
+  <p>Permet d'appeler une fonction une seule et unique fois entre tous les threads.</p>
+  <pre><code>#include &lt;mutex&gt;
+std::once_flag flag;
+std::call_once(flag, []{
+  std::cout &lt;&lt; "Hello world, this will only occur once\n";
+});</code></pre>
+</section>
+
+<section class="slide">
+  <h2>Outils du langage et de la STL &rarr; Bibliothèque</h2>
+  <h3>Utilitaires (5/5)</h3>
+  <h4>std::this_thread::sleep_for</h4>
+  <p>Endort le thread courant.</p>
+  <pre><code>#include &lt;thread&gt;
+#include &lt;chrono&gt;
+
+std::this_thread::sleep_for(std::chrono::seconds{ 3 }); // dodo pour 3 secs</code></pre>
 </section>
 
 <section class="slide">
@@ -489,6 +736,19 @@ Qu'est ce qui est thread-safe dans la STL ?
 <section class="slide">
   <h2>Réflexion</h2>
   <h3>Conseils et bonnes pratiques</h3>
+  <ul>
+    <li><strong>N'utilisez pas les primitives de synchronisation !</strong></li>
+    <li>Il est quasiment impossible de les utiliser correctement et clairement.</li>
+    <li>Utilisez des concepts de synchronisation haut niveau.</li>
+    <li>Partez du principe que tout peut arriver à n'importe quel moment.
+      <pre><code>std::atomic&lt;int&gt; a;
+if (a == 42) {
+  --a;
+  // DATA RACE : entre la comparaison et la décrémentation,
+  // a peut avoir changer de valeur
+}</code></pre>
+    </li>
+  </ul>
 </section>
 
 <section class="slide">
@@ -513,11 +773,17 @@ Qu'est ce qui est thread-safe dans la STL ?
 <section class="slide">
   <h2>Réflexion</h2>
   <h3>Concepts haut niveau</h3>
-    - Concurrent queue
-    - Executors
-    - Strand
-    - Worker
-    - Threadpool
+  <p>Quelques exemples, sans entrer dans les détails :</p>
+  <ul>
+    <li>Concurrent queue</li>
+    <li>Executors</li>
+    <li>Strand</li>
+    <li>Threadpool</li>
+    <li>Event loop</li>
+    <li>Worker thread</li>
+    <li>Fibers</li>
+    <li>Channels</li>
+  </ul>
 </section>
 
 <section class="slide">
@@ -537,16 +803,22 @@ Qu'est ce qui est thread-safe dans la STL ?
   <h2>Conclusion</h2>
   <h3>Résumé</h3>
   <ul>
-    <li>;</li>
-    <li>;</li>
-    <li>.</li>
+    <li>La programmation multithread est <strong>difficile et coûteuse</strong>;</li>
+    <li>Ne jamais en faire <strong>sans être sûr d'en avoir besoin</strong>;</li>
+    <li>Les outils introduits en C++11 sont un début mais sont <strong>aussi incomplets</strong>;</li>
+    <li>Si vous en faites, <strong>n'utilisez pas les primitives de synchronisation directement</strong>;</li>
+    <li>A moins que ce soit pour implémenter d'autres outils de synchronisation;</li>
+    <li>Se référer aux implémentations existantes (cf Github).</li>
   </ul>
 </section>
 
 <section class="slide">
   <h2>Conclusion</h2>
   <h3>Recommandations</h3>
-http://sean-parent.stlab.cc/papers-and-presentations#better-code-concurrency
+  <p>
+    Présentation <em>Better Code: Concurrency</em> par Sean Parent<br/>
+    <a href="http://sean-parent.stlab.cc/papers-and-presentations#better-code-concurrency">http://sean-parent.stlab.cc/papers-and-presentations#better-code-concurrency</a>
+  </p>
 </section>
 
 <section class="slide">
