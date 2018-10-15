@@ -4,6 +4,7 @@
 
 * TDD - 3 sessions - June 2017
 * Generic C++ - 2 sessions - February 2018
+* Mastering C++11 - 2 sessions - October 2018
 
 ## Requirements
 
@@ -18,7 +19,7 @@
 ## Getting started
 
 * Clone this repository
- `git clone --recursive https://git-totem.devenly.fr/vpalancher/formation_cpp.git`.
+ `git clone --recursive <this_repository_url>`.
 
 ### Slides
 
