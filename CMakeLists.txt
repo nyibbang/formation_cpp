@@ -15,11 +15,11 @@ set(gtest_force_shared_crt TRUE CACHE BOOL "" FORCE)
 add_subdirectory(contrib/googletest)
 
 include_directories(${gtest_SOURCE_DIR}/include ${gtest_SOURCE_DIR})
-add_subdirectory(sessions/tdd/1/practical_cases)
-add_subdirectory(sessions/tdd/2/practical_cases)
-add_subdirectory(sessions/tdd/3/practical_cases)
-add_subdirectory(sessions/genericcpp/1/practical)
-add_subdirectory(sessions/genericcpp/2/practical)
+add_subdirectory(sessions/1_tdd/1/practical_cases)
+add_subdirectory(sessions/1_tdd/2/practical_cases)
+add_subdirectory(sessions/1_tdd/3/practical_cases)
+add_subdirectory(sessions/2_genericcpp/1/practical)
+add_subdirectory(sessions/2_genericcpp/2/practical)
 
 option(FORMATIONCPP_COMPILE_GENERIC_TESTS
   "If true, the project will compile the generic tests in the tests subdirectory"
