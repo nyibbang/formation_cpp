@@ -1,0 +1,18 @@
+Undefined behavior
+RAII
+ODR
+nullptr
+initializer_list
+Range-based `for` loop
+Type inference (auto)
+Lambdas
+`override`, `final`
+constexpr
+Rvalue references and move constructors
+Ctor delegation
+ADL
+Smart pointers (unique_ptr vs shared_ptr)
+Algorithms (+ iterators concepts)
+Containers
+Variadic templates
+Template metaprog
