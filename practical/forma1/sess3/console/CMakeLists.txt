@@ -1,0 +1,2 @@
+add_executable(forma1_sess3_console console.cpp)
+target_link_libraries(forma1_sess3_console forma1_sess3_utils)

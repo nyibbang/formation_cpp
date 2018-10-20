@@ -1,0 +1,3 @@
+add_executable(forma1_sess2_interpreter interpreter.hpp interpreter.cpp test.cpp)
+add_test(NAME forma1_sess2_interpreter COMMAND forma1_sess2_interpreter)
+target_link_libraries(forma1_sess2_interpreter gmock_main)

@@ -1,4 +1,0 @@
-add_library(tdd_sess1_fibonacci STATIC fibonacci.hpp fibonacci.cpp)
-add_executable(tdd_sess1_fibonacci_test test.cpp)
-add_test(NAME tdd_sess1_fibonacci_test COMMAND tdd_sess1_fibonacci_test)
-target_link_libraries(tdd_sess1_fibonacci_test tdd_sess1_fibonacci gtest_main)

@@ -2,8 +2,8 @@
 
 ## Sessions
 
-* TDD - 3 sessions - June 2017
-* Generic C++ - 2 sessions - February 2018
+* Test Driven Development - 3 sessions - June 2017
+* C++11/14/17, Design Patterns and Multithreading - 2 sessions - February 2018
 * Mastering C++11 - 2 sessions - October 2018
 
 ## Requirements
@@ -23,10 +23,10 @@
 
 ### Slides
 
-* Slides are available as HTML files named *slides.html* in *sessions/1_tdd* and
-  *sessions/2_genericcpp* subdirectories.
+* Slides are available as HTML files named in the *slides* subdirectory.
 
 ### Code
+* All the code used in the presentations is available in the *practical* subdirectory.
 * Create a directory *build* at the root of the repository (`mkdir build`), and
   go into it (`cd build`).
 * Run **cmake** (`cmake ..`).
