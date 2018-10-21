@@ -40,4 +40,5 @@ TEST(MatrixType, CopyEquality)
 TEST(Matrix, FirstTestCase) // TODO change test case name
 {
   // TODO
+  FAIL();
 }

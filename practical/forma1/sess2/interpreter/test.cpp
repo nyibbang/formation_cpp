@@ -32,4 +32,5 @@ public:
 TEST(Interpreter, FirstTestCase) // TODO change test case name
 {
   // TODO
+  FAIL();
 }

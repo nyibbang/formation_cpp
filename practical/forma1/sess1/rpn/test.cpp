@@ -52,4 +52,5 @@ TEST(RPNDetail, SplitEmpty)
 TEST(RPN, FirstTestCase) // TODO change test case name
 {
   // TODO
+  FAIL();
 }
