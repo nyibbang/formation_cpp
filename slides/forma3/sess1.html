@@ -327,29 +327,25 @@ auto it = mymap.begin(); // ça semble évident.</code></pre>
 
   <section class="slide">
     <h3>Qu'est-ce que c'est ?</h3>
-    <ul>
-      <li>Déclare que la méthode virtuelle est une réimplémentation de la méthode de la classe parente.
-        <pre><code>class Mother {
+    <p>Déclare que la méthode virtuelle est une réimplémentation de la méthode de la classe parente.</p>
+    <pre><code>class Mother {
   virtual void do_stuff();
 };
 class Daughter : public Mother {
   void do_stuff() override;
-};</code></pre></li>
-    </ul>
+};</code></pre>
   </section>
 
   <section class="slide">
     <h3>Pourquoi c'est utile ?</h3>
-    <ul>
-      <li>Cela évite les erreurs de signatures.
-        <pre><code>class Mother {
+    <p>Cela évite les erreurs de signatures.</p>
+    <pre><code>class Mother {
   virtual void do_stuff(int a); // Quelqu'un a ajouté un paramètre !
 };
 class Daughter : public Mother {
   void do_stuff(); // Avant: pas d'erreur, le code compile mais la méthode n'est plus surchargée.
   void do_stuff() override; // Après: erreur de compilation
-};</code></pre></li>
-    </ul>
+};</code></pre>
   </section>
 
   <section class="slide">
@@ -363,8 +359,7 @@ class Daughter : public Mother {
 
   <section class="slide">
     <h3>Qu'est-ce que c'est ?</h3>
-    <ul>
-      <li>Déclare qu'une méthode ou un classe ne peut pas être réimplémentée.</li>
+    <p>Déclare qu'une méthode ou un classe ne peut pas être réimplémentée.</p>
         <pre><code>class Mother final {
 };
 class Daughter : public Mother { // erreur
@@ -375,8 +370,6 @@ class Daughter : public Mother { // erreur
 class Daughter : public Mother {
   void do_stuff() override; // erreur
 };</code></pre>
-      </li>
-    </ul>
   </section>
 
   <section class="slide">
@@ -461,6 +454,76 @@ class Do_stuff_then_a_then_b_then_c : public Base {
 
 <section class="slide">
   <h2>RAII</h2>
+
+  <section class="slide">
+    <h3>Qu'est-ce que c'est ?</h3>
+    <p><strong><em>Resource Acquisition is Initialization</em></strong>.</p>
+    <p>Encapsulation d'une ressource dans un objet alloué sur la pile.<p/><p>Exemples de ressources :</p>
+    <ul>
+      <li>Allocation mémoire.</li>
+      <li>Ouverture d'un fichier.</li>
+      <li>Acquisition d'un mutex.</li>
+    </ul>
+    <p>En général, tout ce qui a une étape d'initialisation et une étape de nettoyage.</p>
+  </section>
+</section>
+
+<section class="slide">
+  <h2>RAII (2)</h2>
+
+  <section class="slide">
+    <h3>Quel intérêt ?</h3>
+    <p>Protéger les ressources des multiples points de sortie d'une fonction.</p>
+    <p>Une fonction peut se terminer à cause de :</p>
+    <ul>
+      <li>Une instruction <code>return</code>.</li>
+      <li>Une exception.</li>
+    </ul>
+    <p>Toujours s'assurer de l'état de l'objet ou de la fonction si une exception est levée !</p>
+  </section>
+
+  <section class="slide">
+    <pre><code>struct Object {
+  enum State { Working, Waiting };
+  State _state;
+
+  void foo() {
+    int* p = new int{42};
+    _state = Working;
+    bar(); // Si bar lève une exception:
+           //   - fuite mémoire car le pointeur n'est pas libéré.
+           //   - l'objet reste en état 'Working' alors que la fonction est terminée.
+    _state = Waiting;
+    delete p;
+  }
+};</code></pre>
+  </section>
+</section>
+
+<section class="slide">
+  <h2>RAII (3)</h2>
+
+  <section class="slide">
+    <h3>Comment fait-on ?</h3>
+    <p>
+      Si possible utiliser des types existants: <code>std::unique_ptr</code>,
+      <code>std::lock_guard</code>, <code>std::unique_lock</code>, etc.
+    </p>
+    <pre><code>struct Raii_object {
+  Resource_handle _handle;
+  Raii_object()
+    : _handle(alloc_resource) {
+  }
+  ~Raii_object() {
+    release_resource(_handle);
+  }
+};</code></pre>
+  </section>
+
+  <section class="slide">
+    <h3>Exercice forma3_sess1_exo5</h3>
+    <p>Rendre une fonction <em>exception-safe</em>.</p>
+  </section>
 </section>
 
 <section class="slide">
