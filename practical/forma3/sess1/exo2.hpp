@@ -4,13 +4,13 @@
 
 // Un tableau qui contient des valeurs qui croissent:
 //   [1, 2, 3, 4, 5, 6, ...]
-class CountingArray
+class Counting_array
 {
 public:
   using Data = std::array<int, 64>;
   using Iterator = Data::iterator;
 
-  CountingArray()
+  Counting_array()
   {
     std::iota(_data.begin(), _data.end(), 1);
   }

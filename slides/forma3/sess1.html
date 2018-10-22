@@ -314,6 +314,11 @@ auto it = mymap.begin(); // ça semble évident.</code></pre>
       </li>
     </ul>
   </section>
+
+  <section class="slide">
+    <h3>Exercice <em>forma3_sess1_exo3</em></h3>
+    <p>Transformer les types de variables en <em>auto</em>.</p>
+  </section>
 </section>
 
 <!-- override, final -->
@@ -325,10 +330,10 @@ auto it = mymap.begin(); // ça semble évident.</code></pre>
     <ul>
       <li>Déclare que la méthode virtuelle est une réimplémentation de la méthode de la classe parente.
         <pre><code>class Mother {
-  virtual void doStuff();
+  virtual void do_stuff();
 };
 class Daughter : public Mother {
-  void doStuff() override;
+  void do_stuff() override;
 };</code></pre></li>
     </ul>
   </section>
@@ -338,11 +343,11 @@ class Daughter : public Mother {
     <ul>
       <li>Cela évite les erreurs de signatures.
         <pre><code>class Mother {
-  virtual void doStuff(int a); // Quelqu'un a ajouté un paramètre !
+  virtual void do_stuff(int a); // Quelqu'un a ajouté un paramètre !
 };
 class Daughter : public Mother {
-  void doStuff(); // Avant: pas d'erreur, le code compile mais la méthode n'est plus surchargée.
-  void doStuff() override; // Après: erreur de compilation
+  void do_stuff(); // Avant: pas d'erreur, le code compile mais la méthode n'est plus surchargée.
+  void do_stuff() override; // Après: erreur de compilation
 };</code></pre></li>
     </ul>
   </section>
@@ -365,10 +370,10 @@ class Daughter : public Mother {
 class Daughter : public Mother { // erreur
 };</code></pre>
         <pre><code>class Mother {
-  virtual void doStuff() final;
+  virtual void do_stuff() final;
 };
 class Daughter : public Mother {
-  void doStuff() override; // erreur
+  void do_stuff() override; // erreur
 };</code></pre>
       </li>
     </ul>
@@ -387,27 +392,72 @@ class Daughter : public Mother {
     <h3>Quand l'utiliser ?</h3>
     <p>Avec parcimonie.<br/>Un exemple :</p>
         <pre><code>class Base {
-  virtual void doStuff() = 0;
+  virtual void do_stuff() = 0;
 };
-class DoStuffAThenBThenC : public Base {
-  void doStuff() final override { // On ne veut pas que les filles touchent à cette implem,
-                                  // mais plutôt aux autres méthodes, car cela fait partie
-                                  // de l'invariant de cette classe.
-    doA();
-    doB();
-    doC();
+class Do_stuff_then_a_then_b_then_c : public Base {
+  void do_stuff() final override { // On ne veut pas que les filles touchent à cette implem,
+                                   // mais plutôt aux autres méthodes, car cela fait partie
+                                   // de l'invariant de cette classe.
+    do_a();
+    do_b();
+    do_c();
   }
-  virtual void doA() = 0;
-  virtual void doB() = 0;
-  virtual void doC() = 0;
+  virtual void do_a() = 0;
+  virtual void do_b() = 0;
+  virtual void do_c() = 0;
 };</code></pre>
   </section>
 </section>
 
 <section class="slide">
   <h2>Lambdas</h2>
+  <section class="slide">
+    <h3>Qu'est-ce que c'est ?</h3>
+    <p>Une fonction anonyme. Elle peut accéder aux variables de son scope.</p>
+    <pre><code>void foo() {
+  int a = 42;
+  auto fun = [&amp;]{
+    return a + 2;
+  };
+  int b = fun() + 10;
+  assert(b == 54);
+}</code></pre>
+  </section>
+
+  <section class="slide">
+    <h3>Syntaxe</h3>
+    <pre><code>[captures](arguments) mutable? { code }</code></pre>
+    <ul>
+      <li>Captures:
+        <ul>
+          <li>Capture par copie : <code>variable</code></li>
+          <li>Capture par référence : <code>&amp;variable</code></li>
+          <li>Capture tout par copie : <code>=</code></li>
+          <li>Capture tout par référence : <code>&amp;</code></li>
+        </ul>
+      </li>
+      <li><code>mutable</code> : la lambda peut modifier ses captures.</li>
+    </ul>
+  </section>
 </section>
 
+<section class="slide">
+  <h2>Lambdas (2)</h2>
+  <section class="slide">
+    <h3>Equivalence</h3>
+    <pre><code>struct Lambda {
+  captures;
+  auto operator()(arguments) const? {
+    code
+  }
+};</code></pre>
+  </section>
+
+  <section class="slide">
+    <h3>Exercice <em>forma3_sess1_exo4</em></h3>
+    <p>Chercher un élément dans un vecteur.</p>
+  </section>
+</section>
 
 <section class="slide">
   <h2>RAII</h2>
