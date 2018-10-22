@@ -197,8 +197,7 @@
       <code>#define NULL 0</code> &rarr; type ambigu
       <pre><code>void foo(int);
 void foo(void*);
-foo(NULL); // Quelle overload est appelée ?
-</code></pre>
+foo(NULL); // Quelle overload est appelée ?</code></pre>
     </p>
   </section>
 
@@ -249,6 +248,74 @@ foo(NULL); // Quelle overload est appelée ?
     <p>Implémenter un range simple sur lequel itérer dans une boucle.</p>
   </section>
 </section>
+
+<!-- auto -->
+<section class="slide">
+  <h2>Type inference: <em>auto</em></h2>
+  <section class="slide">
+    <h3>Qu'est-ce que c'est ?</h3>
+    <p>Un mot clé pour forcer le compilateur à déduire le type d'une variable.</p>
+    <pre><code>auto i = 42; // i est un 'int'
+auto s = "abc"; // s est un 'const char*'</code></pre>
+    <p>Permet de créer des variables dont le type n'est pas expressible.
+      <pre><code>??? myfunc = []{ return 42; } // Woops</code></pre>
+    </p>
+  </section>
+
+  <section class="slide">
+    <h3>Qu'est-ce que ça n'est pas ?</h3>
+    <p>Un type magique qui peut contenir n'importe quoi !</p>
+    <p>Le type est <strong>déduit à la compilation</strong> et <strong>ne peut pas changer</strong>.</p>
+  </section>
+</section>
+
+<section class="slide">
+  <h2>Type inference: <em>auto</em> (2)</h2>
+  <h3>Polémique</h3>
+
+  <section class="slide">
+    <h4>Reproches</h4>
+    <ul>
+      <li class="slide">On ne sait plus quel type on manipule, obfuscation du code (clarté).</li>
+      <li class="slide">Pour certains développeurs, c'est un manque de rigueur (paresse).</li>
+      <li class="slide">Plutôt que spécifier le type de notre variable, on
+        dépend de ce que la fonction retourne (engagement).</li>
+    </ul>
+  </section>
+</section>
+
+<section class="slide">
+  <h2>Type inference: <em>auto</em> (3)</h2>
+  <h3>Polémique (2)</h3>
+  <section class="slide">
+    <h4>AAA Style (almost always auto)</h4>
+    <p>Herb Sutter, membre du comité C++,
+      <a href=https://herbsutter.com/2013/08/12/gotw-94-solution-aaa-style-almost-always-auto/>
+        lien</a>.
+    </p>
+    <ul>
+      <li class="slide">Consistence, performance: Le compilateur ne se trompe jamais sur le
+        type qu'il déduit. Il évite aussi les conversions implicites.</li>
+      <li class="slide">Clarté:<br/><em>auto</em> ne cache pas nécessairement le type. Certains développeurs conseillent la syntaxe suivante.
+        <pre><code>auto s = string{"abc"}; // la conversion est plus claire que 'string s{"abc"}'
+                        // la syntaxe est plus homogène avec le reste du code</code></pre>
+        Les IDE amortissent l'impact d'<em>auto</em> sur la lisibilité, et certains types au nom très long nuisent à
+        la lecture.
+        <pre><code>std::unordered_map&lt;std::string, std::vector&lt;int&gt;&gt; mymap;
+std::unordered_map&lt;std::string, std::vector&lt;int&gt;&gt;::iterator it = mymap.begin(); // on se répète non ?
+auto it = mymap.begin(); // ça semble évident.</code></pre>
+      </li>
+      <li class="slide">Engagement: Il ne faut pas se rendre dépendant des implémentations mais des interfaces.<br/>
+        <em>auto</em> est le <strong>concept</strong> le moins contraignant et donc le plus faible.
+        <pre><code>Iterator it = myvector.begin();
+// Ici Iterator ne serait pas un type mais un concept. L'interface est claire,
+// l'implémentation (le véritable type) est cachée.  Le code est plus clair et documenté que
+// auto it = myvector.begin();</code></pre>
+      </li>
+    </ul>
+  </section>
+</section>
+
 
   <!--
   #########################################################################################################
