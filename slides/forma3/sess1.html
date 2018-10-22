@@ -5,7 +5,7 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
   <meta name="viewport" content="width=1024, user-scalable=no">
 
-  <title>Formation C++14/17</title>
+  <title>C++ moderne : perfectionnement</title>
 
   <!-- Required stylesheet -->
   <link rel="stylesheet" media="screen" href="../../contrib/deck.js/core/deck.core.css">
@@ -18,10 +18,10 @@
   <link rel="stylesheet" media="screen" href="../../contrib/deck.js/extensions/scale/deck.scale.css">
 
   <!-- Style theme. More available in /themes/style/ or create your own. -->
-  <link rel="stylesheet" media="screen" href="../themes/ingima2.css">
+  <link rel="stylesheet" media="screen" href="../themes/ingima.css">
 
   <!-- Transition theme. More available in /themes/transition/ or create your own. -->
-  <link rel="stylesheet" media="screen" href="../../contrib/deck.js/themes/transition/horizontal-slide.css">
+  <link rel="stylesheet" media="screen" href="../../contrib/deck.js/themes/transition/fade.css">
 
   <!-- Basic black and white print styles -->
   <link rel="stylesheet" media="print" href="../../contrib/deck.js/core/print.css">
@@ -33,6 +33,10 @@
   <script src="../../contrib/deck.js/modernizr.custom.js"></script>
 </head>
 <body class="language-cpp">
+
+  <header>
+    <img src="../media/ingima-logo.png" class="logo">
+  </header>
 
   <div class="home">
 
@@ -93,8 +97,157 @@
 
 <section class="slide title">
   <h1>Maîtrise et perfectionnement<br/>en C++ moderne<br/>
-    <small>Première partie</small>
+    <small>Première partie<br/>23 octobre 2018</small>
   </h1>
+</section>
+
+<section class="slide">
+  <h2>Introduction</h2>
+  <h3>Vincent Palancher, développeur C++</h3>
+  <ul>
+  <li class="slide">Formation d'ingénieur à l'Université de Technologie de Compiègne (UTC) en 2012.</li>
+  <li class="slide">6 ans d'expérience.<ul>
+      <li class="slide">6 mois chez <strong>General Electrics</strong>.
+        <ul><li>Logiciel de traitement d'images médicales (C++).</li></ul>
+      </li>
+      <li class="slide">3 ans chez <strong>CS</strong>.
+        <ul><li>Logiciel de contrôle aérien (C++11/Qt).</li></ul>
+      </li>
+      <li class="slide">1 an chez <strong>Ineo Défense</strong>.
+        <ul><li>Logiciel de contrôle d'équipement radio (C++11/Qt5).</li></ul>
+      </li>
+      <li class="slide">1 an et demi chez <strong>SoftBank Robotics Europe</strong>.
+        <ul><li>Bibliothèque embarquée de communication pour robot (C++11 et +).</li></ul>
+      </li>
+    </ul>
+  </li>
+  </ul>
+  <h3 class="slide">A vous !</h3>
+</section>
+
+<section class="slide">
+  <h2>Introduction (2)</h2>
+  <h3>Objectifs</h3>
+  <ul>
+    <li class="slide">Arrêter le C++98/03 !</li>
+    <li class="slide">Mieux comprendre le C++11.
+      <ul><li>On rentrera plus en détail que la dernière formation.</li></ul>
+    </li>
+    <li class="slide">Se préparer aux prochaines normes.</li>
+  </ul>
+</section>
+
+<section class="slide">
+  <h2>Introduction (3)</h2>
+  <h3>Première partie</h3>
+  <ul>
+    <li class="slide"><em>nullptr</em></li>
+    <li class="slide"><em>for-range loop</em></li>
+    <li class="slide"><em>auto</em></li>
+    <li class="slide"><em>override</em>, <em>final</em></li>
+    <li class="slide"><em>lambdas</em></li>
+    <li class="slide"><em>smart pointers</em></li>
+    <li class="slide"><em>constexpr</em></li>
+    <li class="slide"><em>initializer_list</em></li>
+    <li class="slide">Et plus encore.</li>
+  </ul>
+</section>
+
+<section class="slide">
+  <h2>Préambule</h2>
+  <h3>Comment s'améliorer en C++ ?</h3>
+  <p class="slide">Il suffit de lire la documentation !</p>
+  <section class="slide">
+    <h4>Où la trouver ?</h4>
+    <ul>
+      <li><a href="https://en.cppreference.com">https://en.cppreference.com</a></li>
+      <li><a href="https://fr.cppreference.com">https://fr.cppreference.com</a> (pas à jour)</li>
+    </ul>
+  </section>
+  <section class="slide">
+    <h4>Outils utiles</h4>
+    <ul>
+      <li><a href="https://godbolt.org">https://godbolt.org</a>, pour compiler, inspecter l'asm avec différents compilateurs.</li>
+      <li><a href="http://quick-bench.com">http://quick-bench.com</a>, pour benchmarker.</li>
+    </ul>
+  </section>
+</section>
+
+<section class="slide">
+  <h2>Documentation</h2>
+  <ul>
+    <li class="slide">Compiler support.</li>
+    <li class="slide">Langage.</li>
+    <li class="slide">Bibliothèque standard.</li>
+  </ul>
+</section>
+
+<!-- nullptr -->
+<section class="slide">
+  <h2><em>nullptr</em></h2>
+  <section class="slide">
+    <h3>Qu'est-ce que c'est ?</h3>
+    <p>Constante de type <code>std::nullptr_t</code> implicitement convertible en pointeur.</p>
+    <p>Equivalent à la macro <code>NULL</code>.</p>
+  </section>
+
+  <section class="slide">
+    <h3>Quel est le problème ?</h3>
+    <p>
+      <code>#define NULL 0</code> &rarr; type ambigu
+      <pre><code>void foo(int);
+void foo(void*);
+foo(NULL); // Quelle overload est appelée ?
+</code></pre>
+    </p>
+  </section>
+
+  <section class="slide">
+    <h3>Solution</h3>
+    <p>Remplacer tous les <code>NULL</code> par <code>nullptr</code>. Simple.</p>
+    <p>A partir de C++11, <code>#define NULL nullptr</code>.</p>
+  </section>
+
+  <section class="slide">
+    <h3>Exercice <em>forma3_sess1_exo1</em></h3>
+    <p>Possibilité de surcharger ses fonctions pour <code>nullptr</code>.</p>
+    <p>Est-ce suffisant pour ne pas vérifier les pointeurs nuls dans les autres surcharges ?</p>
+  </section>
+</section>
+
+<!-- for-range for -->
+<section class="slide">
+  <h2><em>range for loop</em></h2>
+
+  <section class="slide">
+    <h3>Qu'est-ce que c'est ?</h3>
+    <p>Un moyen d'itérer simplement sur les <em>ranges</em> (comme les conteneurs).</p>
+  </section>
+
+  <section class="slide">
+    <h3>Equivalence (simplifiée)</h3>
+    <pre><code>for (auto&amp;&amp; elem : range) {
+  code
+}</code></pre>
+    <pre><code>for (auto begin = range.begin(), end = range.end(); begin != end; ++begin) {
+  auto&amp;&amp; elem = *begin;
+  code
+}</code></pre>
+  </section>
+
+  <section class="slide">
+    <h3>Pourquoi l'utiliser ?</h3>
+    <p>Plus concis, plus clair, évite les problèmes de <em>bound checking</em>.</p>
+    <pre><code>for (int i = 0; i &lt; range.size(); ++i) {
+  if (range[i] == range[i + 1]) // woops, erreur simple à éviter mais obscure
+    doublon();
+}</code></pre>
+  </section>
+
+  <section class="slide">
+    <h3>Exercice <em>forma3_sess1_exo2</em></h3>
+    <p>Implémenter un range simple sur lequel itérer dans une boucle.</p>
+  </section>
 </section>
 
   <!--
@@ -131,6 +284,10 @@
     </article>
 
   </div>
+
+  <footer>
+    <h3>Vincent PALANCHER - vincent.palancher@gmail.com</h3>
+  </footer>
 
   <!-- Required JS files. -->
   <script src="../../contrib/deck.js/jquery.min.js"></script>
