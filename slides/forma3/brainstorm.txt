@@ -1,20 +1,9 @@
+Part1:
+
 - How-to read the documentation
   - where : cppreference.com
   - what's the important things to read
-
-- Undefined behavior
-  - Difference with unspecified behavior
-  - what is it
-  - why is it important
-
-- RAII
-  - what is it
-  - why is it useful
-  - why is it important
-
-- ADL
-  - what is it
-  - why is it important
+  - also godbolt.org quick-bench.com
 
 - nullptr
   - use everywhere you used NULL
@@ -28,13 +17,25 @@
   - why is it important
   - concepts are better
 
+- `override`, `final`
+  - use override everywhere
+  - use final carefully
+
 - Lambdas
   - what is it, how does it work.
   - why is it useful
 
-- `override`, `final`
-  - use override everywhere
-  - use final carefully
+- RAII
+  - what is it
+  - why is it useful
+  - why is it important
+
+- Smart pointers (unique_ptr vs shared_ptr)
+  - in the doc
+  - what is it
+  - why is it useful
+  - why is it important
+  - what you should use
 
 - initializer_list
   - in the doc
@@ -48,19 +49,19 @@
   - when should you use it
   - why is it important
 
+- Undefined behavior
+  - Difference with unspecified behavior
+  - what is it
+  - why is it important
+
+Part2:
+
 - Rvalue references and move constructors
   - what is it
   - why is it useful
   - why is it important
   - std::move, std::forward
   - wtf is going on
-
-- Smart pointers (unique_ptr vs shared_ptr)
-  - in the doc
-  - what is it
-  - why is it useful
-  - why is it important
-  - what you should use
 
 - Containers
   - in the doc
@@ -76,6 +77,10 @@
 - Template metaprog
   - what is it
   - why is it useful
+
+- ADL
+  - what is it
+  - why is it important
 
 - SFINAE
   - what is it
