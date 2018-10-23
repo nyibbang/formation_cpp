@@ -47,13 +47,13 @@
   # Content
   #
   # Title slide:
-  # ------------
+  #
   # <section class="slide title">
   #   <h1>Section</h1>
   # </section>
   #
   # Slide
-  # -----
+  #
   # <section class="slide">
   #   <h2>Section &rarr; Subsection</h2>
   #   <h3>Subsubsection</h3>
@@ -66,7 +66,7 @@
   # </section>
   #
   # Code slide
-  # ---------
+  #
   # <section class="slide">
   #   <h2>Section &rarr; Subsection</h2>
   #   <h3>Subsubsection</h3>
@@ -76,7 +76,7 @@
   # </section>
   #
   # Plan
-  # ----
+  #
   # <section class="slide">
   #   <h2>Section</h2>
   #   <h3>Plan</h3>
@@ -187,24 +187,22 @@
   <h2><em>nullptr</em></h2>
   <section class="slide">
     <h3>Qu'est-ce que c'est ?</h3>
-    <p>Constante de type <code>std::nullptr_t</code> implicitement convertible en pointeur.</p>
-    <p>Equivalent à la macro <code>NULL</code>.</p>
+    <p class="slide">Constante de type <code>std::nullptr_t</code> implicitement convertible en pointeur.</p>
+    <p class="slide">Equivalent à la macro <code>NULL</code>.</p>
   </section>
 
   <section class="slide">
     <h3>Quel est le problème ?</h3>
-    <p>
-      <code>#define NULL 0</code> &rarr; type ambigu
-      <pre><code>void foo(int);
+    <p class="slide"><code>#define NULL 0</code> &rarr; type ambigu</p>
+    <pre class="slide"><code>void foo(int);
 void foo(void*);
 foo(NULL); // Quelle overload est appelée ?</code></pre>
-    </p>
   </section>
 
   <section class="slide">
-    <h3>Solution</h3>
-    <p>Remplacer tous les <code>NULL</code> par <code>nullptr</code>. Simple.</p>
-    <p>A partir de C++11, <code>#define NULL nullptr</code>.</p>
+    <h3>Comment l'utiliser ?</h3>
+    <p class="slide">Remplacer tous les <code>NULL</code> par <code>nullptr</code>. Simple.</p>
+    <p class="slide">A partir de C++11, <code>#define NULL nullptr</code>.</p>
   </section>
 
   <section class="slide">
@@ -225,10 +223,10 @@ foo(NULL); // Quelle overload est appelée ?</code></pre>
 
   <section class="slide">
     <h3>Equivalence (simplifiée)</h3>
-    <pre><code>for (auto&amp;&amp; elem : range) {
+    <pre class="slide"><code>for (auto&amp;&amp; elem : range) {
   code
 }</code></pre>
-    <pre><code>for (auto begin = range.begin(), end = range.end(); begin != end; ++begin) {
+    <pre class="slide"><code>for (auto begin = range.begin(), end = range.end(); begin != end; ++begin) {
   auto&amp;&amp; elem = *begin;
   code
 }</code></pre>
@@ -236,8 +234,8 @@ foo(NULL); // Quelle overload est appelée ?</code></pre>
 
   <section class="slide">
     <h3>Pourquoi l'utiliser ?</h3>
-    <p>Plus concis, plus clair, évite les problèmes de <em>bound checking</em>.</p>
-    <pre><code>for (int i = 0; i &lt; range.size(); ++i) {
+    <p class="slide">Plus concis, plus clair, évite les problèmes de <em>bound checking</em>.</p>
+    <pre class="slide"><code>for (int i = 0; i &lt; range.size(); ++i) {
   if (range[i] == range[i + 1]) // woops, erreur simple à éviter mais obscure
     doublon();
 }</code></pre>
@@ -254,18 +252,19 @@ foo(NULL); // Quelle overload est appelée ?</code></pre>
   <h2>Type inference: <em>auto</em></h2>
   <section class="slide">
     <h3>Qu'est-ce que c'est ?</h3>
-    <p>Un mot clé pour forcer le compilateur à déduire le type d'une variable.</p>
-    <pre><code>auto i = 42; // i est un 'int'
+    <p class="slide">Un mot clé pour forcer le compilateur à déduire le type d'une variable.</p>
+    <pre class="slide"><code>auto i = 42; // i est un 'int'
 auto s = "abc"; // s est un 'const char*'</code></pre>
-    <p>Permet de créer des variables dont le type n'est pas expressible.
+    <section class="slide">
+      <p>Permet de créer des variables dont le type n'est pas expressible.</p>
       <pre><code>??? myfunc = []{ return 42; } // Woops</code></pre>
-    </p>
+    </section>
   </section>
 
   <section class="slide">
     <h3>Qu'est-ce que ça n'est pas ?</h3>
-    <p>Un type magique qui peut contenir n'importe quoi !</p>
-    <p>Le type est <strong>déduit à la compilation</strong> et <strong>ne peut pas changer</strong>.</p>
+    <p class="slide">Un type magique qui peut contenir n'importe quoi !</p>
+    <p class="slide">Le type est <strong>déduit à la compilation</strong> et <strong>ne peut pas changer</strong>.</p>
   </section>
 </section>
 
@@ -289,7 +288,7 @@ auto s = "abc"; // s est un 'const char*'</code></pre>
   <h3>Polémique (2)</h3>
   <section class="slide">
     <h4>AAA Style (almost always auto)</h4>
-    <p>Herb Sutter, membre du comité C++,
+    <p class="slide">Herb Sutter, membre du comité C++,
       <a href=https://herbsutter.com/2013/08/12/gotw-94-solution-aaa-style-almost-always-auto/>
         lien</a>.
     </p>
@@ -314,7 +313,10 @@ auto it = mymap.begin(); // ça semble évident.</code></pre>
       </li>
     </ul>
   </section>
+</section>
 
+<section class="slide">
+  <h2>Type inference: <em>auto</em> (4)</h2>
   <section class="slide">
     <h3>Exercice <em>forma3_sess1_exo3</em></h3>
     <p>Transformer les types de variables en <em>auto</em>.</p>
@@ -327,8 +329,8 @@ auto it = mymap.begin(); // ça semble évident.</code></pre>
 
   <section class="slide">
     <h3>Qu'est-ce que c'est ?</h3>
-    <p>Déclare que la méthode virtuelle est une réimplémentation de la méthode de la classe parente.</p>
-    <pre><code>class Mother {
+    <p class="slide">Déclare que la méthode virtuelle est une réimplémentation de la méthode de la classe parente.</p>
+    <pre class="slide"><code>class Mother {
   virtual void do_stuff();
 };
 class Daughter : public Mother {
@@ -338,8 +340,8 @@ class Daughter : public Mother {
 
   <section class="slide">
     <h3>Pourquoi c'est utile ?</h3>
-    <p>Cela évite les erreurs de signatures.</p>
-    <pre><code>class Mother {
+    <p class="slide">Cela évite les erreurs de signatures.</p>
+    <pre class="slide"><code>class Mother {
   virtual void do_stuff(int a); // Quelqu'un a ajouté un paramètre !
 };
 class Daughter : public Mother {
@@ -359,12 +361,12 @@ class Daughter : public Mother {
 
   <section class="slide">
     <h3>Qu'est-ce que c'est ?</h3>
-    <p>Déclare qu'une méthode ou un classe ne peut pas être réimplémentée.</p>
-        <pre><code>class Mother final {
+    <p class="slide">Déclare qu'une méthode ou un classe ne peut pas être réimplémentée.</p>
+    <pre class="slide"><code>class Mother final {
 };
 class Daughter : public Mother { // erreur
 };</code></pre>
-        <pre><code>class Mother {
+    <pre class="slide"><code>class Mother {
   virtual void do_stuff() final;
 };
 class Daughter : public Mother {
@@ -383,8 +385,8 @@ class Daughter : public Mother {
 
   <section class="slide">
     <h3>Quand l'utiliser ?</h3>
-    <p>Avec parcimonie.<br/>Un exemple :</p>
-        <pre><code>class Base {
+    <p class="slide">Avec parcimonie.<br/>Un exemple :</p>
+    <pre class="slide"><code>class Base {
   virtual void do_stuff() = 0;
 };
 class Do_stuff_then_a_then_b_then_c : public Base {
@@ -406,8 +408,8 @@ class Do_stuff_then_a_then_b_then_c : public Base {
   <h2>Lambdas</h2>
   <section class="slide">
     <h3>Qu'est-ce que c'est ?</h3>
-    <p>Une fonction anonyme. Elle peut accéder aux variables de son scope.</p>
-    <pre><code>void foo() {
+    <p class="slide">Une fonction anonyme. Elle peut accéder aux variables de son scope.</p>
+    <pre class="slide"><code>void foo() {
   int a = 42;
   auto fun = [&amp;]{
     return a + 2;
@@ -419,17 +421,17 @@ class Do_stuff_then_a_then_b_then_c : public Base {
 
   <section class="slide">
     <h3>Syntaxe</h3>
-    <pre><code>[captures](arguments) mutable? { code }</code></pre>
+    <pre class="slide"><code>[captures](arguments) mutable? { code }</code></pre>
     <ul>
-      <li>Captures:
+      <li class="slide">Captures:
         <ul>
-          <li>Capture par copie : <code>variable</code></li>
-          <li>Capture par référence : <code>&amp;variable</code></li>
-          <li>Capture tout par copie : <code>=</code></li>
-          <li>Capture tout par référence : <code>&amp;</code></li>
+          <li class="slide">Capture par copie : <code>variable</code></li>
+          <li class="slide">Capture par référence : <code>&amp;variable</code></li>
+          <li class="slide">Capture tout par copie : <code>=</code></li>
+          <li class="slide">Capture tout par référence : <code>&amp;</code></li>
         </ul>
       </li>
-      <li><code>mutable</code> : la lambda peut modifier ses captures.</li>
+      <li class="slide"><code>mutable</code> : la lambda peut modifier ses captures.</li>
     </ul>
   </section>
 </section>
@@ -457,14 +459,15 @@ class Do_stuff_then_a_then_b_then_c : public Base {
 
   <section class="slide">
     <h3>Qu'est-ce que c'est ?</h3>
-    <p><strong><em>Resource Acquisition is Initialization</em></strong>.</p>
-    <p>Encapsulation d'une ressource dans un objet alloué sur la pile.<p/><p>Exemples de ressources :</p>
+    <p class="slide"><strong><em>Resource Acquisition is Initialization</em></strong>.</p>
+    <p class="slide">Encapsulation d'une ressource dans un objet alloué sur la pile.</p>
+    <p class="slide">Exemples de ressources :</p>
     <ul>
-      <li>Allocation mémoire.</li>
-      <li>Ouverture d'un fichier.</li>
-      <li>Acquisition d'un mutex.</li>
+      <li class="slide">Allocation mémoire.</li>
+      <li class="slide">Ouverture d'un fichier.</li>
+      <li class="slide">Acquisition d'un mutex.</li>
     </ul>
-    <p>En général, tout ce qui a une étape d'initialisation et une étape de nettoyage.</p>
+    <p class="slide">En général, tout ce qui a une étape d'initialisation et une étape de nettoyage.</p>
   </section>
 </section>
 
@@ -473,17 +476,16 @@ class Do_stuff_then_a_then_b_then_c : public Base {
 
   <section class="slide">
     <h3>Quel intérêt ?</h3>
-    <p>Protéger les ressources des multiples points de sortie d'une fonction.</p>
-    <p>Une fonction peut se terminer à cause de :</p>
+    <p class="slide">Protéger les ressources des multiples points de sortie d'une fonction.</p>
+    <p class="slide">Une fonction peut se terminer à cause de :</p>
     <ul>
-      <li>Une instruction <code>return</code>.</li>
-      <li>Une exception.</li>
+      <li class="slide">Une instruction <code>return</code>.</li>
+      <li class="slide">Une exception.</li>
     </ul>
-    <p>Toujours s'assurer de l'état de l'objet ou de la fonction si une exception est levée !</p>
+    <p class="slide">Toujours s'assurer de l'état de l'objet ou de la fonction si une exception est levée !</p>
   </section>
 
-  <section class="slide">
-    <pre><code>struct Object {
+  <pre class="slide"><code>struct Object {
   enum State { Working, Waiting };
   State _state;
 
@@ -497,7 +499,6 @@ class Do_stuff_then_a_then_b_then_c : public Base {
     delete p;
   }
 };</code></pre>
-  </section>
 </section>
 
 <section class="slide">
@@ -505,11 +506,11 @@ class Do_stuff_then_a_then_b_then_c : public Base {
 
   <section class="slide">
     <h3>Comment fait-on ?</h3>
-    <p>
+    <p class="slide">
       Si possible utiliser des types existants: <code>std::unique_ptr</code>,
       <code>std::lock_guard</code>, <code>std::unique_lock</code>, etc.
     </p>
-    <pre><code>struct Raii_object {
+    <pre class="slide"><code>struct Raii_object {
   Resource_handle _handle;
 
   Raii_object()
@@ -533,19 +534,19 @@ class Do_stuff_then_a_then_b_then_c : public Base {
 
   <section class="slide">
     <h4>Qu'est-ce que c'est ?</h4>
-    <p>Wrapper <strong>RAII</strong> d'un pointeur. Il représente la propriété
+    <p class="slide">Wrapper <strong>RAII</strong> d'un pointeur. Il représente la propriété
       (<em>ownership</em>) d'un pointeur qui est <strong>unique</strong>.</p>
-    <p><code>std::unique_ptr&lt;int&gt;</code></p>
-    <p>Peut se baser sur un <strong><em>Deleter</em></strong> personnalisé.</p>
-    <p><code>std::unique_ptr&lt;int, Deleter&gt;</code></p>
-    <p>N'est <strong>pas copiable</strong> (il doit rester unique) mais <strong>déplaçable</strong>.</p>
+    <p class="slide"><code>std::unique_ptr&lt;int&gt;</code></p>
+    <p class="slide">Peut se baser sur un <strong><em>Deleter</em></strong> personnalisé.</p>
+    <p class="slide"><code>std::unique_ptr&lt;int, Deleter&gt;</code></p>
+    <p class="slide">N'est <strong>pas copiable</strong> (il doit rester unique) mais <strong>déplaçable</strong>.</p>
   </section>
 
   <section class="slide">
     <h4>Quand l'utiliser ?</h4>
-    <p>C'est le choix par défaut.</p>
-    <p>A chaque allocation dynamique (<em>new</em>), utilisez un <em>unique_ptr</em>.</p>
-    <pre><code>struct Factory {
+    <p class="slide">C'est le choix par défaut.</p>
+    <p class="slide">A chaque allocation dynamique (<em>new</em>), utiliser un <em>unique_ptr</em>.</p>
+    <pre class="slide"><code>struct Factory {
   std::unique_ptr&lt;Object&gt; create_object() {
     std::unique_ptr&lt;Object&gt; new_object(new Object);
     new_object-&gt;prepare();
@@ -561,30 +562,30 @@ class Do_stuff_then_a_then_b_then_c : public Base {
 
   <section class="slide">
     <h4>Qu'est-ce que c'est ?</h4>
-    <p>Wrapper <strong>RAII</strong> d'un pointeur. Il représente la propriété
+    <p class="slide">Wrapper <strong>RAII</strong> d'un pointeur. Il représente la propriété
     (<em>ownership</em>) d'un pointeur qui est <strong>partagée</strong>.</p>
-    <p><code>std::shared_ptr&lt;int&gt;</code></p>
-    <p>Peut se baser sur un <strong><em>Deleter</em></strong> personnalisé.</p>
-    <p>Est <strong>copiable</strong> et <strong>déplaçable</strong>.</p>
+    <p class="slide"><code>std::shared_ptr&lt;int&gt;</code></p>
+    <p class="slide">Peut se baser sur un <strong><em>Deleter</em></strong> personnalisé.</p>
+    <p class="slide">Est <strong>copiable</strong> et <strong>déplaçable</strong>.</p>
   </section>
 
   <section class="slide">
     <h4>Comment ça marche ?</h4>
-    <p>Allocation d'un <em>shared state</em> qui possède un <strong>compteur de référence</strong>.</p>
-    <p>Chaque copie incrémente le compteur, et le décrémente lorsqu'elle est détruite.</p>
-    <p>La <strong>dernière copie</strong> (le compteur atteint 0) libère l'objet alloué.</p>
+    <p class="slide">Allocation d'un <em>shared state</em> qui possède un <strong>compteur de référence</strong>.</p>
+    <p class="slide">Chaque copie incrémente le compteur, et le décrémente lorsqu'elle est détruite.</p>
+    <p class="slide">La <strong>dernière copie</strong> (le compteur atteint 0) libère l'objet alloué.</p>
   </section>
 
   <section class="slide">
     <h4>Quand l'utiliser ?</h4>
     <p>Avec <strong>parcimonie</strong>.</p>
     <ul>
-      <li>Ils sont moins contraignants à utiliser que les <em>unique_ptr</em>, mais les contraintes libèrent !</li>
-      <li>La copie est coûteuse à cause du <em>shared_state</em>.</li>
-      <li>Attention aux cycles (difficiles à debugger) !</li>
-      <li>Attention au partage en plusieurs threads !</li>
+      <li class="slide">Ils sont moins contraignants à utiliser que les <em>unique_ptr</em>, mais les contraintes libèrent !</li>
+      <li class="slide">La copie est coûteuse à cause du <em>shared_state</em>.</li>
+      <li class="slide">Attention aux cycles (difficiles à debugger) !</li>
+      <li class="slide">Attention au partage en plusieurs threads !</li>
     </ul>
-    <p>Ils sont en général surutilisés car très simple à mettre en place.</p>
+    <p class="slide">Ils sont en général surutilisés car très simple à mettre en place.</p>
   </section>
 </section>
 
@@ -594,40 +595,40 @@ class Do_stuff_then_a_then_b_then_c : public Base {
 
   <section class="slide">
     <h4>Qu'est-ce que c'est ?</h4>
-    <p>Une référence <strong>non propriétaire</strong> d'un pointeur partagé.</p>
-    <p><code>std::weak_ptr&lt;int&gt;</code></p>
+    <p class="slide">Une référence <strong>non propriétaire</strong> d'un pointeur partagé.</p>
+    <p class="slide"><code>std::weak_ptr&lt;int&gt;</code></p>
   </section>
 
   <section class="slide">
     <h4>A quoi ça sert ?</h4>
     <p>Principalement à <strong>éviter les cycles</strong> entre <em>shared_ptr</em>.</p>
   </section>
+</section>
 
-  <section class="slide">
-    <h2>Smart pointers (4)</h2>
-    <h3>Exercice forma3_sess1_exo6</h3>
-    <p>Mettre en place des <em>smart pointers</em>.</p>
-    <p>Pensez à retoucher les tests aussi.</p>
-  </section>
+<section class="slide">
+  <h2>Smart pointers (4)</h2>
+  <h3>Exercice forma3_sess1_exo6</h3>
+  <p>Mettre en place des <em>smart pointers</em>.</p>
+  <p>Penser à retoucher les tests aussi.</p>
 </section>
 
 <section class="slide">
   <h2><em>initializer_list</em></h2>
   <section class="slide">
     <h3>Qu'est-ce que c'est ?</h3>
-    <p>Un type qui représente une liste d'éléments <code>{ elem1, elem2, ... }</code>.</p>
-    <p><strong>N'alloue pas</strong> de mémoire dynamiquement.</p>
-    <p>Equivalent à passer une pair de pointeurs désigniant le début et la fin d'un tableau statique.</p>
-    <p>La copie <strong>ne copie pas</strong> les éléments.</p>
+    <p class="slide">Un type qui représente une liste d'éléments <code>{ elem1, elem2, ... }</code>.</p>
+    <p class="slide"><strong>N'alloue pas</strong> de mémoire dynamiquement.</p>
+    <p class="slide">Equivalent à passer une pair de pointeurs désigniant le début et la fin d'un tableau statique.</p>
+    <p class="slide">La copie <strong>ne copie pas</strong> les éléments.</p>
   </section>
 
   <section class="slide">
     <h3>A quoi ça sert ?</h3>
-    <p>Permet d'initialiser ses types plus simplement.</p>
-    <pre><code>struct MyVector {
+    <p class="slide">Permet d'initialiser ses types plus simplement.</p>
+    <pre class="slide"><code>struct MyVector {
   std::string concatenated_values;
 
-  void operator=(std::initializer_list<std::string> values) {
+  void operator=(std::initializer_list&lt;std::string&gt; values) {
     for (auto&amp;&amp; value : values)
       concatenated_values += value + " SEPARATOR ";
   }
@@ -642,16 +643,16 @@ vec = {"hello", "everyone", "!"};</code></pre>
 
   <section class="slide">
     <h3>Qu'est-ce que c'est ?</h3>
-    <p>Un mot clé pour déclarer qu'une expression est constante à la compilation.</p>
-    <p>Autrement dit pour déclarer une variable / fonction que le compilateur
+    <p class="slide">Un mot clé pour déclarer qu'une expression est constante à la compilation.</p>
+    <p class="slide">Autrement dit pour déclarer une variable / fonction que le compilateur
       peut évaluer à la compilation mais qui peut aussi être appeler à
       l'exécution.</p>
-    <p><code>constexpr int a = 12;<code></p>
-    <pre><code>constexpr int foo(int a) {
+    <p class="slide"><code>constexpr int a = 12;</code></p>
+    <pre class="slide"><code>constexpr int foo(int a) {
     return a + 2;
 }
-constexpr int b = foo(40);<code></pre>
-    <p>Assez faible en C++11, de plus en plus puissant dans les nouveaux standards.</p>
+constexpr int b = foo(40);</code></pre>
+    <p class="slide">Assez faible en C++11, de plus en plus puissant dans les nouveaux standards.</p>
   </section>
 
   <section class="slide">
@@ -669,10 +670,94 @@ constexpr int b = foo(40);<code></pre>
 </section>
 
 <section class="slide">
-  <h2><em>Undefined behavior</em></h2>
+  <h2><em>Undefined behavior (UB)</em></h2>
 
-  <section class="slide">
+  <section>
     <h3>Qu'est-ce que c'est ?</h3>
+    <p class="slide">C'est la caractéristique d'un comportement pour lequel le langage ne <strong>définit pas de contrainte</strong>.</p>
+    <p class="slide">Le compilateur peut décider de <strong>supposer que ces cas n'arrivent jamais</strong>.</p>
+    <p class="slide">Par exemple car l'implémentation serait coûteuse et inutile dans la plupart des appels.</p>
+    <pre class="slide"><code>int i;
+std::cout &lt;&lt; i; // undefined behavior, la variable n'est pas initialisée.
+
+i = INT_MAX;
+++i; // undefined behavior, l'overflow sur les entiers signés n'est pas définie.
+i / 0; // undefined behavior, division par zéro.
+
+void foo(int a, int b);
+int v = 12;
+foo(++v, ++v); // undefined behavior, modification d'un objet dépendant de l'ordre d'évaluation.
+    </code></pre>
+  </section>
+</section>
+
+<section class="slide">
+  <h2><em>Undefined behavior (UB) (2)</em></h2>
+  <section>
+    <h3>Pourquoi c'est important ?</h3>
+    <p class="slide">L'<em>undefined behavior</em> <strong>compile toujours</strong>, sinon
+      le comportement serait défini: ça ne compilerait pas.</p>
+    <p class="slide">C'est ce qui le rend <strong>dangereux</strong>.</p>
+    <section class="slide">
+      <p>Les fonctions de la STL qui peuvent avoir un <em>UB</em> le déclarent en général.</p>
+      <blockquote style="font-size: 90%">
+        <p><strong>std::vector&lt;T&gt;::end</strong></p>
+        <p>Returns an iterator to the element following the last element of the container.</p>
+        <p>This element acts as a placeholder; attempting to access it results in undefined behavior.</p>
+      </blockquote>
+    </section>
+    <p class="slide">Il ne faut <strong>jamais</strong> se baser sur de l'<em>UB</em> !</p>
+  </section>
+</section>
+
+
+<section class="slide">
+  <h2><em>Undefined behavior (UB) (3)</em></h2>
+  <section>
+    <h3>Comment l'éviter ?</h3>
+    <ul>
+      <li class="slide">Lire la documentation des bibliothèques utilisées.
+        <blockquote style="font-size: 90%">
+          <p><strong>qint64 QDateTime::toMSecsSinceEpoch() const</strong></p>
+          <p>[...]</p>
+          <p>The behavior for this function is undefined if the datetime stored in this object is not valid.</p>
+        </blockquote>
+      </li>
+      <li class="slide">Compiler avec les <em>warnings</em> activés. Dans beaucoup de cas, le compilateur vous avertira en cas d'<em>UB</em>.</li>
+      <li class="slide">Documenter les préconditions et assertions des fonctions.
+        <ul>
+          <li><pre><code>struct MyVector {
+  std::size_t size();
+  /// @pre index doit être inférieur à la taille du vecteur, autrement le comportement n'est pas défini.
+  int operator[](std::size_t index);
+};</code></pre></li>
+          <li>Tester ses préconditions avant d'appeler une fonction.</li>
+        </ul>
+      </li>
+    </ul>
+  </section>
+</section>
+
+<section class="slide">
+  <h2><em>Undefined behavior (UB) (4)</em></h2>
+  <section>
+    <h3><em>Unspecified behavior</em></h3>
+    <p class="slide">Comportement défini mais spécifique à l'implémentation.</p>
+    <pre class="slide"><code>
+int foo() {
+  std::cout &lt;&lt; "f";
+  return 19;
+}
+int bar() {
+  std::cout &lt;&lt; "g";
+  return 42;
+}
+void equals(int a, int b) {
+  return a == b;
+}
+equals(f(), g()); // unspecified behavior, "fg" ou "gf" dépend de l'implémentation du compilateur</code></pre>
+    <p class="slide">Peut changer le comportement du programme lorsque le code est interpreté
+    par différentes compilateurs, mais sans gravité dans la plupart des cas.</p>
   </section>
 </section>
 
@@ -692,10 +777,12 @@ constexpr int b = foo(40);<code></pre>
 
 <section class="slide">
   <h2>Prochaine session</h2>
+  <ul>
     <li class="slide">Conteneurs, itérateurs et algorithmes.</li>
     <li class="slide"><em>Move semantic</em> et <em>rvalue references</em>.</li>
     <li class="slide">Code générique, <em>template metaprogramming</em>, templates variadiques.</li>
     <li class="slide"><em>ADL</em>, <em>SFINAE</em>.</li>
+  </ul>
 </section>
 
   <!--
