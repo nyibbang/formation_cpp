@@ -511,6 +511,7 @@ class Do_stuff_then_a_then_b_then_c : public Base {
     </p>
     <pre><code>struct Raii_object {
   Resource_handle _handle;
+
   Raii_object()
     : _handle(alloc_resource) {
   }
@@ -528,6 +529,85 @@ class Do_stuff_then_a_then_b_then_c : public Base {
 
 <section class="slide">
   <h2>Smart pointers</h2>
+  <h3><em>unique_ptr</em></h3>
+
+  <section class="slide">
+    <h4>Qu'est-ce que c'est ?</h4>
+    <p>Wrapper <strong>RAII</strong> d'un pointeur. Il représente la propriété
+      (<em>ownership</em>) d'un pointeur qui est <strong>unique</strong>.</p>
+    <p><code>std::unique_ptr&lt;int&gt;</code></p>
+    <p>Peut se baser sur un <strong><em>Deleter</em></strong> personnalisé.</p>
+    <p><code>std::unique_ptr&lt;int, Deleter&gt;</code></p>
+    <p>N'est <strong>pas copiable</strong> (il doit rester unique) mais <strong>déplaçable</strong>.</p>
+  </section>
+
+  <section class="slide">
+    <h4>Quand l'utiliser ?</h4>
+    <p>C'est le choix par défaut.</p>
+    <p>A chaque allocation dynamique (<em>new</em>), utilisez un <em>unique_ptr</em>.</p>
+    <pre><code>class Factory {
+  std::unique_ptr&lt;Object&gt; create_object() {
+    std::unique_ptr&lt;Object&gt; new_object(new Object);
+    new_object-&gt;prepare();
+    return new_object;
+  }
+};</code></pre>
+  </section>
+</section>
+
+<section class="slide">
+  <h2>Smart pointers (2)</h2>
+  <h3><em>shared_ptr</em></h3>
+
+  <section class="slide">
+    <h4>Qu'est-ce que c'est ?</h4>
+    <p>Wrapper <strong>RAII</strong> d'un pointeur. Il représente la propriété
+    (<em>ownership</em>) d'un pointeur qui est <strong>partagée</strong>.</p>
+    <p><code>std::shared_ptr&lt;int&gt;</code></p>
+    <p>Peut se baser sur un <strong><em>Deleter</em></strong> personnalisé.</p>
+    <p>Est <strong>copiable</strong> et <strong>déplaçable</strong>.</p>
+  </section>
+
+  <section class="slide">
+    <h4>Comment ça marche ?</h4>
+    <p>Allocation d'un <em>shared state</em> qui possède un <strong>compteur de référence</strong>.</p>
+    <p>Chaque copie incrémente le compteur, et le décrémente lorsqu'elle est détruite.</p>
+    <p>La <strong>dernière copie</strong> (le compteur atteint 0) libère l'objet alloué.</p>
+  </section>
+
+  <section class="slide">
+    <h4>Quand l'utiliser ?</h4>
+    <p>Avec <strong>parcimonie</strong>.</p>
+    <ul>
+      <li>Ils sont moins contraignants à utiliser que les <em>unique_ptr</em>, mais les contraintes libèrent !</li>
+      <li>La copie est coûteuse à cause du <em>shared_state</em>.</li>
+      <li>Attention aux cycles (difficiles à debugger) !</li>
+      <li>Attention au partage en plusieurs threads !</li>
+    </ul>
+    <p>Ils sont en général surutilisés car très simple à mettre en place.</p>
+  </section>
+</section>
+
+<section class="slide">
+  <h2>Smart pointers (3)</h2>
+  <h3><em>weak_ptr</em></h3>
+
+  <section class="slide">
+    <h4>Qu'est-ce que c'est ?</h4>
+    <p>Une référence <strong>non propriétaire</strong> d'un pointeur partagé.</p>
+    <p><code>std::weak_ptr&lt;int&gt;</code></p>
+  </section>
+
+  <section class="slide">
+    <h4>A quoi ça sert ?</h4>
+    <p>Principalement à <strong>éviter les cycles</strong> entre <em>shared_ptr</em>.</p>
+  </section>
+</section>
+
+<section class="slide">
+  <h2>Smart pointers (4)</h2>
+  <h3>Exercice forma3_sess1_exo6</h3>
+  <p>Mettre en place des <em>smart pointers</em>.</p>
 </section>
 
 <section class="slide">
