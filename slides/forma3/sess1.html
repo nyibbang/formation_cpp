@@ -111,7 +111,7 @@
         <ul><li>Logiciel de traitement d'images médicales (C++).</li></ul>
       </li>
       <li class="slide">3 ans chez <strong>CS</strong>.
-        <ul><li>Logiciel de contrôle aérien (C++11/Qt).</li></ul>
+        <ul><li>Logiciel de contrôle aérien (C++11/Qt3-4-5).</li></ul>
       </li>
       <li class="slide">1 an chez <strong>Ineo Défense</strong>.
         <ul><li>Logiciel de contrôle d'équipement radio (C++11/Qt5).</li></ul>
@@ -176,7 +176,7 @@
 <section class="slide">
   <h2>Documentation</h2>
   <ul>
-    <li class="slide">Compiler support.</li>
+    <li class="slide">Support des nouvelles normes des compilateurs.</li>
     <li class="slide">Langage.</li>
     <li class="slide">Bibliothèque standard.</li>
   </ul>
@@ -202,7 +202,7 @@ foo(NULL); // Quelle overload est appelée ?</code></pre>
   <section class="slide">
     <h3>Comment l'utiliser ?</h3>
     <p class="slide">Remplacer tous les <code>NULL</code> par <code>nullptr</code>. Simple.</p>
-    <p class="slide">A partir de C++11, <code>#define NULL nullptr</code>.</p>
+    <p class="slide">A partir de C++11, le standard redéfinit <em>NULL</em> : <code>#define NULL nullptr</code>.</p>
   </section>
 
   <section class="slide">
@@ -275,7 +275,7 @@ auto s = "abc"; // s est un 'const char*'</code></pre>
   <section class="slide">
     <h4>Reproches</h4>
     <ul>
-      <li class="slide">On ne sait plus quel type on manipule, obfuscation du code (clarté).</li>
+      <li class="slide">On ne sait plus quel type on manipule, c'est une obfuscation du code (clarté).</li>
       <li class="slide">Pour certains développeurs, c'est un manque de rigueur (paresse).</li>
       <li class="slide">Plutôt que spécifier le type de notre variable, on
         dépend de ce que la fonction retourne (engagement).</li>
@@ -304,7 +304,7 @@ auto s = "abc"; // s est un 'const char*'</code></pre>
 std::unordered_map&lt;std::string, std::vector&lt;int&gt;&gt;::iterator it = mymap.begin(); // on se répète non ?
 auto it = mymap.begin(); // ça semble évident.</code></pre>
       </li>
-      <li class="slide">Engagement: Il ne faut pas se rendre dépendant des implémentations mais des interfaces.<br/>
+      <li class="slide">Engagement: Il faut se rendre dépendant des interfaces, pas des implémentations !<br/>
         <em>auto</em> est le <strong>concept</strong> le moins contraignant et donc le plus faible.
         <pre><code>Iterator it = myvector.begin();
 // Ici Iterator ne serait pas un type mais un concept. L'interface est claire,
@@ -352,7 +352,7 @@ class Daughter : public Mother {
 
   <section class="slide">
     <h3>Quand l'utiliser ?</h3>
-    <p>Partout où c'est possible !</p>
+    <p>A chaque fois que c'est possible !</p>
   </section>
 </section>
 
@@ -390,6 +390,10 @@ class Daughter : public Mother {
   virtual void do_stuff() = 0;
 };
 class Do_stuff_then_a_then_b_then_c : public Base {
+  virtual void do_a() = 0;
+  virtual void do_b() = 0;
+  virtual void do_c() = 0;
+
   void do_stuff() final override { // On ne veut pas que les filles touchent à cette implem,
                                    // mais plutôt aux autres méthodes, car cela fait partie
                                    // de l'invariant de cette classe.
@@ -397,9 +401,6 @@ class Do_stuff_then_a_then_b_then_c : public Base {
     do_b();
     do_c();
   }
-  virtual void do_a() = 0;
-  virtual void do_b() = 0;
-  virtual void do_c() = 0;
 };</code></pre>
   </section>
 </section>
@@ -408,7 +409,7 @@ class Do_stuff_then_a_then_b_then_c : public Base {
   <h2>Lambdas</h2>
   <section class="slide">
     <h3>Qu'est-ce que c'est ?</h3>
-    <p class="slide">Une fonction anonyme. Elle peut accéder aux variables de son scope.</p>
+    <p class="slide">Une fonction anonyme. Elle peut accéder aux variables de sa portée.</p>
     <pre class="slide"><code>void foo() {
   int a = 42;
   auto fun = [&amp;]{
@@ -459,7 +460,7 @@ class Do_stuff_then_a_then_b_then_c : public Base {
 
   <section class="slide">
     <h3>Qu'est-ce que c'est ?</h3>
-    <p class="slide"><strong><em>Resource Acquisition is Initialization</em></strong>.</p>
+    <p class="slide"><strong><em>Resource Acquisition Is Initialization</em></strong>.</p>
     <p class="slide">Encapsulation d'une ressource dans un objet alloué sur la pile.</p>
     <p class="slide">Exemples de ressources :</p>
     <ul>
@@ -583,9 +584,9 @@ class Do_stuff_then_a_then_b_then_c : public Base {
       <li class="slide">Ils sont moins contraignants à utiliser que les <em>unique_ptr</em>, mais les contraintes libèrent !</li>
       <li class="slide">La copie est coûteuse à cause du <em>shared_state</em>.</li>
       <li class="slide">Attention aux cycles (difficiles à debugger) !</li>
-      <li class="slide">Attention au partage en plusieurs threads !</li>
+      <li class="slide">Attention au partage entre plusieurs threads !</li>
     </ul>
-    <p class="slide">Ils sont en général surutilisés car très simple à mettre en place.</p>
+    <p class="slide">Ils sont en général surutilisés car très simples à mettre en place.</p>
   </section>
 </section>
 
@@ -618,8 +619,8 @@ class Do_stuff_then_a_then_b_then_c : public Base {
     <h3>Qu'est-ce que c'est ?</h3>
     <p class="slide">Un type qui représente une liste d'éléments <code>{ elem1, elem2, ... }</code>.</p>
     <p class="slide"><strong>N'alloue pas</strong> de mémoire dynamiquement.</p>
-    <p class="slide">Equivalent à passer une pair de pointeurs désigniant le début et la fin d'un tableau statique.</p>
-    <p class="slide">La copie <strong>ne copie pas</strong> les éléments.</p>
+    <p class="slide">Équivalent à passer une paire de pointeurs désignant le début et la fin d'un tableau statique.</p>
+    <p class="slide">La copie de la liste <strong>ne copie pas</strong> les éléments.</p>
   </section>
 
   <section class="slide">
@@ -645,8 +646,7 @@ vec = {"hello", "everyone", "!"};</code></pre>
     <h3>Qu'est-ce que c'est ?</h3>
     <p class="slide">Un mot clé pour déclarer qu'une expression est constante à la compilation.</p>
     <p class="slide">Autrement dit pour déclarer une variable / fonction que le compilateur
-      peut évaluer à la compilation mais qui peut aussi être appeler à
-      l'exécution.</p>
+      peut évaluer à la compilation mais qui peut aussi être utilisée à l'exécution.</p>
     <p class="slide"><code>constexpr int a = 12;</code></p>
     <pre class="slide"><code>constexpr int foo(int a) {
     return a + 2;
@@ -676,7 +676,7 @@ constexpr int b = foo(40);</code></pre>
     <h3>Qu'est-ce que c'est ?</h3>
     <p class="slide">C'est la caractéristique d'un comportement pour lequel le langage ne <strong>définit pas de contrainte</strong>.</p>
     <p class="slide">Le compilateur peut décider de <strong>supposer que ces cas n'arrivent jamais</strong>.</p>
-    <p class="slide">Par exemple car l'implémentation serait coûteuse et inutile dans la plupart des appels.</p>
+    <p class="slide">Par exemple parce que l'implémentation serait coûteuse et inutile dans la majorité des situations.</p>
     <pre class="slide"><code>int i;
 std::cout &lt;&lt; i; // undefined behavior, la variable n'est pas initialisée.
 
@@ -697,7 +697,7 @@ foo(++v, ++v); // undefined behavior, modification d'un objet dépendant de l'or
     <h3>Pourquoi c'est important ?</h3>
     <p class="slide">L'<em>undefined behavior</em> <strong>compile toujours</strong>, sinon
       le comportement serait défini: ça ne compilerait pas.</p>
-    <p class="slide">C'est ce qui le rend <strong>dangereux</strong>.</p>
+    <p class="slide">Ça augmente sa <strong>dangerosité</strong>.</p>
     <section class="slide">
       <p>Les fonctions de la STL qui peuvent avoir un <em>UB</em> le déclarent en général.</p>
       <blockquote style="font-size: 90%">
@@ -756,8 +756,8 @@ void equals(int a, int b) {
   return a == b;
 }
 equals(f(), g()); // unspecified behavior, "fg" ou "gf" dépend de l'implémentation du compilateur</code></pre>
-    <p class="slide">Peut changer le comportement du programme lorsque le code est interpreté
-    par différentes compilateurs, mais sans gravité dans la plupart des cas.</p>
+    <p class="slide">Peut changer le comportement du programme lorsque le code est interprété
+      par différents compilateurs, mais sans gravité dans la plupart des cas.</p>
   </section>
 </section>
 
