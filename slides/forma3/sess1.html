@@ -545,7 +545,7 @@ class Do_stuff_then_a_then_b_then_c : public Base {
     <h4>Quand l'utiliser ?</h4>
     <p>C'est le choix par défaut.</p>
     <p>A chaque allocation dynamique (<em>new</em>), utilisez un <em>unique_ptr</em>.</p>
-    <pre><code>class Factory {
+    <pre><code>struct Factory {
   std::unique_ptr&lt;Object&gt; create_object() {
     std::unique_ptr&lt;Object&gt; new_object(new Object);
     new_object-&gt;prepare();
@@ -608,10 +608,33 @@ class Do_stuff_then_a_then_b_then_c : public Base {
   <h2>Smart pointers (4)</h2>
   <h3>Exercice forma3_sess1_exo6</h3>
   <p>Mettre en place des <em>smart pointers</em>.</p>
+  <p>Pensez à retoucher les tests aussi.</p>
 </section>
 
 <section class="slide">
   <h2><em>initializer_list</em></h2>
+  <section class="slide">
+    <h4>Qu'est-ce que c'est ?</h4>
+    <p>Un type qui représente une liste d'éléments <code>{ elem1, elem2, ... }</code>.</p>
+    <p><strong>N'alloue pas</strong> de mémoire dynamiquement.</p>
+    <p>Equivalent à passer une pair de pointeurs désigniant le début et la fin d'un tableau statique.</p>
+    <p>La copie <strong>ne copie pas</strong> les éléments.</p>
+  </section>
+
+  <section class="slide">
+    <h4>A quoi ça sert ?</h4>
+    <p>Permet d'initialiser ses types plus simplement.</p>
+    <pre><code>struct MyVector {
+  std::string concatenated_values;
+
+  void operator=(std::initializer_list<std::string> values) {
+    for (auto&amp;&amp; value : values)
+      concatenated_values += value + " SEPARATOR ";
+  }
+};
+MyVector vec;
+vec = {"hello", "everyone", "!"};</code></pre>
+  </section>
 </section>
 
 <section class="slide">
