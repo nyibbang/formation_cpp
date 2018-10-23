@@ -602,19 +602,19 @@ class Do_stuff_then_a_then_b_then_c : public Base {
     <h4>A quoi ça sert ?</h4>
     <p>Principalement à <strong>éviter les cycles</strong> entre <em>shared_ptr</em>.</p>
   </section>
-</section>
 
-<section class="slide">
-  <h2>Smart pointers (4)</h2>
-  <h3>Exercice forma3_sess1_exo6</h3>
-  <p>Mettre en place des <em>smart pointers</em>.</p>
-  <p>Pensez à retoucher les tests aussi.</p>
+  <section class="slide">
+    <h2>Smart pointers (4)</h2>
+    <h3>Exercice forma3_sess1_exo6</h3>
+    <p>Mettre en place des <em>smart pointers</em>.</p>
+    <p>Pensez à retoucher les tests aussi.</p>
+  </section>
 </section>
 
 <section class="slide">
   <h2><em>initializer_list</em></h2>
   <section class="slide">
-    <h4>Qu'est-ce que c'est ?</h4>
+    <h3>Qu'est-ce que c'est ?</h3>
     <p>Un type qui représente une liste d'éléments <code>{ elem1, elem2, ... }</code>.</p>
     <p><strong>N'alloue pas</strong> de mémoire dynamiquement.</p>
     <p>Equivalent à passer une pair de pointeurs désigniant le début et la fin d'un tableau statique.</p>
@@ -622,7 +622,7 @@ class Do_stuff_then_a_then_b_then_c : public Base {
   </section>
 
   <section class="slide">
-    <h4>A quoi ça sert ?</h4>
+    <h3>A quoi ça sert ?</h3>
     <p>Permet d'initialiser ses types plus simplement.</p>
     <pre><code>struct MyVector {
   std::string concatenated_values;
@@ -639,10 +639,63 @@ vec = {"hello", "everyone", "!"};</code></pre>
 
 <section class="slide">
   <h2><em>constexpr</em></h2>
+
+  <section class="slide">
+    <h3>Qu'est-ce que c'est ?</h3>
+    <p>Un mot clé pour déclarer qu'une expression est constante à la compilation.</p>
+    <p>Autrement dit pour déclarer une variable / fonction que le compilateur
+      peut évaluer à la compilation mais qui peut aussi être appeler à
+      l'exécution.</p>
+    <p><code>constexpr int a = 12;<code></p>
+    <pre><code>constexpr int foo(int a) {
+    return a + 2;
+}
+constexpr int b = foo(40);<code></pre>
+    <p>Assez faible en C++11, de plus en plus puissant dans les nouveaux standards.</p>
+  </section>
+
+  <section class="slide">
+    <h3>A quoi ça sert ?</h3>
+    <ul>
+      <li class="slide">Déporter une partie des traitements à la compilation.</li>
+      <li class="slide">Raisonner sur les données connues à la compilation (données statiques, types, ...).</li>
+    </ul>
+  </section>
+
+  <section class="slide">
+    <h3>Quand l'utiliser ?</h3>
+    <p>Dès que c'est possible, si votre compilateur le supporte. Il n'y a pas de désavantages à l'utiliser.</p>
+  </section>
 </section>
 
 <section class="slide">
   <h2><em>Undefined behavior</em></h2>
+
+  <section class="slide">
+    <h3>Qu'est-ce que c'est ?</h3>
+  </section>
+</section>
+
+<section class="slide title">
+  <h1>Questions ?</h1>
+</section>
+
+<section class="slide">
+  <h2>Résumé</h2>
+  <ul>
+    <li class="slide">Documentation !</li>
+    <li class="slide"><em>nullptr</em>, <em>range-for loop</em>, <em>auto</em>, <em>override</em>, <em>final</em>, <em>lambdas</em>.</li>
+    <li class="slide"><em>RAII</em>, <em>smart pointers</em>, <em>initializer_list</em>, <em>constexpr</em>.</li>
+    <li class="slide"><em>Undefined behavior</em>.</li>
+  </ul>
+</section>
+
+<section class="slide">
+  <h2>Prochaine session</h2>
+    <li class="slide">Conteneurs, itérateurs et algorithmes.</li>
+    <li class="slide"><em>Move semantic</em> et <em>rvalue references</em>.</li>
+    <li class="slide">Code générique, <em>template metaprogramming</em>, templates variadiques.</li>
+    <li class="slide"><em>ADL</em>, <em>SFINAE</em>.</li>
 </section>
 
   <!--
