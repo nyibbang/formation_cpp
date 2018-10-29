@@ -130,24 +130,19 @@
 
   <section class="slide">
     <h3>Mémoire</h3>
+    <h4>Pile (<em>stack</em>)</h4>
+    <ul>
+      <li>Préallouée donc très rapide;</li>
+      <li>Taille limitée (quelques <em>Mo</em>);</li>
+      <li><em>Cache friendly</em>;</li>
+    </ul>
 
-    <section class="slide">
-      <h4>Pile (<em>stack</em>)</h4>
-      <ul>
-        <li>Préallouée donc très rapide;</li>
-        <li>Taille limitée (quelques <em>Mo</em>);</li>
-        <li><em>Cache friendly</em>;</li>
-      </ul>
-    </section>
-
-    <section class="slide">
-      <h4>Tas (<em>heap</em>)</h4>
-      <ul>
-        <li>Allocation à la demande (<em>malloc</em>, <em>new</em>);</li>
-        <li>Taille très large (aujourd'hui souvent plusieurs <em>Go</em>);</li>
-        <li>Rarement <em>cache friendly</em>;</li>
-      </ul>
-    </section>
+    <h4>Tas (<em>heap</em>)</h4>
+    <ul>
+      <li>Allocation à la demande (<em>malloc</em>, <em>new</em>);</li>
+      <li>Taille très large (aujourd'hui souvent plusieurs <em>Go</em>);</li>
+      <li>Rarement <em>cache friendly</em>;</li>
+    </ul>
   </section>
 
   <section class="slide">
@@ -165,157 +160,154 @@
 <section class="slide">
   <h2>Conteneurs et itérateurs</h2>
 
-  <section class="slide">
-    <h3>Conteneur</h3>
-    <p>Structure de donnée caractérisée entre autres par son <strong>interface</strong>, sa
-      <strong>représentation des données</strong>, la
-      <strong>complexité</strong> de ses opérations et leurs <strong>impact</strong> sur les
-      itérateurs.</p>
+  <h3>Conteneurs</h3>
+  <p>Structure de donnée caractérisée entre autres par son <strong>interface</strong>, sa
+    <strong>représentation des données</strong>, la
+    <strong>complexité</strong> de ses opérations et leurs <strong>impact</strong> sur les
+    itérateurs.</p>
 
-    <section class="slide">
-      <h4>Catégories</h4>
-      <ul>
-        <li>De séquence.</li>
-        <li>Associatifs.</li>
-        <li>Associatifs non triés.</li>
-        <li>(Adaptateurs).</li>
-      </ul>
-    </section>
+  <section class="slide">
+    <h4>Catégories</h4>
+    <ul>
+      <li>De séquence.</li>
+      <li>Associatifs.</li>
+      <li>Associatifs non triés.</li>
+      <li>(Adaptateurs).</li>
+    </ul>
   </section>
 </section>
 
 <section class="slide">
   <h2>Conteneurs et itérateurs</h2>
+  <h3>Conteneurs</h3>
 
   <section class="slide">
-    <h3>Conteneur</h3>
+    <h4>array</h4>
+    <ul>
+      <li>Taille fixe, allocation statique (pile);</li>
+      <li>Allocation contigue;</li>
+      <li>À utiliser dès que la taille ne change pas à l'exécution;</li>
+    </ul>
+  </section>
 
-    <section class="slide">
-      <h4>array</h4>
-      <ul>
-        <li>Taille fixe, allocation statique (pile);</li>
-        <li>Allocation contigue;</li>
-        <li>À utiliser dès que la taille ne change pas à l'exécution;</li>
-      </ul>
-    </section>
+  <section class="slide">
+    <h4>vector/deque</h4>
+    <ul>
+      <li>Taille variable, allocation dynamique (tas);</li>
+      <li>Allocation contigue (ou presque);</li>
+      <li><em>vector</em> est le choix de conteneur par défaut;</li>
+    </ul>
+  </section>
 
-    <section class="slide">
-      <h4>vector/deque</h4>
-      <ul>
-        <li>Taille variable, allocation dynamique (tas);</li>
-        <li>Allocation contigue (ou presque);</li>
-        <li><em>vector</em> est le choix de conteneur par défaut;</li>
-      </ul>
-    </section>
-
-    <section class="slide">
-      <h4>list/forward_list</h4>
-      <ul>
-        <li>Liste chaînée (double/simple);</li>
-        <li>Taille variable, allocation dynamique (tas);</li>
-        <li>Allocation dispersée;</li>
-      </ul>
-    </section>
-
-    <section class="slide">
-      <h4>set/unordered_set</h4>
-      <ul>
-        <li>Ensemble d'éléments uniques (ordonnés ou non);</li>
-        <li>Taille variable, allocation dynamique (tas);</li>
-        <li>Allocation dispersée (<em>red-black tree</em>);</li>
-      </ul>
-    </section>
-
-    <section class="slide">
-      <h4>map/unordered_map</h4>
-      <ul>
-        <li>Association de clés uniques et de valeurs (clés ordonnés ou non);</li>
-        <li>Taille variable, allocation dynamique (tas);</li>
-        <li>Allocation dispersée (<em>red-black tree</em>);</li>
-      </ul>
-    </section>
-
+  <section class="slide">
+    <h4>list/forward_list</h4>
+    <ul>
+      <li>Liste chaînée (double/simple);</li>
+      <li>Taille variable, allocation dynamique (tas);</li>
+      <li>Allocation dispersée;</li>
+    </ul>
   </section>
 </section>
 
 <section class="slide">
   <h2>Conteneurs et itérateurs</h2>
-  <section class="slide">
-    <h3>Itérateur</h3>
-    <p>Objet permettant d'identifier et de traverser les éléments d'un conteneur.</p>
+  <h3>Conteneurs</h3>
 
-    <section class="slide">
-      <h4>Catégories</h4>
-      <ul>
-        <li><em>Output</em>;</li>
-        <li><em>Input</em>;</li>
-        <li><em>Forward</em>;</li>
-        <li><em>Bidirectional</em>;</li>
-        <li><em>RandomAccess</em>;</li>
-      </ul>
-    </section>
+  <section class="slide">
+    <h4>set/unordered_set</h4>
+    <ul>
+      <li>Ensemble d'éléments uniques (ordonnés ou non);</li>
+      <li>Taille variable, allocation dynamique (tas);</li>
+      <li>Allocation dispersée (<em>red-black tree</em>);</li>
+    </ul>
+  </section>
+
+  <section class="slide">
+    <h4>map/unordered_map</h4>
+    <ul>
+      <li>Association de clés uniques et de valeurs (clés ordonnés ou non);</li>
+      <li>Taille variable, allocation dynamique (tas);</li>
+      <li>Allocation dispersée (<em>red-black tree</em>);</li>
+    </ul>
   </section>
 </section>
 
 <section class="slide">
   <h2>Conteneurs et itérateurs</h2>
+  <h3>Itérateurs</h3>
+  <p>Objet permettant d'identifier et de traverser les éléments d'un conteneur.</p>
 
   <section class="slide">
-    <h3>Itérateur</h3>
-
-    <section class="slide">
-      <h4>Output</h4>
-      <ul>
-        <li>Écriture : <code>*i = 12</code>;</li>
-        <li>Incrémentation (passe unique) : <code>++i</code>, <code>i++</code>;</li>
-      </ul>
-    </section>
-
-    <section class="slide">
-      <h4>Input</h4>
-      <ul>
-        <li>Lecture : <code>v = *i</code>, <code>v = i-&gt;m</code>;</li>
-        <li>Comparaison : <code>i == j</code>;</li>
-        <li>Incrémentation (passe unique) : <code>++i</code>, <code>i++</code>;</li>
-        <li>Peut être aussi <em>OutputIterator</em>;</li>
-      </ul>
-    </section>
-
-    <section class="slide">
-      <h4>Forward</h4>
-      <ul>
-        <li><em>InputIterator</em>;</li>
-        <li>Incrémentation (passe multiple) : <code>++i</code>, <code>i++</code>;</li>
-      </ul>
-    </section>
-
-    <section class="slide">
-      <h4>Bidirectional</h4>
-      <ul>
-        <li><em>ForwardIterator</em>;</li>
-        <li>Décrémentation : <code>--i</code>, <code>i--</code>;</li>
-      </ul>
-    </section>
-
-    <section class="slide">
-      <h4>RandomAccess</h4>
-      <ul>
-        <li><em>BidirectionalIterator</em>;</li>
-        <li>Random access : <code>i + n</code>, <code>i - n</code>;</li>
-        <li>Comparaison : <code>i &lt; j</code>, <code>i &ge; j</code>;</li>
-      </ul>
-    </section>
+    <h4>Catégories</h4>
+    <ul>
+      <li><em>Output</em>;</li>
+      <li><em>Input</em>;</li>
+      <li><em>Forward</em>;</li>
+      <li><em>Bidirectional</em>;</li>
+      <li><em>RandomAccess</em>;</li>
+    </ul>
   </section>
 </section>
 
+<section class="slide">
+  <h2>Conteneurs et itérateurs</h2>
+  <h3>Itérateurs</h3>
+
+  <section class="slide">
+    <h4>Output</h4>
+    <ul>
+      <li>Écriture : <code>*i = 12</code>;</li>
+      <li>Incrémentation (passe unique) : <code>++i</code>, <code>i++</code>;</li>
+    </ul>
+  </section>
+
+  <section class="slide">
+    <h4>Input</h4>
+    <ul>
+      <li>Lecture : <code>v = *i</code>, <code>v = i-&gt;m</code>;</li>
+      <li>Comparaison : <code>i == j</code>;</li>
+      <li>Incrémentation (passe unique) : <code>++i</code>, <code>i++</code>;</li>
+      <li>Peut être aussi <em>OutputIterator</em>;</li>
+    </ul>
+  </section>
+</section>
 
 <section class="slide">
   <h2>Conteneurs et itérateurs</h2>
+  <h3>Itérateurs</h3>
 
   <section class="slide">
-    <h3>Itérateur</h3>
-    <p>Ne sont <strong>pas spécifiques aux conteneurs</strong> !</p>
-    <pre><code>#include &lt;iterator&gt;
+    <h4>Forward</h4>
+    <ul>
+      <li><em>InputIterator</em>;</li>
+      <li>Incrémentation (passe multiple) : <code>++i</code>, <code>i++</code>;</li>
+    </ul>
+  </section>
+
+  <section class="slide">
+    <h4>Bidirectional</h4>
+    <ul>
+      <li><em>ForwardIterator</em>;</li>
+      <li>Décrémentation : <code>--i</code>, <code>i--</code>;</li>
+    </ul>
+  </section>
+
+  <section class="slide">
+    <h4>RandomAccess</h4>
+    <ul>
+      <li><em>BidirectionalIterator</em>;</li>
+      <li>Random access : <code>i + n</code>, <code>i - n</code>;</li>
+      <li>Comparaison : <code>i &lt; j</code>, <code>i &ge; j</code>;</li>
+    </ul>
+  </section>
+</section>
+
+<section class="slide">
+  <h2>Conteneurs et itérateurs</h2>
+  <h3>Itérateurs</h3>
+
+  <p>Ne sont <strong>pas spécifiques aux conteneurs</strong> !</p>
+  <pre><code>#include &lt;iterator&gt;
 #include &lt;iostream&gt;
 
 std::ostream_iterator&lt;int&gt; it(std::cout, "/");
@@ -325,74 +317,69 @@ std::cout &lt;&lt; std::endl;
 // Affiche : 32/44/72/26/
 </code></pre>
 
-    <p>Ils servent à <strong>traverser </strong>tout ce qui peut <strong>être parcouru</strong>.</p>
-    <p>C'est le <strong>concept de base</strong> de tous les <strong>algorithmes</strong>.</p>
-  </section>
+  <p>Ils servent à <strong>traverser </strong>tout ce qui peut <strong>être parcouru</strong>.</p>
+  <p>C'est le <strong>concept de base</strong> de tous les <strong>algorithmes</strong>.</p>
 </section>
 
 <section class="slide">
   <h2>Conteneurs et itérateurs</h2>
-  <section class="slide">
-    <h3>Catégories de conteneurs et d'itérateurs</h3>
-    <table>
-      <thead>
-        <tr><th>Catégorie</th>                        <th>Conteneur</th>         <th>Itérateurs</th>   </tr>
-      </thead>
-      <tbody class="slide">
-        <tr><th rowspan="5">De séquence</th>          <td>array</td>             <td>RandomAccess</td> </tr>
-        <tr>                                          <td>vector</td>            <td>RandomAccess</td> </tr>
-        <tr>                                          <td>deque</td>             <td>RandomAccess</td> </tr>
-        <tr>                                          <td>list</td>              <td>Bidirectional</td></tr>
-        <tr>                                          <td>forward_list</td>      <td>Forward</td>      </tr>
-      </tbody>
-      <tbody class="slide">
-        <tr><th rowspan="4">Associatifs</th>          <td>set</td>               <td>Bidirectional</td></tr>
-        <tr>                                          <td>multiset</td>          <td>Bidirectional</td></tr>
-        <tr>                                          <td>map</td>               <td>Bidirectional</td></tr>
-        <tr>                                          <td>multimap</td>          <td>Bidirectional</td></tr>
-      </tbody>
-      <tbody class="slide">
-        <tr><th rowspan="4">Associatifs non triés</th><td>unordered_set</td>     <td>Forward</td>      </tr>
-        <tr>                                          <td>unordered_multiset</td><td>Forward</td>      </tr>
-        <tr>                                          <td>unordered_map</td>     <td>Forward</td>      </tr>
-        <tr>                                          <td>unordered_multimap</td><td>Forward</td>      </tr>
-      </tbody>
-      <tbody class="slide">
-        <tr><th rowspan="3">Adaptateurs</th>          <td>stack</td>             <td rowspan="3"><em>Ceux du conteneur adapté.</em></td></tr>
-        <tr>                                          <td>queue</td>                                                                    </tr>
-        <tr>                                          <td>priority_queue</td>                                                           </tr>
-      </tbody>
-    </table>
-  </section>
+  <h3>Catégories de conteneurs et d'itérateurs</h3>
+  <table class="slide">
+    <thead>
+      <tr><th>Catégorie</th>                        <th>Conteneur</th>         <th>Itérateurs</th>   </tr>
+    </thead>
+    <tbody class="slide">
+      <tr><th rowspan="5">De séquence</th>          <td>array</td>             <td>RandomAccess</td> </tr>
+      <tr>                                          <td>vector</td>            <td>RandomAccess</td> </tr>
+      <tr>                                          <td>deque</td>             <td>RandomAccess</td> </tr>
+      <tr>                                          <td>list</td>              <td>Bidirectional</td></tr>
+      <tr>                                          <td>forward_list</td>      <td>Forward</td>      </tr>
+    </tbody>
+    <tbody class="slide">
+      <tr><th rowspan="4">Associatifs</th>          <td>set</td>               <td>Bidirectional</td></tr>
+      <tr>                                          <td>multiset</td>          <td>Bidirectional</td></tr>
+      <tr>                                          <td>map</td>               <td>Bidirectional</td></tr>
+      <tr>                                          <td>multimap</td>          <td>Bidirectional</td></tr>
+    </tbody>
+    <tbody class="slide">
+      <tr><th rowspan="4">Associatifs non triés</th><td>unordered_set</td>     <td>Forward</td>      </tr>
+      <tr>                                          <td>unordered_multiset</td><td>Forward</td>      </tr>
+      <tr>                                          <td>unordered_map</td>     <td>Forward</td>      </tr>
+      <tr>                                          <td>unordered_multimap</td><td>Forward</td>      </tr>
+    </tbody>
+    <tbody class="slide">
+      <tr><th rowspan="3">Adaptateurs</th>          <td>stack</td>             <td rowspan="3"><em>Ceux du conteneur adapté.</em></td></tr>
+      <tr>                                          <td>queue</td>                                                                    </tr>
+      <tr>                                          <td>priority_queue</td>                                                           </tr>
+    </tbody>
+  </table>
 </section>
 
 
 <section class="slide">
   <h2>Conteneurs et itérateurs</h2>
 
-  <section class="slide">
-    <h3>Complexité</h3>
-    <table>
-      <thead>
-        <tr><th>Conteneur</th> <th>Accès</th> <th>Insertion/suppression en fin</th> <th>Insertion/suppression</th></tr>
-      </thead>
-      <tbody>
-        <tr><td>array</td>             <td>O(1)</td>      <td>NA</td>          <td>NA</td></tr>
-        <tr><td>vector</td>            <td>O(1)</td>      <td>O(1) amorti</td> <td>O(n)</td></tr>
-        <tr><td>deque</td>             <td>O(1)</td>      <td>O(1)</td>        <td>O(n)</td></tr>
-        <tr><td>list</td>              <td>O(n)</td>      <td>O(1)</td>        <td>O(1)</td></tr>
-        <tr><td>forward_list</td>      <td>O(n)</td>      <td>O(1)</td>        <td>O(1)</td></tr>
-        <tr><td>set</td>               <td>O(log(n))</td> <td>O(log(n))</td>   <td>O(log(n))</td></tr>
-        <tr><td>multiset</td>          <td>O(log(n))</td> <td>O(log(n))</td>   <td>O(log(n))</td></tr>
-        <tr><td>map</td>               <td>O(log(n))</td> <td>O(log(n))</td>   <td>O(log(n))</td></tr>
-        <tr><td>multimap</td>          <td>O(log(n))</td> <td>O(log(n))</td>   <td>O(log(n))</td></tr>
-        <tr><td>unordered_set</td>     <td>O(1)</td>      <td>O(1)</td>        <td>O(1)</td>   </tr>
-        <tr><td>unordered_multiset</td><td>O(1)</td>      <td>O(1)</td>        <td>O(1)</td>   </tr>
-        <tr><td>unordered_map</td>     <td>O(1)</td>      <td>O(1)</td>        <td>O(1)</td>   </tr>
-        <tr><td>unordered_multimap</td><td>O(1)</td>      <td>O(1)</td>        <td>O(1)</td>   </tr>
-      </tbody>
-    </table>
-  </section>
+  <h3>Complexité</h3>
+  <table class="slide">
+    <thead>
+      <tr><th>Conteneur</th> <th>Accès</th> <th>Insertion/suppression en fin</th> <th>Insertion/suppression</th></tr>
+    </thead>
+    <tbody>
+      <tr><td>array</td>             <td>O(1)</td>      <td>NA</td>          <td>NA</td></tr>
+      <tr><td>vector</td>            <td>O(1)</td>      <td>O(1) amorti</td> <td>O(n)</td></tr>
+      <tr><td>deque</td>             <td>O(1)</td>      <td>O(1)</td>        <td>O(n)</td></tr>
+      <tr><td>list</td>              <td>O(n)</td>      <td>O(1)</td>        <td>O(1)</td></tr>
+      <tr><td>forward_list</td>      <td>O(n)</td>      <td>O(1)</td>        <td>O(1)</td></tr>
+      <tr><td>set</td>               <td>O(log(n))</td> <td>O(log(n))</td>   <td>O(log(n))</td></tr>
+      <tr><td>multiset</td>          <td>O(log(n))</td> <td>O(log(n))</td>   <td>O(log(n))</td></tr>
+      <tr><td>map</td>               <td>O(log(n))</td> <td>O(log(n))</td>   <td>O(log(n))</td></tr>
+      <tr><td>multimap</td>          <td>O(log(n))</td> <td>O(log(n))</td>   <td>O(log(n))</td></tr>
+      <tr><td>unordered_set</td>     <td>O(1)</td>      <td>O(1)</td>        <td>O(1)</td>   </tr>
+      <tr><td>unordered_multiset</td><td>O(1)</td>      <td>O(1)</td>        <td>O(1)</td>   </tr>
+      <tr><td>unordered_map</td>     <td>O(1)</td>      <td>O(1)</td>        <td>O(1)</td>   </tr>
+      <tr><td>unordered_multimap</td><td>O(1)</td>      <td>O(1)</td>        <td>O(1)</td>   </tr>
+    </tbody>
+  </table>
 </section>
 
 <section class="slide">
@@ -423,34 +410,166 @@ std::cout &lt;&lt; std::endl;
 
 <section class="slide">
   <h2>Algorithmes</h2>
+  <h3>Exemples</h3>
+  <h4>Non-mutateur : <em>find</em></h4>
+  <div class="slide">
+    <pre><code>template&lt;class InputIt, class T&gt;
+InputIt find(InputIt first, InputIt last, const T& value);</code></pre>
+    <p>Cherche le premier élément égal à <em>value</em> de <em>first</em> jusqu'à <em>last</em>.</p>
+    <p>Retourne l'itérateur vers cet élément ou <em>last</em> si l'élément n'a pas été trouvé.</p>
+    <div class="slide">
+      <pre><code>std::vector&lt;std::string&gt; str{ "abc", "def", "ghj" };
+auto it  = std::find(str.begin(), str.end(), "abc"); // *it == "abc"
+auto it2 = std::find(str.begin(), str.end(), "xyz"); // it == str.end()</code></pre>
+    </div>
+  </div>
+</section>
 
-  <section class="slide">
-    <h3>Exemples</h3>
-    
-    <section class="slide">
-      <h4>Non-mutateur : <em>find</em></h4>
-    </section>
+<section class="slide">
+  <h2>Algorithmes</h2>
+  <h3>Exemples</h3>
+  <h4>Mutateur : <em>copy</em></h4>
+  <div class="slide">
+    <pre><code>template&lt;class InputIt, class OutputIt&gt;
+OutputIt copy(InputIt first, InputIt last, OutputIt d_first);</code></pre>
+    <p>Copie les éléments de <em>first</em> à <em>last</em> vers <em>d_first</em> en le faisant avancer à chaque copie.</p>
+    <p>Retourne <em>d_first</em> après copie et incrémentation. Cet itérateur pointe donc vers l'élément situé après le dernier élément de destination.</p>
+    <div class="slide">
+      <pre><code>std::array&lt;double, 4&gt; doubles{ 3.14, 2.123, 18.38, 42.53 };
+std::vector&lt;double&gt; other_doubles;
+other_doubles.resize(/* taille */ 4, /* valeur à insérer */ 0.);
+auto it = std::copy(doubles.begin() + 2, doubles.end(), other_doubles.begin() + 1);
+// other_doubles == {0., 18.38, 42.53, 0.    }
+//                  |  |      |      | &lt;- it |</code></pre>
+    </div>
+  </div>
+</section>
 
-    <section class="slide">
-      <h4>Mutateur : <em>copy</em></h4>
-    </section>
+<section class="slide">
+  <h2>Algorithmes</h2>
+  <h3>Exemples</h3>
+  <h4>Mutateur : <em>rotate</em></h4>
+  <div class="slide">
+    <pre><code>template&lt;class ForwardIt&gt;
+void rotate(ForwardIt first, ForwardIt n_first, ForwardIt last);</code></pre>
+    <p>Effectue une rotation des éléments de <em>first</em> à <em>n_first</em> avec les éléments de <em>n_first</em> à <em>last</em> de
+    façon à ce que <em>n_first</em> soit le début du nouveau <em>range</em>.</p>
+    <div class="slide">
+      <pre><code>std::array&lt;std::string, 5&gt; arr{ "bonjour", "à", "tous", "les", "ingimates"};
+std::rotate(arr.begin(), arr.begin() + 2, arr.end());
+// arr == {"tous", "les", "ingimates", "bonjour", "à"}</code></pre>
+    </div>
+  </div>
+</section>
 
-    <section class="slide">
-      <h4>Mutateur : <em>rotate</em></h4>
-    </section>
+<section class="slide">
+  <h2>Algorithmes</h2>
+  <h3>Exemples</h3>
+  <h4>Tri : <em>sort</em></h4>
+  <div class="slide">
+    <pre><code>template&lt;class RandomIt&gt;
+void sort(RandomIt first, RandomIt last);</code></pre>
+    <p>Trie les éléments de <em>first</em> à <em>last</em>.</p>
+    <div class="slide">
+      <pre><code>std::vector&lt;int&gt; values{ 13, 4, 2, 56, 23, 102, 43 };
+std::sort(values.begin() + 1, values.end() - 1);
+// values == { 13, 2, 4, 23, 56, 102, 43 }</code></pre>
+    </div>
+  </div>
+</section>
 
-    <section class="slide">
-      <h4>Tri : <em>sort</em></h4>
-    </section>
+<section class="slide">
+  <h2>Algorithmes</h2>
+  <h3>Exemples</h3>
+  <h4>Min/max : <em>min_element</em></h4>
+  <div class="slide">
+    <pre><code>template&lt;class ForwardIt&gt;
+ForwardIt min_element(ForwardIt first, ForwardIt last);</code></pre>
+    <p>Recherche le plus petit élément entre <em>first</em> et <em>last</em>.</p>
+    <p>Retourne l'itérateur vers cet élément.</p>
+    <div class="slide">
+      <pre><code>std::vector&lt;int&gt; values{ 13, 4, 2, 56, 23, 102, 43 };
+auto it = std::min_element(values.begin() + 3, values.end());
+// it pointe vers '23'</code></pre>
+    </div>
+  </div>
+</section>
 
-    <section class="slide">
-      <h4>Min/max : <em>min_element</em></h4>
-    </section>
+<section class="slide">
+  <h2>Algorithmes</h2>
+  <h3>Exemples</h3>
+  <h4>Numérique : <em>accumulate</em></h4>
+  <div class="slide">
+    <pre><code>template&lt;class InputIt, class T&gt;
+T accumulate(InputIt first, InputIt last, T init);</code></pre>
+    <p>Somme tous les éléments de <em>first</em> à <em>last</em> en commençant par la valeur <em>init</em>.</p>
+    <p>Retourne le total.</p>
+    <div class="slide">
+      <pre><code>std::vector&lt;int&gt; values{ 13, 4, 2, 56, 23, 102, 43 };
+auto res = std::accumulate(values.begin() + 1, values.begin() + 5, 42);
+// res == 42 + 4 + 2 + 56 + 23 == 127</code></pre>
+    </div>
+  </div>
+</section>
 
-    <section class="slide">
-      <h4>Numérique : <em>accumulate</em></h4>
-    </section>
-  </section>
+<section class="slide">
+  <h2>Algorithmes</h2>
+  <h3>Exemples</h3>
+  <h4>Combinaison</h4>
+  <p>
+    Objectif : Dans un fichier <em>input.txt</em>, on a des valeurs entières, une par ligne. On veut les lire, les multiplier par 2, trier les
+    résultats dans le sens inverse et écrire les résultats triés dans un fichier <em>output.txt</em>.
+  </p>
+  <p>
+    Le tout <strong>sans utiliser une seule boucle</strong>.
+  </p>
+</section>
+
+<section class="slide">
+  <h2>Algorithmes</h2>
+  <h3>Exemples</h3>
+  <h4>Combinaison : solution</h4>
+  <pre><code>std::ifstream in_file("input.txt");
+using int_file_iter = std::istream_iterator&lt;int&gt;;
+std::vector&lt;int&gt; values;
+// transform => copy avec une transformation des valeurs : ici on multiplie par 2.
+// back_inserter => OutputIterator qui à chaque fois qu'on lui affecte une valeur (avec '=' ),
+//                  insère la valeur dans le conteneur avec 'push_back'.
+std::transform(int_file_iter(in_file), int_file_iter(), std::back_inserter(values), [](int v) { return v * 2; });
+// rbegin, rend => reverse iterators, on trie à l'envers.
+std::sort(values.rbegin(), values.rend());
+std::ofstream out_file("output.txt");
+std::copy(values.begin(), values.end(), std::ostream_iterator&lt;int&gt;(out_file, "\n"));</code></pre>
+</section>
+
+<section class="slide">
+  <h2>Algorithmes</h2>
+  <h3>Exemples</h3>
+  <h4>Combinaison : résultats</h4>
+  <table>
+    <tr><th>input.txt</th><th>output.txt</th></tr>
+    <tr><td><pre>4
+123
+3293
+4389
+2370
+32478
+6785
+217893
+1092
+95
+2</pre></td><td><pre>435786
+64956
+13570
+8778
+6586
+4740
+2184
+246
+190
+8
+4</pre></td></tr>
+  </table>
 </section>
 
 <section class="slide">
