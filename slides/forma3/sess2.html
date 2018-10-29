@@ -47,13 +47,13 @@
   # Content
   #
   # Title slide:
-  # ------------
+  # 
   # <section class="slide title">
   #   <h1>Section</h1>
   # </section>
   #
   # Slide
-  # -----
+  # 
   # <section class="slide">
   #   <h2>Section &rarr; Subsection</h2>
   #   <h3>Subsubsection</h3>
@@ -66,7 +66,7 @@
   # </section>
   #
   # Code slide
-  # ---------
+  # 
   # <section class="slide">
   #   <h2>Section &rarr; Subsection</h2>
   #   <h3>Subsubsection</h3>
@@ -76,7 +76,7 @@
   # </section>
   #
   # Plan
-  # ----
+  # 
   # <section class="slide">
   #   <h2>Section</h2>
   #   <h3>Plan</h3>
@@ -97,8 +97,384 @@
 
 <section class="slide title">
   <h1>Maîtrise et perfectionnement<br/>en C++ moderne<br/>
-    <small>Deuxième partie</small>
+    <small>Deuxième partie<br/>30 octobre 2018</small>
   </h1>
+</section>
+
+<section class="slide">
+  <h2>Introduction</h2>
+  <h3>Rappel de la première partie</h3>
+  <ul>
+    <li><em>nullptr</em>, <em>range-for loop</em>, <em>auto</em>, <em>override</em>, <em>final</em>, <em>lambdas</em>.</li>
+    <li><em>RAII</em>, <em>smart pointers</em>.</li>
+    <li><em>initializer_list</em>, <em>constexpr</em>.</li>
+    <li><em>Undefined behavior</em>.</li>
+  </ul>
+
+  <h3>Questions ?</h3>
+</section>
+
+<section class="slide">
+  <h2>Introduction</h2>
+  <h3>Deuxième partie</h3>
+  <ul>
+    <li>Conteneurs, itérateurs et algorithmes.</li>
+    <li><em>Move semantic</em> et <em>rvalue references</em>.</li>
+    <li>Code générique, <em>template metaprogramming</em>,
+      templates variadiques, <em>SFINAE</em>, <em>ADL</em>.</li>
+  </ul>
+</section>
+
+<section class="slide">
+  <h2>Préambule</h2>
+
+  <section class="slide">
+    <h3>Mémoire</h3>
+
+    <section class="slide">
+      <h4>Pile (<em>stack</em>)</h4>
+      <ul>
+        <li>Préallouée donc très rapide;</li>
+        <li>Taille limitée (quelques <em>Mo</em>);</li>
+        <li><em>Cache friendly</em>;</li>
+      </ul>
+    </section>
+
+    <section class="slide">
+      <h4>Tas (<em>heap</em>)</h4>
+      <ul>
+        <li>Allocation à la demande (<em>malloc</em>, <em>new</em>);</li>
+        <li>Taille très large (aujourd'hui souvent plusieurs <em>Go</em>);</li>
+        <li>Rarement <em>cache friendly</em>;</li>
+      </ul>
+    </section>
+  </section>
+
+  <section class="slide">
+    <h3>Complexité algorithmique</h3>
+    <p>Mesure du comportement d'un algorithme lorsque ses paramètres varient.</p>
+    <p>Le comportement peut par exemple être la <strong>consommation mémoire</strong> ou le <strong>nombre de cycles CPU</strong> utilisés.</p>
+    <p>Exemple :</p>
+    <ul>
+      <li>Un algorithme à complexité constante (<em>O(1)</em>) se comporte de la même façon peu importe ses paramètres.</li>
+      <li>Un algorithme à complexité linéaire (<em>O(n)</em>) a un comportement variable proportionnellement à l'un de ses paramètres.</li>
+    </ul>
+  </section>
+</section>
+
+<section class="slide">
+  <h2>Conteneurs et itérateurs</h2>
+
+  <section class="slide">
+    <h3>Conteneur</h3>
+    <p>Structure de donnée caractérisée entre autres par son <strong>interface</strong>, sa
+      <strong>représentation des données</strong>, la
+      <strong>complexité</strong> de ses opérations et leurs <strong>impact</strong> sur les
+      itérateurs.</p>
+
+    <section class="slide">
+      <h4>Catégories</h4>
+      <ul>
+        <li>De séquence.</li>
+        <li>Associatifs.</li>
+        <li>Associatifs non triés.</li>
+        <li>(Adaptateurs).</li>
+      </ul>
+    </section>
+  </section>
+</section>
+
+<section class="slide">
+  <h2>Conteneurs et itérateurs</h2>
+
+  <section class="slide">
+    <h3>Conteneur</h3>
+
+    <section class="slide">
+      <h4>array</h4>
+      <ul>
+        <li>Taille fixe, allocation statique (pile);</li>
+        <li>Allocation contigue;</li>
+        <li>À utiliser dès que la taille ne change pas à l'exécution;</li>
+      </ul>
+    </section>
+
+    <section class="slide">
+      <h4>vector/deque</h4>
+      <ul>
+        <li>Taille variable, allocation dynamique (tas);</li>
+        <li>Allocation contigue (ou presque);</li>
+        <li><em>vector</em> est le choix de conteneur par défaut;</li>
+      </ul>
+    </section>
+
+    <section class="slide">
+      <h4>list/forward_list</h4>
+      <ul>
+        <li>Liste chaînée (double/simple);</li>
+        <li>Taille variable, allocation dynamique (tas);</li>
+        <li>Allocation dispersée;</li>
+      </ul>
+    </section>
+
+    <section class="slide">
+      <h4>set/unordered_set</h4>
+      <ul>
+        <li>Ensemble d'éléments uniques (ordonnés ou non);</li>
+        <li>Taille variable, allocation dynamique (tas);</li>
+        <li>Allocation dispersée (<em>red-black tree</em>);</li>
+      </ul>
+    </section>
+
+    <section class="slide">
+      <h4>map/unordered_map</h4>
+      <ul>
+        <li>Association de clés uniques et de valeurs (clés ordonnés ou non);</li>
+        <li>Taille variable, allocation dynamique (tas);</li>
+        <li>Allocation dispersée (<em>red-black tree</em>);</li>
+      </ul>
+    </section>
+
+  </section>
+</section>
+
+<section class="slide">
+  <h2>Conteneurs et itérateurs</h2>
+  <section class="slide">
+    <h3>Itérateur</h3>
+    <p>Objet permettant d'identifier et de traverser les éléments d'un conteneur.</p>
+
+    <section class="slide">
+      <h4>Catégories</h4>
+      <ul>
+        <li><em>Output</em>;</li>
+        <li><em>Input</em>;</li>
+        <li><em>Forward</em>;</li>
+        <li><em>Bidirectional</em>;</li>
+        <li><em>RandomAccess</em>;</li>
+      </ul>
+    </section>
+  </section>
+</section>
+
+<section class="slide">
+  <h2>Conteneurs et itérateurs</h2>
+
+  <section class="slide">
+    <h3>Itérateur</h3>
+
+    <section class="slide">
+      <h4>Output</h4>
+      <ul>
+        <li>Écriture : <code>*i = 12</code>;</li>
+        <li>Incrémentation (passe unique) : <code>++i</code>, <code>i++</code>;</li>
+      </ul>
+    </section>
+
+    <section class="slide">
+      <h4>Input</h4>
+      <ul>
+        <li>Lecture : <code>v = *i</code>, <code>v = i-&gt;m</code>;</li>
+        <li>Comparaison : <code>i == j</code>;</li>
+        <li>Incrémentation (passe unique) : <code>++i</code>, <code>i++</code>;</li>
+        <li>Peut être aussi <em>OutputIterator</em>;</li>
+      </ul>
+    </section>
+
+    <section class="slide">
+      <h4>Forward</h4>
+      <ul>
+        <li><em>InputIterator</em>;</li>
+        <li>Incrémentation (passe multiple) : <code>++i</code>, <code>i++</code>;</li>
+      </ul>
+    </section>
+
+    <section class="slide">
+      <h4>Bidirectional</h4>
+      <ul>
+        <li><em>ForwardIterator</em>;</li>
+        <li>Décrémentation : <code>--i</code>, <code>i--</code>;</li>
+      </ul>
+    </section>
+
+    <section class="slide">
+      <h4>RandomAccess</h4>
+      <ul>
+        <li><em>BidirectionalIterator</em>;</li>
+        <li>Random access : <code>i + n</code>, <code>i - n</code>;</li>
+        <li>Comparaison : <code>i &lt; j</code>, <code>i &ge; j</code>;</li>
+      </ul>
+    </section>
+  </section>
+</section>
+
+
+<section class="slide">
+  <h2>Conteneurs et itérateurs</h2>
+
+  <section class="slide">
+    <h3>Itérateur</h3>
+    <p>Ne sont <strong>pas spécifiques aux conteneurs</strong> !</p>
+    <pre><code>#include &lt;iterator&gt;
+#include &lt;iostream&gt;
+
+std::ostream_iterator&lt;int&gt; it(std::cout, "/");
+for (int v : {32, 44, 72, 26})
+    *it++ = v;
+std::cout &lt;&lt; std::endl;
+// Affiche : 32/44/72/26/
+</code></pre>
+
+    <p>Ils servent à <strong>traverser </strong>tout ce qui peut <strong>être parcouru</strong>.</p>
+    <p>C'est le <strong>concept de base</strong> de tous les <strong>algorithmes</strong>.</p>
+  </section>
+</section>
+
+<section class="slide">
+  <h2>Conteneurs et itérateurs</h2>
+  <section class="slide">
+    <h3>Catégories de conteneurs et d'itérateurs</h3>
+    <table>
+      <thead>
+        <tr><th>Catégorie</th>                        <th>Conteneur</th>         <th>Itérateurs</th>   </tr>
+      </thead>
+      <tbody class="slide">
+        <tr><th rowspan="5">De séquence</th>          <td>array</td>             <td>RandomAccess</td> </tr>
+        <tr>                                          <td>vector</td>            <td>RandomAccess</td> </tr>
+        <tr>                                          <td>deque</td>             <td>RandomAccess</td> </tr>
+        <tr>                                          <td>list</td>              <td>Bidirectional</td></tr>
+        <tr>                                          <td>forward_list</td>      <td>Forward</td>      </tr>
+      </tbody>
+      <tbody class="slide">
+        <tr><th rowspan="4">Associatifs</th>          <td>set</td>               <td>Bidirectional</td></tr>
+        <tr>                                          <td>multiset</td>          <td>Bidirectional</td></tr>
+        <tr>                                          <td>map</td>               <td>Bidirectional</td></tr>
+        <tr>                                          <td>multimap</td>          <td>Bidirectional</td></tr>
+      </tbody>
+      <tbody class="slide">
+        <tr><th rowspan="4">Associatifs non triés</th><td>unordered_set</td>     <td>Forward</td>      </tr>
+        <tr>                                          <td>unordered_multiset</td><td>Forward</td>      </tr>
+        <tr>                                          <td>unordered_map</td>     <td>Forward</td>      </tr>
+        <tr>                                          <td>unordered_multimap</td><td>Forward</td>      </tr>
+      </tbody>
+      <tbody class="slide">
+        <tr><th rowspan="3">Adaptateurs</th>          <td>stack</td>             <td rowspan="3"><em>Ceux du conteneur adapté.</em></td></tr>
+        <tr>                                          <td>queue</td>                                                                    </tr>
+        <tr>                                          <td>priority_queue</td>                                                           </tr>
+      </tbody>
+    </table>
+  </section>
+</section>
+
+
+<section class="slide">
+  <h2>Conteneurs et itérateurs</h2>
+
+  <section class="slide">
+    <h3>Complexité</h3>
+    <table>
+      <thead>
+        <tr><th>Conteneur</th> <th>Accès</th> <th>Insertion/suppression en fin</th> <th>Insertion/suppression</th></tr>
+      </thead>
+      <tbody>
+        <tr><td>array</td>             <td>O(1)</td>      <td>NA</td>          <td>NA</td></tr>
+        <tr><td>vector</td>            <td>O(1)</td>      <td>O(1) amorti</td> <td>O(n)</td></tr>
+        <tr><td>deque</td>             <td>O(1)</td>      <td>O(1)</td>        <td>O(n)</td></tr>
+        <tr><td>list</td>              <td>O(n)</td>      <td>O(1)</td>        <td>O(1)</td></tr>
+        <tr><td>forward_list</td>      <td>O(n)</td>      <td>O(1)</td>        <td>O(1)</td></tr>
+        <tr><td>set</td>               <td>O(log(n))</td> <td>O(log(n))</td>   <td>O(log(n))</td></tr>
+        <tr><td>multiset</td>          <td>O(log(n))</td> <td>O(log(n))</td>   <td>O(log(n))</td></tr>
+        <tr><td>map</td>               <td>O(log(n))</td> <td>O(log(n))</td>   <td>O(log(n))</td></tr>
+        <tr><td>multimap</td>          <td>O(log(n))</td> <td>O(log(n))</td>   <td>O(log(n))</td></tr>
+        <tr><td>unordered_set</td>     <td>O(1)</td>      <td>O(1)</td>        <td>O(1)</td>   </tr>
+        <tr><td>unordered_multiset</td><td>O(1)</td>      <td>O(1)</td>        <td>O(1)</td>   </tr>
+        <tr><td>unordered_map</td>     <td>O(1)</td>      <td>O(1)</td>        <td>O(1)</td>   </tr>
+        <tr><td>unordered_multimap</td><td>O(1)</td>      <td>O(1)</td>        <td>O(1)</td>   </tr>
+      </tbody>
+    </table>
+  </section>
+</section>
+
+<section class="slide">
+  <h2>Algorithmes</h2>
+
+  <p>Fonctions <strong>génériques </strong> implémentant un <strong>comportement </strong> particulier.</p>
+  <p><strong>Générique</strong> : peut être utilisée sur des conteneurs indépendemment de leur type.</p>
+
+  <section class="slide">
+    <h3>Catégories</h3>
+    <ul>
+      <li>Non mutateurs;</li>
+      <li>Mutateurs;</li>
+      <li>De partionnement;</li>
+      <li>De tri;</li>
+      <li>De recherche dichotomique;</li>
+      <li>De fusionnement;</li>
+      <li>D'ensembles;</li>
+      <li>De manipulation de tas (structure de données);</li>
+      <li>De minimum/maximum;</li>
+      <li>De comparaison;</li>
+      <li>De permutation;</li>
+      <li>Numériques;</li>
+      <li>De manipulation de mémoire non initialisée;</li>
+    </ul>
+  </section>
+</section>
+
+<section class="slide">
+  <h2>Algorithmes</h2>
+
+  <section class="slide">
+    <h3>Exemples</h3>
+    
+    <section class="slide">
+      <h4>Non-mutateur : <em>find</em></h4>
+    </section>
+
+    <section class="slide">
+      <h4>Mutateur : <em>copy</em></h4>
+    </section>
+
+    <section class="slide">
+      <h4>Mutateur : <em>rotate</em></h4>
+    </section>
+
+    <section class="slide">
+      <h4>Tri : <em>sort</em></h4>
+    </section>
+
+    <section class="slide">
+      <h4>Min/max : <em>min_element</em></h4>
+    </section>
+
+    <section class="slide">
+      <h4>Numérique : <em>accumulate</em></h4>
+    </section>
+  </section>
+</section>
+
+<section class="slide">
+  <h2><em>Move semantic</em> et <em>rvalue references</em></h2>
+</section>
+
+<section class="slide">
+  <h2>Programmation générique</h2>
+</section>
+
+<section class="slide">
+  <h2><em>Template metaprogramming</em></h2>
+</section>
+
+<section class="slide">
+  <h2>Template variadiques</h2>
+</section>
+
+<section class="slide">
+  <h2><em>Substitution Failure Is Not An Error (SFINAE)</em></h2>
+</section>
+
+<section class="slide">
+  <h2><em>Argument Dependent Lookup (ADL)</em></h2>
 </section>
 
   <!--
@@ -135,6 +511,10 @@
     </article>
 
   </div>
+
+  <footer>
+    <h3>Vincent PALANCHER - vincent.palancher@gmail.com</h3>
+  </footer>
 
   <!-- Required JS files. -->
   <script src="../../contrib/deck.js/jquery.min.js"></script>
