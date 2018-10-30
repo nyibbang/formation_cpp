@@ -3,25 +3,6 @@
 #include <iterator>
 #include <string>
 
-//template <typename FwdIter, typename OutIter, typename Predicate>
-//OutIter reverse_words(FwdIter begin, FwdIter end, OutIter out, Predicate is_separator)
-//{
-//  const auto memEnd = end;
-//  while (begin != end)
-//  {
-//    end = std::rotate(
-//        begin,
-//        std::find_if_not(begin, end, is_separator),
-//        std::rotate(
-//          begin,
-//          std::find_if(begin, end, is_separator),
-//          end
-//        )
-//    );
-//  }
-//  return std::copy(begin, memEnd, out);
-//}
-
 // TODO: Rendre cette fonction un peu plus générique.
 void reverse_words(std::string& text, char separator = ' ')
 {
@@ -47,5 +28,4 @@ void reverse_words(std::string& text, char separator = ' ')
     // 1 - string => ' defabc', *end = 'a' (4)
     // 2 - string => 'def abc', *end = ' ' (3)
   }
-  //return std::copy(begin, memEnd, out);
 }
