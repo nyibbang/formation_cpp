@@ -146,6 +146,12 @@
   </section>
 
   <section class="slide">
+    <h3><em>cv-qualifiers</em></h3>
+    <p><em>const</em> et <em>volatile</em>. Ajoutent des propriétés à un type.</p>
+    <p><em>cv-qualified type</em> &rArr; type avec potentiellement un <em>const</em> et/ou un <em>volatile</em>.</p>
+  </section>
+
+  <section class="slide">
     <h3>Complexité algorithmique</h3>
     <p>Mesure du comportement d'un algorithme lorsque ses paramètres varient.</p>
     <p>Le comportement peut par exemple être la <strong>consommation mémoire</strong> ou le <strong>nombre de cycles CPU</strong> utilisés.</p>
@@ -434,14 +440,14 @@ auto it2 = std::find(str.begin(), str.end(), "xyz"); // it == str.end()</code></
 OutputIt copy(InputIt first, InputIt last, OutputIt d_first);</code></pre>
     <p>Copie les éléments de <em>first</em> à <em>last</em> vers <em>d_first</em> en le faisant avancer à chaque copie.</p>
     <p>Retourne <em>d_first</em> après copie et incrémentation. Cet itérateur pointe donc vers l'élément situé après le dernier élément de destination.</p>
-    <div class="slide">
-      <pre><code>std::array&lt;double, 4&gt; doubles{ 3.14, 2.123, 18.38, 42.53 };
+  </div>
+  <div class="slide">
+    <pre><code>std::array&lt;double, 4&gt; doubles{ 3.14, 2.123, 18.38, 42.53 };
 std::vector&lt;double&gt; other_doubles;
 other_doubles.resize(/* taille */ 4, /* valeur à insérer */ 0.);
 auto it = std::copy(doubles.begin() + 2, doubles.end(), other_doubles.begin() + 1);
 // other_doubles == {0., 18.38, 42.53, 0.    }
 //                  |  |      |      | &lt;- it |</code></pre>
-    </div>
   </div>
 </section>
 
@@ -454,11 +460,11 @@ auto it = std::copy(doubles.begin() + 2, doubles.end(), other_doubles.begin() + 
 void rotate(ForwardIt first, ForwardIt n_first, ForwardIt last);</code></pre>
     <p>Effectue une rotation des éléments de <em>first</em> à <em>n_first</em> avec les éléments de <em>n_first</em> à <em>last</em> de
     façon à ce que <em>n_first</em> soit le début du nouveau <em>range</em>.</p>
-    <div class="slide">
-      <pre><code>std::array&lt;std::string, 5&gt; arr{ "bonjour", "à", "tous", "les", "ingimates"};
+  </div>
+  <div class="slide">
+    <pre><code>std::array&lt;std::string, 5&gt; arr{ "bonjour", "à", "tous", "les", "ingimates"};
 std::rotate(arr.begin(), arr.begin() + 2, arr.end());
 // arr == {"tous", "les", "ingimates", "bonjour", "à"}</code></pre>
-    </div>
   </div>
 </section>
 
@@ -470,11 +476,11 @@ std::rotate(arr.begin(), arr.begin() + 2, arr.end());
     <pre><code>template&lt;class RandomIt&gt;
 void sort(RandomIt first, RandomIt last);</code></pre>
     <p>Trie les éléments de <em>first</em> à <em>last</em>.</p>
-    <div class="slide">
-      <pre><code>std::vector&lt;int&gt; values{ 13, 4, 2, 56, 23, 102, 43 };
+  </div>
+  <div class="slide">
+    <pre><code>std::vector&lt;int&gt; values{ 13, 4, 2, 56, 23, 102, 43 };
 std::sort(values.begin() + 1, values.end() - 1);
 // values == { 13, 2, 4, 23, 56, 102, 43 }</code></pre>
-    </div>
   </div>
 </section>
 
@@ -487,11 +493,11 @@ std::sort(values.begin() + 1, values.end() - 1);
 ForwardIt min_element(ForwardIt first, ForwardIt last);</code></pre>
     <p>Recherche le plus petit élément entre <em>first</em> et <em>last</em>.</p>
     <p>Retourne l'itérateur vers cet élément.</p>
-    <div class="slide">
+  </div>
+  <div class="slide">
       <pre><code>std::vector&lt;int&gt; values{ 13, 4, 2, 56, 23, 102, 43 };
 auto it = std::min_element(values.begin() + 3, values.end());
 // it pointe vers '23'</code></pre>
-    </div>
   </div>
 </section>
 
@@ -504,11 +510,11 @@ auto it = std::min_element(values.begin() + 3, values.end());
 T accumulate(InputIt first, InputIt last, T init);</code></pre>
     <p>Somme tous les éléments de <em>first</em> à <em>last</em> en commençant par la valeur <em>init</em>.</p>
     <p>Retourne le total.</p>
-    <div class="slide">
+  </div>
+  <div class="slide">
       <pre><code>std::vector&lt;int&gt; values{ 13, 4, 2, 56, 23, 102, 43 };
 auto res = std::accumulate(values.begin() + 1, values.begin() + 5, 42);
 // res == 42 + 4 + 2 + 56 + 23 == 127</code></pre>
-    </div>
   </div>
 </section>
 
@@ -574,6 +580,155 @@ std::copy(values.begin(), values.end(), std::ostream_iterator&lt;int&gt;(out_fil
 
 <section class="slide">
   <h2><em>Move semantic</em> et <em>rvalue references</em></h2>
+  
+  <h3><em>Copy</em> vs <em>Move</em></h3>
+  <p>La copie consiste à créer <strong>à partir d'une entité</strong> une deuxième entité<strong>
+    équivalente à la première</strong>.</p>
+  <p>Le déplacement (<em>move</em>) consiste à créer <strong>à partir d'une entité</strong> une deuxième
+    entité<strong> qui se soustrait à la première</strong>, rendant la première <strong>expirée</strong>.</p>
+
+  <div class="slide">
+    <h3><em>lvalue</em> vs <em>rvalue</em></h3>
+    <ul>
+      <li>lvalue &rArr; left hand side value.</li>
+      <li>rvalue &rArr; right hand side value.</li>
+    </ul>
+    <p>Réfère aux deux côtés du signe égal de l'<strong>affectation</strong> : <code>lvalue = rvalue;</code></p>
+    <p>Une <em>rvalue</em> ne peut pas se trouver à gauche de l'affectation.</p>
+    <p>Exemple :</p>
+    <pre><code>a = 42; // okay, a est une lvalue, 42 est une rvalue
+42 = a; // aucun sens, 42 est une rvalue</code></pre>
+    <p>Une <em>rvalue</em> représente en général une valeur temporaire.<br/>Une <em>lvalue</em> représente une valeur qui a une adresse mémoire.</p>
+  </div>
+</section>
+
+<section class="slide">
+  <h2><em>Move semantic</em> et <em>rvalue references</em></h2>
+
+  <h3><em>lvalue references</em></h3>
+  <p>Ce sont les références traditionnelles du C++.</p>
+  <pre><code>int a = 42; // a est une lvalue, c'est une variable qui a une adresse.
+int& r = a; // r est une lvalue reference.</code></pre>
+
+  <div class="slide">
+    <h3><em>rvalue references</em></h3>
+    <p>C'est une nouvelle fonctionnalité du C++11. Ce sont des références vers des valeurs temporaires.</p>
+    <p>Syntaxe : <code>Type&& var</code>.</p>
+    <pre><code>int&& r = 42;
+void foo(int&& a);
+foo(12);</code></pre>
+  </div>
+
+  <div class="slide">
+    <h4>Quel intérêt ?</h4>
+    <p>Modéliser et manipuler les valeurs temporaires ou transitoires
+      dans le <strong><em>type system</em></strong> &rArr; gain de performance.</p>
+    <p>Représenter des valeurs qui peuvent être déplacées de contexte en contexte
+      <strong>sans jamais être dupliquées</strong> (types <strong><em>move-only</em></strong>).</p>
+    <p>Exemple : <em>std::unique_ptr</em>.</p>
+  </div>
+</section>
+
+<section class="slide">
+  <h2><em>Move semantic</em> et <em>rvalue references</em></h2>
+
+  <h3>Comment en profiter ?</h3>
+    <pre><code>struct string_vector {
+  std::string* _data;</code></pre>
+
+  <div class="slide">
+    <p>En ajoutant des <strong>surcharges</strong> de fonction.</p>
+    <pre><code>  void push_back(const std::string& str); // Doit toujours copier son argument dans le vecteur.
+  void push_back(std::string&& str); // Peut simplement déplacer son argument dans le vecteur (gain de performance).</code></pre>
+  </div>
+
+  <div class="slide">
+    <p>Mais principalement de <strong>constructeurs</strong>.</p>
+    <pre><code>  // Copie d'un autre vecteur, on est obligés de copier tous les éléments de l'autre vecteur.
+  string_vector(const string_vector& o);
+  // Déplacement d'un autre vecteur, on peut simplement récupérer le pointeur de données de l'autre vecteur.
+  string_vector(string_vector&& o);</code></pre>
+  </div>
+
+  <div class="slide">
+    <p>Et d'<strong>opérateurs d'affectation</strong>.</p>
+    <pre><code>  string_vector& operator=(const string_vector& o);
+  string_vector& operator=(string_vector&& o);
+};</code></pre>
+  </div>
+</section>
+
+<section class="slide">
+  <h2><em>Move semantic</em> et <em>rvalue references</em></h2>
+
+  <h3>Obtenir une <em>rvalue reference</em></h3>
+  <p>Deux manières :</p>
+  <ul>
+    <li>En utilisant des valeurs temporaires (comme des littéraux ou des résultats d'appel de fonction).</li>
+    <li>En forçant le déplacement d'une <em>lvalue reference</em> avec <em>std::move</em>.</li>
+  </ul>
+
+  <div class="slide">
+    <h3><em>std::move</em></h3>
+    <p>N'a absolument aucun effet. C'est simplement une indication, un <em>static_cast</em>.</p>
+    <pre><code>template&lt;typename T&gt;
+typename std::remove_reference&lt;T&gt;::type&& move(T&& t) noexcept {
+  return static_cast&lt;typename std::remove_reference&lt;T&gt;::type&&>(t);
+}</code></pre>
+    <p><strong>En aucun cas <em>std::move</em> ne déplace la valeur</strong>.</p>
+    <p>Ce sont les <em>move-constructors</em> et <em>move-assignment operators</em>
+      qui ont un effet sur les valeurs déplacées.</p>
+  </div>
+</section>
+
+<section class="slide">
+  <h2><em>Move semantic</em> et <em>rvalue references</em></h2>
+  <h3><em>std::move</em></h3>
+
+  <pre><code>void count_words(const std::string& str); // (1)
+void count_words(std::string&& str); // (2)
+
+std::string s = "welcome to Paris";
+count_words(s); // Appelle la première surcharge
+count_words(std::move(s)); // Appelle la deuxième surcharge</code></pre>
+
+  <p class="slide">Après un déplacement, il faut faire attention si on <strong>réutilise la valeur</strong>.
+    Ce n'est pas de l'<em>UB</em> (l'objet est <strong>garanti d'être valide</strong>) mais son
+    état <strong>dépend de son type et du comportement de son
+    <em>move-ctor</em>/<em>move-assignment op</em></strong>.</p>
+  <div class="slide">
+    <p>Exemples :</p>
+    <blockquote style="font-size:90%">
+      <p><strong>vector(vector&& other)</strong></p>
+      <p>
+        Move constructor. Constructs the container with the contents of other
+        using move semantics. Allocator is obtained by move-construction from
+        the allocator belonging to other. After the move, other is guaranteed
+        to be empty().
+      </p>
+    </blockquote>
+    <blockquote style="font-size:90%" class="slide">
+      <p><strong>unique_ptr& operator=(unique_ptr&& r) noexcept</strong></p>
+      <p>Transfers ownership from r to *this as if by calling reset(r.release()) ...</p>
+    </blockquote>
+  </div>
+</section>
+
+<section class="slide">
+  <h2><em>Move semantic</em> et <em>rvalue references</em></h2>
+  <h3><em>rvalue references</em></h3>
+  <h4>Note</h4>
+  <p>Une <em>rvalue reference</em> va toujours <strong><em>decay</em></strong> (retomber) en
+    <em>lvalue reference</em> lorsqu'elle est nommée.</p>
+  <pre><code>int&& a = 42;
+// a est nommée, elle va decay en lvalue-ref.
+void foo(int&); // (1)
+void foo(int&&); // (2)
+foo(a); // appelle la surcharge (1)
+foo(std::move(a)); // si on veut appeler la surcharge (2)</code></pre>
+  <p>Ceci afin que la sémantique de déplacement soit
+    <strong>explicite</strong> (il faut utiliser <em>std::move</em> à chaque
+    fois).</p>
 </section>
 
 <section class="slide">
