@@ -718,37 +718,207 @@ count_words(std::move(s)); // Appelle la deuxième surcharge</code></pre>
   <h2><em>Move semantic</em> et <em>rvalue references</em></h2>
   <h3><em>rvalue references</em></h3>
   <h4>Note</h4>
-  <p>Une <em>rvalue reference</em> va toujours <strong><em>decay</em></strong> (retomber) en
-    <em>lvalue reference</em> lorsqu'elle est nommée.</p>
+  <p>Une <em>rvalue reference</em> n'est pas nécessairement une <em>rvalue</em> elle-même.
+    Si elle a un nom, c'est une <em>lvalue</em>.</p>
   <pre><code>int&& a = 42;
-// a est nommée, elle va decay en lvalue-ref.
+// Même si a est une rvalue-ref elle est nommée, c'est donc une lvalue.
 void foo(int&); // (1)
 void foo(int&&); // (2)
-foo(a); // appelle la surcharge (1)
-foo(std::move(a)); // si on veut appeler la surcharge (2)</code></pre>
+foo(a); // Appelle la surcharge (1) car ici 'a' réfère une lvalue.
+foo(std::move(a)); // Si on veut appeler la surcharge (2), il faut reconduire la rvalue-ref.</code></pre>
   <p>Ceci afin que la sémantique de déplacement soit
-    <strong>explicite</strong> (il faut utiliser <em>std::move</em> à chaque
-    fois).</p>
-</section>
-
-<section class="slide">
-  <h2>Programmation générique</h2>
+    <strong>explicite</strong> : il faut utiliser <em>std::move</em> à chaque
+    fois.</p>
+  <p>Ce cas s'explique très bien par le <em><strong>reference collapsing</strong></em>.</p>
 </section>
 
 <section class="slide">
   <h2><em>Template metaprogramming</em></h2>
+  <h3><em>Metaprogramming</em></h3>
+
+  <p>Le <em>metaprogramming</em> désigne toutes les techniques permettant de
+    programmer le <strong>comportement du langage</strong> et de l'interpréteur ou du
+    compilateur.</p>
+
+  <div class="slide">
+    <h3><em>Template</em></h3>
+
+    <p>Un template de fonction (ou de classe) désigne un
+      <strong>patron</strong> qui sert à <strong>générer</strong> des fonctions
+      (ou des classes).</p>
+
+    <div class="slide">
+      <p>On appelle une génération une <strong>instanciation</strong>. Chaque
+        instanciation est <strong>paramétrée</strong> soit par un
+        <strong>type</strong> soit par une <strong>valeur constante</strong>. Elles sont toutes <strong>distinctes</strong> les unes des autres.</p>
+    </div>
+
+    <div class="slide">
+      <p>Le but du <em>template metaprogramming</em> est de développer des composants
+        génériques permettant de <strong>manipuler</strong> et de <strong>raisonner</strong>
+        sur des types et/ou des valeurs constantes.</p>
+    </div>
+  </div>
 </section>
 
 <section class="slide">
-  <h2>Template variadiques</h2>
+  <h2><em>Template metaprogramming</em></h2>
+
+  <pre><code>template&lt;typename ParameterType&gt; void my_function();
+my_function&lt;double&gt;();
+my_function&lt;std::string&gt;();</code></pre>
+  <pre class="slide"><code>template&lt;int Size&gt; void my_function2();
+my_function2&lt;3&gt;();
+my_function2&lt;3489&gt;();</code></pre>
+  <pre class="slide"><code>template&lt;typename Type&gt; struct My_struct { Type value; };
+My_struct&lt;int&gt; s1;
+My_struct&lt;std::vector&lt;int&gt;&gt; s2; // Les types de s1 et s2 sont complètement distincts.</code></pre>
+  <pre class="slide"><code>enum State { Starting, Running, Stopping };
+template&lt;State S&gt; struct State_wrapper {};
+State_wrapper&lt;Starting&gt; starting_wrapper;
+State_wrapper&lt;Running&gt; running_wrapper;</code></pre>
+</section>
+
+<section class="slide">
+  <h2><em>Template metaprogramming</em></h2>
+  <h3>Déduction automatique de type</h3>
+  <p>Le compilateur peut déduire un paramètre "type" d'un <em>template</em> si celui-ci est reflété par le type d'un des arguments.</p>
+  <p>Il n'est alors pas nécessaire de préciser le paramètre du template.</p>
+  <pre class="slide"><code>template&lt;typename T1, typename T2&gt; void func(T2 a, T1 b); // T2 en premier dans les arguments
+func("abc", 42);             // T1 &rArr; 'int', T2 &rArr; 'const char*'
+func(12.3, new std::string); // T1 &rArr; 'std::string*', T2 &rArr; 'double'</code></pre>
+</section>
+
+<section class="slide">
+  <h2>Programmation générique</h2>
+
+  <p>Développement de composants (classes/fonctions) <strong>hautement réutilisables</strong>.</p>
+
+  <div class="slide">
+    <p>Grâce aux <strong><em>templates</em></strong> dans la majorité des cas.</p>
+  </div>
+
+  <div class="slide">
+    <pre><code>template&lt;typename InputIt, typename T&gt;
+constexpr InputIt find(InputIt first, InputIt last, const T& value)
+{
+    for (; first != last; ++first) {
+        if (*first == value) {
+            return first;
+        }
+    }
+    return last;
+}</code></pre>
+    <p>Cette fonction ne dépend d'<strong>aucun type concret</strong>. Elle
+      utilise le concept d'<strong><em>InputIterator</em></strong> qui définit
+      les opérations <code>first != last</code>, <code>++first</code> et <code>*first</code>
+      ainsi que la contrainte que le type <em>T</em> soit <strong>comparable</strong>.</p>
+
+    <p>De fait, cette fonction est <strong>hautement réutilisable</strong>. On dit qu'elle est <strong>générique</strong>.</p>
+  </div>
+</section>
+
+<section class="slide">
+  <h2><em>Template</em> variadiques</h2>
+
+  <p><em>Template</em> dont le nombre de paramètres est <strong>variable</strong>.</p>
+  
+  <pre class="slide"><code>template&lt;typename... Types&gt; void my_variadic_function(Types... types);
+my_variadic_function(42);
+my_variadic_function("abc", 56);
+my_variadic_function("abc", 3.13, "def", 23, "ghi", 32.2);
+my_variadic_function(); // Aucun argument marche aussi.</code></pre>
+
+  <div class="slide">
+    <p>Cette fonctionnalité du C++11 révolutionne le <em>template
+      metaprogramming</em>. Auparavant, il fallait déclarer le template pour
+      chaque arité !</p>
+    <pre><code>                                                void my_variadic_function();
+template&lt;typename T1&gt;                           void my_variadic_function(T1 t1);
+template&lt;typename T1, typename T2&gt;              void my_variadic_function(T1 t1, T2 t2);
+template&lt;typename T1, typename T2, typename T3&gt; void my_variadic_function(T1 t1, T2 t2, T3 t3);
+// etc</code></pre>
+    <p>Pour ce faire, en général on utilisait des macros préprocesseur, ce qui complexifiait encore plus le code.</p>
+  </div>
 </section>
 
 <section class="slide">
   <h2><em>Substitution Failure Is Not An Error (SFINAE)</em></h2>
+
+  <p>Principe désignant le fait que le compilateur <strong>ne doit pas
+    générer une erreur</strong> si la substitution d'un paramètre d'un template
+    échoue. A la place, le compilateur doit essayer d'autres
+    surcharges/spécialisations du template.</p>
+
+  <pre class="slide"><code>template&lt;typename T&gt; void f(typename T::bar) {} // (1)
+template&lt;typename T&gt; void f(T) {}               // (2)
+
+struct Foo {
+  typedef int bar;
+};
+f&lt;Foo&gt;(10); // Appelle la surcharge (1).
+f&lt;int&gt;(10); // Appelle la surcharge (2) sans erreur (malgré l'absence de membre 'bar' dans 'int').</code></pre>
+</section>
+
+<section class="slide">
+  <h2><em>Substitution Failure Is Not An Error (SFINAE)</em></h2>
+
+  <p>Ceci permet au développeur du template de spécialiser son template selon les <strong>propriétés</strong> des paramètres du template.
+    Pour cela, il existe <strong><em>std::enable_if</em></strong>.</p>
+
+  <pre class="slide"><code>// Sérialisation de tous les types de plus de 32 bits.
+template&lt;typename T&gt;
+typename std::enable_if&lt;sizeof(T) >= 4&gt;::type serialize(T v) { // (1)
+  /*...*/
+}
+
+// Sérialisation de tous les types de moins de 32 bits.
+template&lt;typename T&gt;
+typename std::enable_if&lt;sizeof(T) < 4&gt;::type serialize(T v) { // (2)
+  /*...*/
+}
+
+serialize(std::int16_t(12)); // Appelle (1).
+serialize(std::int64_t(12)); // Appelle (2).</code></pre>
 </section>
 
 <section class="slide">
   <h2><em>Argument Dependent Lookup (ADL)</em></h2>
+
+  <p>Désigne le fait que le compilateur va déduire le
+    <strong><em>namespace</em></strong> de recherche d'une <strong>fonction
+    libre</strong> en fonction du <em>namespace</em> de ses arguments.</p>
+
+  <div class="slide">
+    <pre><code>std::vector<int> v;
+  auto it = begin(v);</code></pre>
+    <p>Ici, aucune fonction <em>begin</em> n'existe dans le
+      <em>namespace</em> global mais le compilateur déduit qu'il doit utiliser
+      <em>std::begin</em> car l'argument de la fonction vit dans le
+      <em>namespace std</em>.</p>
+
+    <div class="slide">
+      <p>Ceci est indispensable pour l'utilisation d'opérateurs comme <em>operator&lt;&lt;</em>.</p>
+      <pre><code>std::string s = "abc";
+std::cout &lt;&lt; s; // Cet opérateur vit dans le namespace std.
+// Sans l'ADL, on devrait écrire :
+// std::operator&lt;&lt;(std::cout, s);</code></pre>
+    </div>
+  </div>
+</section>
+
+<section class="slide">
+  <h1>Questions ?</h1>
+</section>
+
+<section class="slide">
+  <h2>Résumé</h2>
+  <ul>
+    <li>Conteneurs, itérateurs et algorithmes.</li>
+    <li><em>Move semantic</em> et <em>rvalue references</em>.</li>
+    <li><em>template metaprogramming</em>, programmation générique,
+      templates variadiques, <em>SFINAE</em>, <em>ADL</em>.</li>
+  </ul>
 </section>
 
   <!--
