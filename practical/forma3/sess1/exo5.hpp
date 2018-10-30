@@ -1,5 +1,6 @@
 #include <set>
 #include <vector>
+#include <cassert>
 
 std::set<int> allocated_resources;
 int current_resource = 0;
@@ -8,7 +9,9 @@ using Handle = std::set<int>::iterator;
 
 Handle allocate_resource()
 {
-  allocated_resources.insert(current_resource++);
+  auto it_pair = allocated_resources.insert(current_resource++);
+  assert(it_pair.second);   
+  return it_pair.first;
 }
 
 void deallocate_resource(Handle handle)

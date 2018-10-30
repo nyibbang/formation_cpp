@@ -40,6 +40,7 @@ Board& play_turn(Board& board, Player player, int column) {
         const auto index = slot.row * Board::column_count::value + slot.column;
         board.value[index] = player;
     }
+    return board;
 }
 
 int getColumnChoice() {
@@ -51,4 +52,5 @@ int getColumnChoice() {
         std::stringstream ss(input);
         ss >> choice;
     } while (choice <= 0 || choice > Board::column_count::value);
+    return choice;
 }

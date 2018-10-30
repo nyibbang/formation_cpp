@@ -37,7 +37,8 @@ struct Slot {
 
     template <typename IterB, typename Iter>
     Slot(IterB b, Iter i)
-        : row((i - b) / Board::column_count::value), column((i - b) % Board::column_count::value) {
+        : row(static_cast<int>(i - b) / Board::column_count::value)
+        , column(static_cast<int>(i - b) % Board::column_count::value) {
     }
 
     bool operator==(const Slot& o) const {

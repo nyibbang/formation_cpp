@@ -19,6 +19,5 @@ TEST(Exo6, Graph)
   auto next_node = graph->node_at(0);
   ASSERT_NE(nullptr, next_node);
   EXPECT_EQ("another node", next_node->content());
-  delete node;
   delete graph;
 }

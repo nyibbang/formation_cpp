@@ -76,14 +76,19 @@ public:
         continue;
 
       // On retire 'this' des noeuds précédents du noeud.
-      node->_previous_nodes.erase(
-          std::remove(node->_previous_nodes.begin(), node->_previous_nodes.end(), this),
-          node->_previous_nodes.end());
+      const auto new_end = std::remove(node->_previous_nodes.begin(),
+                                       node->_previous_nodes.end(), this);
+      node->_previous_nodes.erase(new_end, node->_previous_nodes.end());
 
       // Si le noeud n'a plus de noeud précédent, il est détruit.
       if (node->_previous_nodes.size() == 0)
         delete node;
     }
+  }
+
+  std::size_t previous_nodes_count() const
+  {
+    return _previous_nodes.size();
   }
 
   void add_node(Graph* node)

@@ -1,5 +1,6 @@
 #include "rpn.hpp"
 #include <stdexcept>
+#include <cstdint>
 
 namespace rpn
 {
@@ -28,7 +29,7 @@ class SubStringsIterator
 public:
   using It = std::string::const_iterator;
   using value_type = std::string;
-  using difference_type = ssize_t;
+  using difference_type = std::ptrdiff_t;
   using pointer = std::string*;
   using reference = std::string&;
   using iterator_category = std::forward_iterator_tag;
@@ -68,9 +69,10 @@ public:
 
   bool operator==(const SubStringsIterator& o) const
   {
-    if ((_current == _end && o._defaulted)
-        || (_defaulted && o._current == o._end))
-      return true;
+    if (o._defaulted)
+      return _current == _end;
+    if (_defaulted)
+      return o._current == o._end;
     return _current == o._current && _end == o._end;
   }
 
